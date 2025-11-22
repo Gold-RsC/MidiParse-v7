@@ -23,7 +23,7 @@ namespace GoldType{
             public:
                 std::string filename;
                 MidiHead head;
-                MidiTrack*track;
+                MidiTrackList tracks;
             protected:
                 uint32_t read_staticData(FILE*fin,size_t num){
                     uint32_t ret=0;
@@ -91,7 +91,7 @@ namespace GoldType{
                     return midiError.type();
                 }
                 MidiErrorType read_midiTrack(FILE*fin){
-                    track=new MidiTrack[head.ntracks];
+                    tracks.resize(head.ntracks);
                     size_t event_count=0;
                     for(size_t trackIdx=0; trackIdx<head.ntracks; ++trackIdx) {
                         if(fgetc(fin)!='M'||fgetc(fin)!='T'||fgetc(fin)!='r'||fgetc(fin)!='k') {
@@ -114,7 +114,7 @@ namespace GoldType{
                             if(midiError.type()!=MidiErrorType::noError) {
                                 return midiError.type();
                             }
-                            track[trackIdx].push_back(event);
+                            tracks[trackIdx].emplace_back(event);
                             ++event_count;
                             if(event.is_meta()&&event[1]==0x2F) {
                                 break;
@@ -228,28 +228,24 @@ namespace GoldType{
                 }
             public:
                 MidiFile(void)=delete;
-                MidiFile(std::string _filename):filename(_filename),head(),track(nullptr),m_state(MidiFileState::untouched) 
+                MidiFile(std::string _filename):filename(_filename),head(),tracks(),m_state(MidiFileState::untouched) 
                 {}
                 MidiFile(const MidiFile&_midiFile):filename(_midiFile.filename),head(_midiFile.head),m_state(_midiFile.m_state){
-                    if(_midiFile.track){
-                        track=new MidiTrack[_midiFile.head.ntracks];
+                    if(_midiFile.tracks.size()){
+                        tracks.resize(_midiFile.head.ntracks);
                         for(size_t i=0;i<_midiFile.head.ntracks;++i){
-                            track[i]=_midiFile.track[i];
+                            tracks[i]=_midiFile.tracks[i];
                         }
                     }
                     else{
-                        track=nullptr;
+                        
                     }
                 }
-                MidiFile(MidiFile&&_midiFile):filename(std::move(_midiFile.filename)),head(std::move(_midiFile.head)),m_state(_midiFile.m_state){
-                    track=_midiFile.track;
-                    _midiFile.track=nullptr;
+                MidiFile(MidiFile&&_midiFile):filename(std::move(_midiFile.filename)),head(std::move(_midiFile.head)),tracks(std::move(_midiFile.tracks)),m_state(_midiFile.m_state){
+
                 }
                 ~MidiFile(void){
-                    if(track){
-                        delete[] track;
-                        track=nullptr;
-                    }
+                    
                 }
             public:
                 MidiErrorType read(void) {
@@ -261,9 +257,8 @@ namespace GoldType{
                         head.format=0;
                         head.ntracks=0;
                         head.division=0;
-                        if(track){
-                            delete[] track;
-                            track=nullptr;
+                        if(tracks.size()){
+                            tracks.clear();
                         }
                     }
                     else{
@@ -277,12 +272,7 @@ namespace GoldType{
                         this->~MidiFile();
                         filename=_midi.filename;
                         head=_midi.head;
-                        if(_midi.track){
-                            track=new MidiTrack[_midi.head.ntracks];
-                            for(size_t i=0;i<_midi.head.ntracks;++i){
-                                track[i]=_midi.track[i];
-                            }
-                        }
+                        tracks=_midi.tracks;
                     }
                     return *this;
                 }
@@ -290,15 +280,14 @@ namespace GoldType{
                     this->~MidiFile();
                     filename=std::move(_midi.filename);
                     head=_midi.head;
-                    track=_midi.track;
-                    _midi.track=nullptr;
+                    tracks=_midi.tracks;
                     return *this;
                 }
                 MidiTrack&operator[](size_t idx) {
-                    return track[idx];
+                    return tracks[idx];
                 }
                 const MidiTrack&operator[](size_t idx) const{
-                    return track[idx];
+                    return tracks[idx];
                 }
             public:
                 bool is_untouched(void)const {

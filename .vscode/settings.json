@@ -64,6 +64,7 @@
         "ratio": "cpp",
         "stop_token": "cpp",
         "thread": "cpp",
-        "mutex": "cpp"
+        "mutex": "cpp",
+        "condition_variable": "cpp"
     }
 }

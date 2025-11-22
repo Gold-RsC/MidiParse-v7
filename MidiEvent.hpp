@@ -1,6 +1,7 @@
 #ifndef MIDIEVENT_HPP
 #define MIDIEVENT_HPP
 #include"MidiMessage.hpp"
+#include<algorithm>
 namespace GoldType{
     namespace MidiParse{
         /********************************
@@ -106,6 +107,111 @@ namespace GoldType{
                 MidiEvent&operator=(const MidiEvent&another)=default;
         };
         
+
+        template<typename _MidiEvent>
+        class MidiEventList:public std::vector<_MidiEvent>{
+            public:
+                using std::vector<_MidiEvent>::vector;
+            public:
+                MidiTimeMode get_timeMode(void)const {
+                    if(this->size()){
+                        MidiTimeMode ret=this->front().timeMode;
+                        for(size_t i=1;i<this->size();++i){
+                            if(ret!=this->operator[](i).timeMode){
+                                return MidiTimeMode::tick;
+                            }
+                        }
+                        return ret;
+                    }
+                    return MidiTimeMode::tick;
+                }
+                void sort(void){
+                    std::sort(this->begin(),this->end());
+                }
+        };
+
+        template<typename _MidiEvent>
+        class MidiEventMap:public std::vector<MidiEventList<_MidiEvent>>{
+            public:
+                using std::vector<MidiEventList<_MidiEvent>>::vector;
+            public:
+                MidiTimeMode get_timeMode(void)const {
+                    if(this->size()){
+                        MidiTimeMode ret=this->front().get_timeMode();
+                        for(size_t i=1;i<this->size();++i){
+                            if(ret!=this->operator[](i).get_timeMode()){
+                                return MidiTimeMode::tick;
+                            }
+                        }
+                        return ret;
+                    }
+                    return MidiTimeMode::tick;
+                }
+                void sort(void){
+                    for(size_t i=0;i<this->size();++i){
+                        this->operator[](i).sort();
+                    }
+                }
+        };
+        template<typename _MidiEvent>
+        MidiEventList<_MidiEvent> event_map_to_list(const MidiEventMap<_MidiEvent>&_map){
+            size_t _size=0;
+            for(size_t i=0;i<_map.size();++i){
+                _size+=_map[i].size();
+            }
+            MidiEventList<_MidiEvent> ret;
+            ret.reserve(_size);
+            for(uint8_t trackIdx=0;trackIdx<_map.size();++trackIdx){
+                ret.insert(ret.end(),_map[trackIdx].begin(),_map[trackIdx].end());
+            }
+            return ret;
+        }
+        template<typename _MidiEvent>
+        MidiEventMap<_MidiEvent> event_list_to_map(const MidiEventList<_MidiEvent>&_list){
+            size_t _size[128]={0};
+            uint8_t _max_track=0;
+            for(size_t i=0;i<_list.size();++i){
+                ++_size[_list[i].track];
+                _max_track=std::max(_list[i].track,_max_track);
+            }
+            MidiEventMap<_MidiEvent> ret(_max_track+1);
+            for(size_t i=0;i<=_max_track;++i){
+                ret[i].reserve(_size[i]);
+            }
+            for(size_t i=0;i<_list.size();++i){
+                ret[_list[i].track].emplace_back(_list[i]);
+            }
+            return ret;
+        }
+        
+        template<typename _MidiEvent>
+        uint8_t get_ntracks(const MidiEventList<_MidiEvent>&_list){
+            uint8_t _num=0;
+            for(typename MidiEventList<_MidiEvent>::iterator it=_list.begin();it!=_list.end();++it){
+                _num=max(_num,it->track);
+            }
+            return _num+1;
+        }
+        template<typename _MidiEvent>
+        uint8_t get_ntracks(const MidiEventMap<_MidiEvent>&_map){
+            return _map.size();
+        }
+        
+        template<typename _MidiEvent,typename _Fun,typename..._Args>
+        void for_event(MidiEventList<_MidiEvent>&_list,_Fun&&_fun,_Args&&..._args){
+            for(size_t eventIdx=0;eventIdx<_list.size();++eventIdx){
+                _fun(_list[eventIdx],std::forward(_args)...);
+            }
+        }
+        template<typename _MidiEvent,typename _Fun,typename..._Args>
+        void for_event(MidiEventMap<_MidiEvent>&_map,_Fun&&_fun,_Args&&..._args){
+            for(uint8_t trackIdx=0;trackIdx<_map.size();++trackIdx){
+                for(size_t eventIdx=0;eventIdx<_map[trackIdx].size();++eventIdx){
+                    _fun(_map[trackIdx][eventIdx],std::forward(_args)...);
+                }
+            }
+        }
+
         template<>
         MidiError&MidiError::operator()<MidiEvent>(const MidiEvent&_midiEvent){
             MidiErrorType type=MidiErrorType::noError;

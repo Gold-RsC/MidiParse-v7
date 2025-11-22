@@ -118,20 +118,88 @@ using namespace std;
     
         
 // }
-void fun7(){
+void fun7(){ //测试播放功能
     MidiPrinter pout("write_test_fun7.txt");
-    std::string filename;
-    cin>>filename;
-    MidiParser a(filename);
-    midiDebug<<a.change_timeMode();
-    pout<<link_notePair(a.noteMap());
-    // pout<<MidiPrintFormat::json<<MidiPrintJsona.noteMap()Format(jsonFormat_file|jsonFormat_pretty)<<a;
+    // std::string filename;
+    // cin>>filename;
+    MidiParser a("1.mid");
+    // a.change_timeMode(MidiTimeMode::microsecond);
+    // midiDebug<<a.change_timeMode();
+    // pout<<link_notePair(a.noteMap());
     MidiPlayer player(a);
     player.play();
     
+    
+    pout<<link_notePair(a.noteMap());
+    // pout<<MidiPrintFormat::json<<MidiPrintJsonFormat(jsonFormat_file|jsonFormat_pretty)<<a.noteMap();
+
+    // player.join();
+}
+void print_time(uint64_t microsecond){
+    uint64_t second=microsecond/1000000;
+    uint64_t minute=second/60;
+    minute%=60;
+    second%=60;
+    microsecond%=1000000;
+    //00:00:00.00
+    printf("%02llu:%02llu:%02.2f\n",minute,second,microsecond/100000.0);
+}
+void fun8() { //测试播放时进行操作
+    std::string filename;
+    cout<<"filename:"<<endl;
+    cin>>filename;
+    MidiPrinter pout("write_test_fun8.json");
+    MidiParser parser(filename,MidiTimeMode::microsecond);
+    pout<< MidiPrintFormat::json<<MidiPrintJsonFormat(jsonFormat_file|jsonFormat_pretty)<<parser.noteMap();
+    MidiPlayer player(filename);
+    bool isSpacePressed = false;
+    bool isF1Pressed = false;
+    
+    player.play();
+    uint64_t lastTime=0;
+    while(true){
+        uint64_t currentTime=player.time();
+        if(currentTime!=lastTime){
+            lastTime=currentTime;
+            system("cls");
+            print_time(currentTime);
+        }
+        
+        if(player.state() == MidiPlayer::State::stopped) {
+            break;
+        }
+        if((GetAsyncKeyState(VK_SPACE) & 0x8000)&& 
+           (GetAsyncKeyState(VK_CONTROL) & 0x8000)) {
+            if(!isSpacePressed) {
+                if(player.state() == MidiPlayer::State::playing) {
+                    player.pause();
+                }
+                else if(player.state() == MidiPlayer::State::paused) {
+                    player.play();
+                }
+                isSpacePressed = true;
+            }
+        }
+        else {
+            isSpacePressed = false;
+        }
+        
+        if((GetAsyncKeyState(VK_SHIFT) & 0x8000)&&
+           (GetAsyncKeyState(VK_SPACE) & 0x8000)) {
+            if(!isF1Pressed){
+                player.stop();
+                isF1Pressed = true;
+                break;
+            }
+        }
+        else{
+            isF1Pressed = false;
+        }
+        
+        Sleep(50);
+    }
 }
 int main(){
-    
-    fun7();
+    fun8();
     return 0;
 }

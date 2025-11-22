@@ -4,6 +4,7 @@
 #include<mutex>
 #include<windows.h>
 #include<algorithm>
+#include<condition_variable>
 #pragma comment(lib,"winmm.lib")
 #include"MidiParser.hpp"
 namespace GoldType{
@@ -15,6 +16,7 @@ namespace GoldType{
             public:
                 MidiShortMessage(uint64_t time=0,uint32_t message=0):time(time),message(message){
                 }
+                
                 MidiShortMessage(uint64_t _time,const MidiMessage&_message){
                     time=_time;
                     switch(_message.type()){
@@ -36,6 +38,8 @@ namespace GoldType{
                             
                         }
                     }
+                }
+                MidiShortMessage(const MidiEvent&_event):MidiShortMessage(_event.time,_event.message){
                 }
         };
         bool operator==(const MidiShortMessage&a,const MidiShortMessage&b){
@@ -68,17 +72,15 @@ namespace GoldType{
                 using std::vector<MidiShortMessage>::vector;
                 MidiShortMessageList(const MidiFile&_file){
                     if(_file.is_read_success()){
-                        for(size_t trackIdx=0;trackIdx<_file.head.ntracks;++trackIdx){
-                            const MidiTrack&track=_file[trackIdx];
-                            uint64_t time=0;
-                            for(size_t eventIdx=0;eventIdx<track.size();++eventIdx){
-                                const MidiEvent&event=track[eventIdx];
-                                time+=event.time;
-                                if(event.is_normal()){
-                                    emplace_back(time,event.message);
-                                }
+                        MidiParser _parser(_file);
+                        MidiTrackList tracks=_file.tracks;
+                        time_delta2absolute(tracks);
+                        _parser.change_timeMode(tracks,MidiTimeMode::microsecond);
+                        for_event(tracks,[this](const MidiEvent&event){
+                            if(event.is_normal()){
+                                emplace_back(event);
                             }
-                        }
+                        });
                         std::sort(this->begin(),this->end());
                     }
                 }
@@ -120,43 +122,141 @@ namespace GoldType{
                 }
                 MidiShortMessageList(const NoteMap&_map):MidiShortMessageList(event_map_to_list(_map)){
                 }
+            public:
+                MidiTimeMode get_timeMode(void)const {
+                    return MidiTimeMode::microsecond;
+                }
         };
         class MidiPlayer{
+            public:
+                enum class State{
+                    stopped,
+                    playing,
+                    paused,
+                };
             private:
-                // std::thread m_thread;
-                // std::mutex m_mutex;
-                // std::atomic<double> m_speed;
                 MidiShortMessageList m_messages;
-            public:
-                MidiPlayer(void){
-                    
-                }
-                MidiPlayer(const MidiShortMessageList&_messages):m_messages(_messages){
-                }
-                MidiPlayer(const std::string&_filename):m_messages(_filename){
-                }
-                MidiPlayer(const NoteList&_noteList):m_messages(_noteList){
-                }
-                MidiPlayer(const NoteMap&_noteMap):m_messages(_noteMap){
-                }
-                ~MidiPlayer(void){
-                    
-                }
-            public:
-                void play(void)const {
+
+                std::thread m_thread;
+            
+                State m_state;
+                std::mutex m_mutex;
+                std::condition_variable m_condition;
+                
+
+                uint64_t m_time;
+            private:
+                void play_helper(void){
                     HMIDIOUT handle;
                     midiOutOpen(&handle,0,0,0,CALLBACK_NULL);
-                    uint64_t lastTime=0;
-                    for(const MidiShortMessage&msg:m_messages){
-                        uint64_t waitTime=(uint64_t)((msg.time-lastTime)/1000);
-                        lastTime=msg.time;
-                        if(waitTime){
-                            Sleep((DWORD)waitTime);
+                    
+                    for(MidiShortMessageList::iterator it=m_messages.begin();it!=m_messages.end();++it){
+                        uint64_t wait_time;
+                        {
+                            std::unique_lock<std::mutex> lock(m_mutex);
+                            if(m_state==State::paused){
+                                midiOutReset(handle);
+                                m_condition.wait(lock,[&]{
+                                    return m_state!=State::paused;
+                                });
+                                if(m_state==State::stopped){
+                                    m_time=0;
+                                    midiOutClose(handle);
+                                    return;
+                                }
+                            }
+                            else if(m_state==State::stopped){
+                                m_time=0;
+                                midiOutClose(handle);
+                                return;
+                            }
+                            wait_time=it->time-m_time;
+                            m_time=it->time;
                         }
-                        midiOutShortMsg(handle,msg.message);
+                        if(wait_time/1000){
+                            std::this_thread::sleep_for(std::chrono::milliseconds(wait_time/1000));
+                        }
+                        midiOutShortMsg(handle,it->message);
                     }
-                    Sleep((DWORD)(5000));
+
+                    
+                    std::this_thread::sleep_for(std::chrono::seconds(5));
                     midiOutClose(handle);
+                    m_state=State::stopped;
+                }
+            public:
+                MidiPlayer(void):
+                    m_state(State::stopped),
+                    m_time(0){
+
+                }
+                MidiPlayer(const MidiShortMessageList&_messages):
+                    m_messages(_messages),
+                    m_state(State::stopped),
+                    m_time(0){
+
+                }
+                MidiPlayer(const std::string&_filename):
+                    m_messages(_filename),
+                    m_state(State::stopped),
+                    m_time(0){
+
+                }
+                MidiPlayer(const NoteList&_noteList):
+                    m_messages(_noteList),
+                    m_state(State::stopped),
+                    m_time(0){
+                        
+                }
+                MidiPlayer(const NoteMap&_noteMap):
+                    m_messages(_noteMap),
+                    m_state(State::stopped),
+                    m_time(0){
+                        
+                    
+                }
+                ~MidiPlayer(void){
+                    join();
+                }
+            public:
+                void play(void){
+                    std::lock_guard<std::mutex> lock(m_mutex);
+                    if(m_state==State::paused){
+                        m_state=State::playing;
+                        m_condition.notify_one();
+                    }
+                    else{
+                        m_state=State::playing;
+                        m_thread=std::thread(&MidiPlayer::play_helper,this);
+                    }
+
+                }
+                void pause(void){
+                    std::lock_guard<std::mutex> lock(m_mutex);
+                    
+                    m_state=State::paused;
+                }
+                void stop(void){
+                    std::lock_guard<std::mutex> lock(m_mutex);
+                    if(m_state==State::playing){
+                    }
+                    else if(m_state==State::paused){
+
+                    }
+                    m_state=State::stopped;
+                }
+                void join(void){
+                    if(m_thread.joinable()){
+                        m_thread.join();
+                    }
+                }
+                State state(void){
+                    std::lock_guard<std::mutex> lock(m_mutex);
+                    return m_state;
+                }
+                uint64_t time(void){
+                    std::lock_guard<std::mutex> lock(m_mutex);
+                    return m_time;
                 }
         };
     }

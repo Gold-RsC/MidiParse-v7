@@ -46,7 +46,7 @@ namespace GoldType{
                 BarBeatMap m_bbMap;
                 NoteMap m_noteMap;
                 TextMap m_textMap;
-            private:
+            protected:
                 uint8_t get_metaTrack(uint8_t _track)const{
                     if(m_head.format==0||m_head.format==0x01){
                         return 0;
@@ -461,13 +461,9 @@ namespace GoldType{
                 }
                 MidiParser(MidiParser&&_midiParser):m_head(std::move(_midiParser.m_head)),m_timeMode(_midiParser.m_timeMode),m_tempoMap(std::move(_midiParser.m_tempoMap)),m_bbMap(std::move(_midiParser.m_bbMap)),m_noteMap(std::move(_midiParser.m_noteMap)),m_textMap(std::move(_midiParser.m_textMap))
                 {}
-
-                MidiParser(std::string _filename,MidiTimeMode _timeMode=MidiTimeMode::tick):
-                    m_timeMode(_timeMode){
-                    MidiFile m_midi(_filename);
-                    m_midi.read();
-                    if(m_midi.is_read_success()){
-                        m_head=m_midi.head;
+                MidiParser(const MidiFile&_midi,MidiTimeMode _timeMode=MidiTimeMode::tick):m_timeMode(_timeMode){
+                    if(_midi.is_read_success()){
+                        m_head=_midi.head;
                         if(m_head.format==0x00||m_head.format==0x01){
                             m_tempoMap.resize(1);
                             m_bbMap.resize(1);
@@ -480,21 +476,53 @@ namespace GoldType{
                         m_textMap.resize(m_head.ntracks);
 
                         if(_timeMode==MidiTimeMode::tick){
-                            parse_tick(m_midi);
+                            parse_tick(_midi);
                         }
                         else if(_timeMode==MidiTimeMode::microsecond){
-                            parse_micro(m_midi);
+                            parse_micro(_midi);
                         }
                     }
+                    else{
+
+                    }
+                }
+                MidiParser(MidiFile&&_midi,MidiTimeMode _timeMode=MidiTimeMode::tick):m_timeMode(_timeMode){
+                    if(_midi.is_untouched()){
+                        _midi.read();
+                    }
+                    if(_midi.is_read_success()){
+                        m_head=_midi.head;
+                        if(m_head.format==0x00||m_head.format==0x01){
+                            m_tempoMap.resize(1);
+                            m_bbMap.resize(1);
+                        }
+                        else if(m_head.format==0x02){
+                            m_tempoMap.resize(m_head.ntracks);
+                            m_bbMap.resize(m_head.ntracks);
+                        }
+                        m_noteMap.resize(m_head.ntracks);
+                        m_textMap.resize(m_head.ntracks);
+
+                        if(_timeMode==MidiTimeMode::tick){
+                            parse_tick(_midi);
+                        }
+                        else if(_timeMode==MidiTimeMode::microsecond){
+                            parse_micro(_midi);
+                        }
+                    }
+                    else{
+
+                    }
+                }
+                MidiParser(std::string _filename,MidiTimeMode _timeMode=MidiTimeMode::tick):
+                    m_timeMode(_timeMode){
+                    MidiFile _midi(_filename);
+                    _midi.read();
+                    *this=MidiParser(_midi,_timeMode);
                 }
                 ~MidiParser(void){
                 }
             public:
-                /****************************************
-                 * parser.timeMode=tempoMap.timeMode
-                 * _map.timeMode
-                 * expect.timeMode
-                 */
                 template<typename _MidiEvent>
                 MidiErrorType change_timeMode(MidiEventMap<_MidiEvent>&_map,MidiTimeMode _mode=MidiTimeMode::microsecond)const {
                     MidiTimeMode _oldTimeMode=_map.get_timeMode();
@@ -594,7 +622,8 @@ namespace GoldType{
             public:
                 MidiParser& operator=(const MidiParser&)=default;
                 MidiParser& operator=(MidiParser&&)=default;
-
+            
+            friend class MidiShortMessageList;
         };
     }
 }
