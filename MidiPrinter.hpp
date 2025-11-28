@@ -30,8 +30,8 @@ namespace GoldType{
             jsonChar_default=indentChar_space|endChar_newline
         };
 
-        const char*indentStr_tab="\t";
-        const char*indentStr_space="    ";
+        static const char*indentStr_tab="\t";
+        static const char*indentStr_space="    ";
 
         
         

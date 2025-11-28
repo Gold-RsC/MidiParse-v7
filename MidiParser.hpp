@@ -199,11 +199,11 @@ namespace GoldType{
                         }
                     }
                     set_bb_sorted(m_noteMap);
-                    return MidiErrorType::noError;
+                    return MidiErrorType::no_error;
                 }
                 MidiErrorType parse_micro(const MidiFile&m_midi){
                     MidiErrorType err=parse_tick(m_midi);
-                    if(err!=MidiErrorType::noError){
+                    if(err!=MidiErrorType::no_error){
                         return err;
                     }
                     err=change_timeMode(MidiTimeMode::microsecond);
@@ -270,7 +270,7 @@ namespace GoldType{
                             event.beat=m_bbMap[metaTrack][bbIdx].beatNode+deltaBeat;
                         }
                     }
-                    return MidiErrorType::noError;
+                    return MidiErrorType::no_error;
                 }
                 
                 template<typename _MidiEvent,typename _Fun>
@@ -293,7 +293,7 @@ namespace GoldType{
                             }
                         }
                     }
-                    return MidiErrorType::noError;
+                    return MidiErrorType::no_error;
                 }
                 
                 template<typename _GetTime>
@@ -341,7 +341,7 @@ namespace GoldType{
                             _fun(event,m_tempoMap[metaTrack][tempoIdx]);
                         }
                     }
-                    return MidiErrorType::noError;
+                    return MidiErrorType::no_error;
                 }
                 
                 template<typename _MidiEvent,typename _Fun,typename _GetTime>
@@ -359,7 +359,7 @@ namespace GoldType{
                             }
                         }
                     }
-                    return MidiErrorType::noError;
+                    return MidiErrorType::no_error;
                 }
                 
                 template<typename _MidiEvent>
@@ -526,9 +526,9 @@ namespace GoldType{
                 template<typename _MidiEvent>
                 MidiErrorType change_timeMode(MidiEventMap<_MidiEvent>&_map,MidiTimeMode _mode=MidiTimeMode::microsecond)const {
                     MidiTimeMode _oldTimeMode=_map.get_timeMode();
-                    MidiErrorType err=MidiErrorType::noError;
+                    MidiErrorType err=MidiErrorType::no_error;
                     if(_oldTimeMode==_mode){
-                        return MidiErrorType::noError;
+                        return MidiErrorType::no_error;
                     }
                     if(_oldTimeMode==MidiTimeMode::tick&&_mode==MidiTimeMode::microsecond){
                         if(is_time_sorted(_map)){
@@ -550,34 +550,34 @@ namespace GoldType{
                 }
                 MidiErrorType change_timeMode(MidiTimeMode _mode=MidiTimeMode::microsecond){
                     if(m_timeMode==_mode){
-                        return MidiErrorType::noError;
+                        return MidiErrorType::no_error;
                     }
-                    MidiErrorType err=MidiErrorType::noError;
+                    MidiErrorType err=MidiErrorType::no_error;
                     if(m_timeMode==MidiTimeMode::tick&&_mode==MidiTimeMode::microsecond){
                         err=change_timeMode_tick2micro_sorted(m_noteMap);
-                        if(err!=MidiErrorType::noError){
+                        if(err!=MidiErrorType::no_error){
                             return err;
                         }
                         err=change_timeMode_tick2micro_sorted(m_bbMap);
-                        if(err!=MidiErrorType::noError){
+                        if(err!=MidiErrorType::no_error){
                             return err;
                         }
                         err=change_timeMode_tick2micro_sorted(m_textMap);
-                        if(err!=MidiErrorType::noError){
+                        if(err!=MidiErrorType::no_error){
                             return err;
                         }
                     }
                     else if(m_timeMode==MidiTimeMode::microsecond&&_mode==MidiTimeMode::tick){
                         err=change_timeMode_micro2tick_sorted(m_noteMap);
-                        if(err!=MidiErrorType::noError){
+                        if(err!=MidiErrorType::no_error){
                             return err;
                         }
                         err=change_timeMode_micro2tick_sorted(m_bbMap);
-                        if(err!=MidiErrorType::noError){
+                        if(err!=MidiErrorType::no_error){
                             return err;
                         }
                         err=change_timeMode_micro2tick_sorted(m_textMap);
-                        if(err!=MidiErrorType::noError){
+                        if(err!=MidiErrorType::no_error){
                             return err;
                         }
                     }

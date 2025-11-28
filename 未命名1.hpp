@@ -440,7 +440,7 @@ namespace GoldType{
                             }
                         }
                     }
-                    return MidiErrorType::noError;
+                    return MidiErrorType::no_error;
                 }
 				
             public:

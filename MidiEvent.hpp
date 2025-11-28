@@ -213,9 +213,8 @@ namespace GoldType{
         }
 
         template<>
-        MidiError&MidiError::operator()<MidiEvent>(const MidiEvent&_midiEvent){
-            MidiErrorType type=MidiErrorType::noError;
-            
+        MidiErrorType MidiError::operator()<MidiEvent>(const MidiEvent&_midiEvent){
+            MidiErrorType type=MidiErrorType::no_error;
             switch(_midiEvent.type()){
                 case MidiEventType::note_off:
                 case MidiEventType::note_on:
@@ -223,17 +222,17 @@ namespace GoldType{
                 case MidiEventType::controller:
                 case MidiEventType::pitchWheel:{
                     if(_midiEvent[1]&0x80){
-                        return operator()(MidiErrorType((uint8_t)type|0x01));
+                        return MidiErrorType((uint8_t)type|0x01);
                     }
                     if(_midiEvent[2]&0x80){
-                        return operator()(MidiErrorType((uint8_t)type|0x02));
+                        return MidiErrorType((uint8_t)type|0x02);
                     }
                     break;
                 }
                 case MidiEventType::program:
                 case MidiEventType::channel_afterTouch:{
                     if(_midiEvent[1]&0x80){
-                        return operator()(MidiErrorType((uint8_t)type|0x01));
+                        return MidiErrorType((uint8_t)type|0x01);
                     }
                     break;
                 }
@@ -242,14 +241,13 @@ namespace GoldType{
                     size_t i=1;
                     uint32_t length=0;
                     for(;i<5;++i) {
-                        length<<=7;
-                        length|=(_midiEvent[i]&0x7F);
+                        length=(length<<7)|(_midiEvent[i]&0x7F);
                         if(_midiEvent[i]<0x80) {
                             break;
                         }
                     }
-                    if(i+length!=_midiEvent.message.size()){
-                        return operator()(MidiErrorType::sysex);
+                    if(i+length+1!=_midiEvent.message.size()){
+                        return MidiErrorType::sysex_length;
                     }
                     break;
                 }
@@ -257,22 +255,21 @@ namespace GoldType{
                     size_t i=2;
                     uint32_t length=0;
                     for(;i<5;++i) {
-                        length<<=7;
-                        length|=(_midiEvent[i]&0x7F);
+                        length=(length<<7)|(_midiEvent[i]&0x7F);
                         if(_midiEvent[i]<0x80) {
                             break;
                         }
                     }
-                    if(i+length!=_midiEvent.message.size()){
-                        return operator()(MidiErrorType::sysex);
+                    if(i+length+1!=_midiEvent.message.size()){
+                        return MidiErrorType::meta_length;
                     }
                     break;
                 }
                 default:{
-                    return operator()(MidiErrorType::event_type);
+                    return MidiErrorType::event_unknown_type;
                 }
             }
-            return operator()(MidiErrorType::noError);
+            return MidiErrorType::no_error;
         }
     }
 }

@@ -32,87 +32,70 @@ namespace GoldType{
                     }
                     return ret;
                 }
-                uint32_t read_dynamicData(FILE*fin) {
-                    uint32_t ret=0;
-                    for(size_t i=0;i<4; ++i) {
-                        ret<<=7;
-                        uint8_t a=fgetc(fin);
-                        ret|=(a&0x7F);
-                        if(a<0x80) {
+                struct __ReadDynamicData_t{
+                    MidiErrorType type;
+                    uint32_t data;
+                    uint8_t length:7;
+                    uint8_t is_error:1;
+                    uint8_t buffer[4];
+                };
+                __ReadDynamicData_t read_dynamicData(FILE*fin){
+                    __ReadDynamicData_t ret;
+                    ret.type=MidiErrorType::no_error;
+                    ret.data=0;
+                    ret.is_error=0;
+                    for(ret.length=0;ret.length<4;++ret.length){
+                        ret.buffer[ret.length]=fgetc(fin);
+                        ret.data=(ret.data<<7)|(ret.buffer[ret.length]&0x7F);
+                        if(ret.buffer[ret.length]<0x80){
+                            ++ret.length;
                             return ret;
                         }
                     }
-                    return ret;
-                }
-                uint32_t read_dynamicData(FILE*fin,uint32_t&varlen) {
-                    uint32_t ret=0;
-                    for(size_t i=0; i<4; ++i) {
-                        ret<<=7;
-                        uint8_t a=fgetc(fin);
-                        ret|=(a&0x7F);
-                        if(a<0x80) {
-                            varlen+=i+1;
-                            return ret;
-                        }
-                    }
-                    varlen+=4;
-                    return ret;
-                }
-                uint32_t read_dynamicData(FILE*fin,uint32_t&varlen,MidiMessage&message){
-                    uint32_t ret=0;
-                    for(size_t i=0; i<4; ++i) {
-                        ret<<=7;
-                        uint8_t a=fgetc(fin);
-                        message.push_back(a);
-                        ret|=(a&0x7F);
-                        if(a<0x80) {
-                            varlen+=i+1;
-                            return ret;
-                        }
-                    }
-                    varlen+=4;
+                    ret.is_error=1;
                     return ret;
                 }
                 
             protected:
                 MidiErrorType read_midiHead(FILE*fin){
                     if(!(fgetc(fin)=='M'&&fgetc(fin)=='T'&&fgetc(fin)=='h'&&fgetc(fin)=='d')){
-                        midiError(MidiErrorType::head_identification);
-                        return midiError.type();
+                        return MidiErrorType::head_identification;
                     }
                     if(read_staticData(fin,4)!=6){
-                        midiError(MidiErrorType::head_length);
-                        return midiError.type();
+                        return MidiErrorType::head_length;
                     }
                     head.format=read_staticData(fin,2);
                     head.ntracks=read_staticData(fin,2);
                     head.division=read_staticData(fin,2);
-                    midiError(head);
-                    return midiError.type();
+#ifdef MIDI_DEBUG
+                    return midiError(head);
+#else
+                    return MidiErrorType::no_error;
+#endif
                 }
                 MidiErrorType read_midiTrack(FILE*fin){
                     tracks.resize(head.ntracks);
                     size_t event_count=0;
                     for(size_t trackIdx=0; trackIdx<head.ntracks; ++trackIdx) {
                         if(fgetc(fin)!='M'||fgetc(fin)!='T'||fgetc(fin)!='r'||fgetc(fin)!='k') {
-                            midiError(MidiErrorType::track_identification);
-                            return midiError.type();
+                            return MidiErrorType::track_identification;
                         }
                         uint32_t byte_num=read_staticData(fin,4);
                         uint32_t byte_read=0;
                         uint8_t last_eventType=(uint8_t)MidiEventType::null;
                         while(!feof(fin)) {
                             MidiEvent event;
-                            event.time=read_dynamicData(fin,byte_read);
-                            #ifdef MIDI_WARNING
-                            if(event.time>0x0FFFFFFF){
-                                midiError(MidiErrorType::event_deltaTime);
-                                return midiError.type();
+                            auto dynamicData=read_dynamicData(fin);
+                            event.time=dynamicData.data;
+                            byte_read+=dynamicData.length;
+#ifdef MIDI_WARNING
+                            if(dynamicData.is_error){
+                                return midiError(MidiErrorType::event_deltaTime);
                             }
-                            #endif
-                            read_midiMessage(fin,last_eventType,event,byte_read);
-                            if(midiError.type()!=MidiErrorType::noError) {
-                                return midiError.type();
+#endif
+                            MidiErrorType err=read_midiMessage(fin,last_eventType,event,byte_read);
+                            if(err!=MidiErrorType::no_error) {
+                                return err;
                             }
                             tracks[trackIdx].emplace_back(event);
                             ++event_count;
@@ -120,22 +103,24 @@ namespace GoldType{
                                 break;
                             }
                         }
-                        #ifdef MIDI_WARNING
+#ifdef MIDI_WARNING
                         if(byte_num!=byte_read){
-                            midiError(MidiErrorType::event_deltaTime);
-                            return midiError.type();
+                            return MidiErrorType::track_length;
                         }
-                        #endif
+#endif
                     }
-                    return midiError.type();
+#ifdef MIDI_DEBUG
+                    return midiError(tracks);
+#else
+                    return MidiErrorType::no_error;
+#endif
                 }
                 MidiErrorType read_midiMessage(FILE*fin,uint8_t&last_eventType,MidiEvent&event,uint32_t&byte_read) {
                     uint8_t now_eventType=fgetc(fin);
                     ++byte_read;
                     if(now_eventType<0x80) {
                         if(last_eventType==(uint8_t)MidiEventType::null||(last_eventType&0xF0)==0xF0) {
-                            midiError(MidiErrorType::event_type);
-                            return midiError.type();
+                            return MidiErrorType::event_unknown_type;
                         } 
                         now_eventType=last_eventType;
                         fseek(fin,-1,SEEK_CUR);
@@ -168,9 +153,16 @@ namespace GoldType{
                                     uint8_t metaType=fgetc(fin);
                                     event.message.push_back(metaType);
                                     ++byte_read;
-                                    uint32_t len=read_dynamicData(fin,byte_read,event.message);
-                                    byte_read+=len;
-                                    for(size_t i=0; i<len;++i){
+                                    auto dynamicData=read_dynamicData(fin);
+                                    
+                                    byte_read+=dynamicData.length+dynamicData.data;
+                                    if(dynamicData.is_error){
+                                        return MidiErrorType::meta_length;
+                                    }
+                                    for(size_t i=0; i<dynamicData.length;++i){
+                                        event.message.push_back(dynamicData.buffer[i]);
+                                    }
+                                    for(size_t i=0; i<dynamicData.data;++i){
                                         event.message.push_back(fgetc(fin));
                                     }
                                     break;
@@ -178,53 +170,48 @@ namespace GoldType{
                                 case 0xF0:        //sysex_begin
                                 case 0xF7: {      //sysex_end
                                     event.message.push_back(now_eventType);
-                                    uint32_t len=read_dynamicData(fin,byte_read,event.message);
-                                    byte_read+=len;
-                                    for(size_t i=0; i<len;++i){
+                                    auto dynamicData=read_dynamicData(fin);
+                                    byte_read+=dynamicData.length+dynamicData.data;
+                                    if(dynamicData.is_error){
+                                        return MidiErrorType::sysex_length;
+                                    }
+                                    for(size_t i=0; i<dynamicData.length;++i){
+                                        event.message.push_back(dynamicData.buffer[i]);
+                                    }
+                                    for(size_t i=0; i<dynamicData.data;++i){
                                         event.message.push_back(fgetc(fin));
                                     }
                                     break;
                                 }
                                 default: {
-                                    midiError(MidiErrorType::event_type);
-                                    return midiError.type();
+                                    return MidiErrorType::event_unknown_type;
                                 }
                             }
                             break;
                         }
                         default: {
-                            midiError(MidiErrorType::event_type);
-                            return midiError.type();
+                            return MidiErrorType::event_unknown_type;
                         }
                     }
                     last_eventType=now_eventType;
-                    return MidiErrorType::noError;
+                    return MidiErrorType::no_error;
                 }
                 MidiErrorType _read_fin(FILE*fin) {
                     if(!fin) {
-                        midiError(MidiErrorType::filename);
-                        #ifdef MIDI_DEBUG
-                        midiDebug.write();
-                        #endif
-                        return MidiErrorType::filename;
+                        return midiError(MidiErrorType::filename);
                     }
+                    MidiErrorType ret=MidiErrorType::no_error;
                     //head
-                    read_midiHead(fin);
-                    if(midiError.type()!=MidiErrorType::noError){
-                        #ifdef MIDI_DEBUG
-                        midiDebug.write();
-                        #endif
-                        return midiError.type();
+                    ret=read_midiHead(fin);
+                    if(ret!=MidiErrorType::no_error){
+                        return midiError(ret);
                     }
                     //track
-                    read_midiTrack(fin);
-                    if(midiError.type()!=MidiErrorType::noError){
-                        #ifdef MIDI_DEBUG
-                        midiDebug.write();
-                        #endif
-                        return midiError.type();
+                    ret=read_midiTrack(fin);
+                    if(ret!=MidiErrorType::no_error){
+                        return midiError(ret);
                     }
-                    return MidiErrorType::noError;
+                    return ret;
                 }
             public:
                 MidiFile(void)=delete;
@@ -252,7 +239,7 @@ namespace GoldType{
                     FILE*fin=fopen(filename.c_str(),"rb");
                     MidiErrorType ret=_read_fin(fin);
                     fclose(fin);
-                    if(ret!=MidiErrorType::noError){
+                    if(ret!=MidiErrorType::no_error){
                         m_state=MidiFileState::read_error;
                         head.format=0;
                         head.ntracks=0;
@@ -306,6 +293,17 @@ namespace GoldType{
                     return m_state==MidiFileState::write_error;
                 }
         };
+
+        template<>
+        MidiErrorType MidiError::operator()<MidiFile>(const MidiFile&file){
+            MidiErrorType type=MidiErrorType::no_error;
+            type=(*this)(file.head);
+            if(type!=MidiErrorType::no_error){
+                return type;
+            }
+            type=(*this)(file.tracks);
+            return type;
+        }
     }
 }
 

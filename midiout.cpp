@@ -147,34 +147,35 @@ void print_time(uint64_t microsecond){
 void fun8() { //测试播放时进行操作
     std::string filename;
     cout<<"filename:"<<endl;
-    cin>>filename;
+    getline(cin,filename);
     MidiPrinter pout("write_test_fun8.json");
     MidiParser parser(filename,MidiTimeMode::microsecond);
     pout<< MidiPrintFormat::json<<MidiPrintJsonFormat(jsonFormat_file|jsonFormat_pretty)<<parser.noteMap();
     MidiPlayer player(filename);
     bool isSpacePressed = false;
     bool isF1Pressed = false;
-    
-    player.play();
-    uint64_t lastTime=0;
+    bool isUpPressed = false;
+    bool isDownPressed = false;
+    bool isLeftPressed = false;
+    bool isRightPressed = false;
+    player.start_loop();
+    // player.set_speed(1.5);
     while(true){
-        uint64_t currentTime=player.time();
-        if(currentTime!=lastTime){
-            lastTime=currentTime;
-            system("cls");
-            print_time(currentTime);
-        }
+        uint64_t currentTime=player.get_time();
+        system("cls");
+        print_time(currentTime);
+        printf("speed:%.2f\n",player.get_speed());
         
-        if(player.state() == MidiPlayer::State::stopped) {
+        if(player.is_stopped()) {
             break;
         }
         if((GetAsyncKeyState(VK_SPACE) & 0x8000)&& 
            (GetAsyncKeyState(VK_CONTROL) & 0x8000)) {
             if(!isSpacePressed) {
-                if(player.state() == MidiPlayer::State::playing) {
+                if(player.is_playing()) {
                     player.pause();
                 }
-                else if(player.state() == MidiPlayer::State::paused) {
+                else if(player.is_paused()) {
                     player.play();
                 }
                 isSpacePressed = true;
@@ -195,9 +196,49 @@ void fun8() { //测试播放时进行操作
         else{
             isF1Pressed = false;
         }
-        
+        if((GetAsyncKeyState(VK_UP) & 0x8000)&&
+           (GetAsyncKeyState(VK_CONTROL) & 0x8000)) {
+            if(!isUpPressed) {
+                player.set_speed(player.get_speed()+0.1);
+                isUpPressed = true;
+            }
+        }
+        else {
+            isUpPressed = false;
+        }
+        if((GetAsyncKeyState(VK_DOWN) & 0x8000)&&
+           (GetAsyncKeyState(VK_CONTROL) & 0x8000)) {
+            if(!isDownPressed) {
+                player.set_speed(player.get_speed()-0.1);
+                isDownPressed = true;
+            }
+        }
+        else {
+            isDownPressed = false;
+        }
+        if((GetAsyncKeyState(VK_LEFT) & 0x8000)&&
+           (GetAsyncKeyState(VK_CONTROL) & 0x8000)) {
+            if(!isLeftPressed) {
+                player.set_time(currentTime-15000000);
+                isLeftPressed = true;
+            }
+        }
+        else {
+            isLeftPressed = false;
+        }
+        if((GetAsyncKeyState(VK_RIGHT) & 0x8000)&&
+           (GetAsyncKeyState(VK_CONTROL) & 0x8000)) {
+            if(!isRightPressed) {
+                player.set_time(currentTime+15000000);
+                isRightPressed = true;
+            }
+        }
+        else {
+            isRightPressed = false;
+        }
         Sleep(50);
     }
+    // player.join();
 }
 int main(){
     fun8();

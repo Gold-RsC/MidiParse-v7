@@ -31,9 +31,6 @@ namespace GoldType{
                             case 30:break;
                             default:{
                                 midiError(MidiErrorType::head_division);
-                                #ifdef MIDI_DEBUG
-                                midiDebug.write();
-                                #endif
                                 return 120;
                             }
                         }
@@ -47,12 +44,12 @@ namespace GoldType{
         };
         
         template<>
-        MidiError&MidiError::operator()<MidiHead>(const MidiHead&_midiHead){
+        MidiErrorType MidiError::operator()<MidiHead>(const MidiHead&_midiHead){
             if(!(_midiHead.format==0||_midiHead.format==1||_midiHead.format==2)) {
-                return operator()(MidiErrorType::head_format);
+                return MidiErrorType::head_format;
             }
             if(_midiHead.format==0&&_midiHead.ntracks!=1) {
-                return operator()(MidiErrorType::head_ntracks);
+                return MidiErrorType::head_ntracks;
             }
             if(_midiHead.division&0x8000){
                 uint16_t fps=0x0100-(_midiHead.division>>8)&0xFF;
@@ -63,11 +60,11 @@ namespace GoldType{
                     case 29:break;
                     case 30:break;
                     default:{
-                        return operator()(MidiErrorType::head_division);
+                        return MidiErrorType::head_division;
                     }
                 }
             }
-            return operator()(MidiErrorType::noError);
+            return MidiErrorType::no_error;
         }
     }
 }

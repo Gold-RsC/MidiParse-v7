@@ -4,19 +4,16 @@
 #include<stdio.h>
 #include<stdint.h>
 
-#ifdef MIDI_DEBUG_WARNING
-#ifndef MIDI_DEBUG
-#define MIDI_DEBUG
-#endif
-#endif
 namespace GoldType{
     namespace MidiParse{
+        #define MIDI_DEBUG_PRINT(...) midiDebug<<__VA_ARGS__
+        #define MIDI_DEBUG_CODE(code) do{code}while(0)
         /********************************
                     Midi Error
         ********************************/
         
         enum class MidiErrorType:uint8_t{
-            noError=0x00,
+            no_error=0x00,
             filename=0x01,
             head_identification=0x02,
             head_length=0x03,
@@ -26,10 +23,7 @@ namespace GoldType{
             track_identification=0x07,
             track_length=0x08,
             event_deltaTime=0x09,
-            event_type=0x0A,
-            
-            parse_error=0x10,
-            change_timeMode=0x11,
+            event_unknown_type=0x0A,
             
             noteOff_pitch=0x81,
             noteOff_velocity=0x82,
@@ -43,43 +37,25 @@ namespace GoldType{
             channelAfterTouch_velocity=0xD1,
             pitchWheel_mod=0xE1,
             pitchWheel_div=0xE2,
-            sysex=0xF0,
-            meta=0xFF
+            sysex_length=0xF0,
+            sysex_data=0xF1,
+            meta_length=0xF8,
+            meta_data=0xF9,
+            parse_error=0x10,
+            change_timeMode=0x11,
+
+            unknown_error=0x12,
         };
+
         class MidiError{
-            protected:
-                MidiErrorType m_mErrType;
-            public:
-                MidiError(MidiErrorType _mErrType=MidiErrorType::noError):
-                    m_mErrType(_mErrType){}
-            public:
-                MidiErrorType&type(void){
-                    return m_mErrType;
-                }
-                const MidiErrorType&type(void)const{
-                    return m_mErrType;
-                }
-            public:
-                MidiError&operator()(MidiErrorType _mErrType){
-                    m_mErrType=_mErrType;
-                    return *this;
-                }
-                template<typename _MidiClass>
-                MidiError&operator()(const _MidiClass&){
-                    return *this;
-                }
-        };
-        MidiError midiError;
-        #ifdef MIDI_DEBUG
-        class MidiDebug{
             protected:
                 FILE*m_file;
             public:
-                MidiDebug(void):
+                MidiError(void):
                     m_file(stderr){}
-                MidiDebug(const char*_name):
+                MidiError(const char*_name):
                     m_file(fopen(_name,"w")){}
-                ~MidiDebug(void){
+                ~MidiError(void){
                     if(m_file!=stderr){
                         fclose(m_file);
                     }
@@ -87,19 +63,16 @@ namespace GoldType{
                 }
             public:
                 void replace(const char*_name){
-                    this->~MidiDebug();
+                    this->~MidiError();
                     m_file=fopen(_name,"w");
                 }
-                void write(void){
-                    write_type(midiError.type());
-                }
+            private:
                 void write_type(MidiErrorType _mErrType){
+                    if(_mErrType==MidiErrorType::no_error){
+                        return;
+                    }
                     fprintf(m_file,"MidiError:\n\t");
                     switch(_mErrType){
-                        case MidiErrorType::noError:{
-                            fprintf(m_file,"No error!\n");
-                            break;
-                        }
                         case MidiErrorType::filename:{
                             fprintf(m_file,"There is no file named this!\n");
                             break;
@@ -144,7 +117,7 @@ namespace GoldType{
                             fprintf(m_file,"Event delta time error!\n");
                             break;
                         }
-                        case MidiErrorType::event_type:{
+                        case MidiErrorType::event_unknown_type:{
                             fprintf(m_file,"An error occurred in an event!\n\t");
                             fprintf(m_file,"Event type error!\n");
                             break;
@@ -209,12 +182,24 @@ namespace GoldType{
                             fprintf(m_file,"Div number error!\n");
                             break;
                         }
-                        case MidiErrorType::sysex:{
-                            fprintf(m_file,"An error occurred in a sysex event!\n");
+                        case MidiErrorType::sysex_length:{
+                            fprintf(m_file,"An error occurred in a sysex event!\n\t");
+                            fprintf(m_file,"Length error!\n");
                             break;
                         }
-                        case MidiErrorType::meta:{
-                            fprintf(m_file,"An error occurred in a meta event!\n");
+                        case MidiErrorType::sysex_data:{
+                            fprintf(m_file,"An error occurred in a sysex event!\n\t");
+                            fprintf(m_file,"Data error!\n");
+                            break;
+                        }
+                        case MidiErrorType::meta_length:{
+                            fprintf(m_file,"An error occurred in a meta event!\n\t");
+                            fprintf(m_file,"Length error!\n");
+                            break;
+                        }
+                        case MidiErrorType::meta_data:{
+                            fprintf(m_file,"An error occurred in a meta event!\n\t");
+                            fprintf(m_file,"Data error!\n");
                             break;
                         }
                         default:{
@@ -224,29 +209,31 @@ namespace GoldType{
                     }
                 }
                 void write_text(const char*_text){
+                    fprintf(m_file,"MidiError:\n\t");
                     fprintf(m_file,_text);
                 }
             public:
-                MidiDebug&operator<<(MidiErrorType _mErrType){
+                MidiError&operator<<(MidiErrorType _mErrType){
                     write_type(_mErrType);
                     return *this;
                 }
-                MidiDebug&operator<<(MidiError _midiError){
-                    write_type(_midiError.type());
-                    return *this;
-                }
-                MidiDebug&operator<<(const char*_text){
+                MidiError&operator<<(const char*_text){
                     write_text(_text);
                     return *this;
                 }
-                template<typename...Args>
-                MidiDebug&operator()(const char*_format,Args&&..._args){
-                    fprintf(m_file,_format,_args...);
-                    return *this;
+                MidiErrorType operator()(MidiErrorType _mErrType){
+#ifdef MIDI_DEBUG
+                    write_type(_mErrType);
+#endif
+                    return _mErrType;
+                }
+                template<typename T>
+                MidiErrorType operator()(const T&_t){
+                    return MidiErrorType::unknown_error;
                 }
         };
-        MidiDebug midiDebug;
-        #endif
+        MidiError midiError;
+
     }
 }
 #endif
