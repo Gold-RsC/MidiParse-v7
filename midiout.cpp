@@ -144,7 +144,7 @@ void print_time(uint64_t microsecond){
     //00:00:00.00
     printf("%02llu:%02llu:%02.2f\n",minute,second,microsecond/100000.0);
 }
-void fun8() { //测试播放时进行操作
+void fun8() {
     std::string filename;
     cout<<"filename:"<<endl;
     getline(cin,filename);
@@ -240,7 +240,13 @@ void fun8() { //测试播放时进行操作
     }
     // player.join();
 }
+void fun9(){
+    MidiFile a("1.mid");
+    a.read();
+    MidiPrinter mout("write_test_fun9.json");
+    mout<< MidiPrintFormat::json<<MidiPrintJsonFormat(jsonFormat_file|jsonFormat_pretty)<<a.tracks;
+}
 int main(){
-    fun8();
+    fun9();
     return 0;
 }

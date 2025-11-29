@@ -8,53 +8,24 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${file}",
+                "-std=c++11",
+                "${workspaceFolder}/src/MidiError.cpp",
+                "${workspaceFolder}/src/MidiMessage.cpp",
+                "${workspaceFolder}/src/MidiEvent.cpp",
+                "${workspaceFolder}/src/MidiHead.cpp",
+                "${workspaceFolder}/src/MidiTrack.cpp",
+                "${workspaceFolder}/src/MoreMidiEvent.cpp",
+                "${workspaceFolder}/src/NotePair.cpp",
+                "${workspaceFolder}/src/MidiFile.cpp",
+                "${workspaceFolder}/src/MidiParser.cpp",
+                "${workspaceFolder}/src/MidiPrinter.cpp",
+                "${workspaceFolder}/src/MidiPlayer.cpp",
+                "${workspaceFolder}/midiout.cpp",
+                // "${file}",s
+                "-I${workspaceFolder}/include",
                 "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe",
-                "-lwinmm"
-            ],
-            "options": {
-                "cwd": "${fileDirname}"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": false
-            },
-            "detail": "编译器: D:\\mingw64\\bin\\g++.exe"
-        },
-        {
-            "type": "cppbuild",
-            "label": "C/C++: cl.exe 生成活动文件",
-            "command": "cl.exe",
-            "args": [
-                "/Zi",
-                "/EHsc",
-                "/nologo",
-                "/Fe${fileDirname}\\${fileBasenameNoExtension}.exe",
-                "${file}"
-            ],
-            "options": {
-                "cwd": "${fileDirname}"
-            },
-            "problemMatcher": [
-                "$msCompile"
-            ],
-            "group": "build",
-            "detail": "调试器生成的任务。"
-        },
-        {
-            "type": "cppbuild",
-            "label": "C/C++: g++.exe 生成活动文件",
-            "command": "D:\\mingw64\\bin\\g++.exe",
-            "args": [
-                "-fdiagnostics-color=always",
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe",
+                "${workspaceFolder}/midiout.exe",
+                // "${workspaceFolder}/${fileBasenameNoExtension}.exe",
                 "-lwinmm"
             ],
             "options": {
