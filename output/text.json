@@ -1,0 +1,104 @@
+{
+    "Map": {
+        "List0": {
+            "Text0": {
+                "track":"0x00",
+                "tick":0,
+                "type":"0x02",
+                "text":"Copyright (c) xxxx Copyright Holder"
+            },
+            "Text1": {
+                "track":"0x00",
+                "tick":0,
+                "type":"0x07",
+                "text":"Created by Rosegarden"
+            },
+            "Text2": {
+                "track":"0x00",
+                "tick":0,
+                "type":"0x07",
+                "text":"http://www.rosegardenmusic.com/"
+            }
+        },
+        "List1": {
+            "Text0": {
+                "track":"0x01",
+                "tick":0,
+                "type":"0x03",
+                "text":"Acoustic Grand Piano"
+            }
+        },
+        "List2": {
+            "Text0": {
+                "track":"0x02",
+                "tick":0,
+                "type":"0x03",
+                "text":"Acoustic Grand Piano"
+            }
+        },
+        "List3": {
+            "Text0": {
+                "track":"0x03",
+                "tick":0,
+                "type":"0x03",
+                "text":"Lead 1 (square)"
+            }
+        },
+        "List4": {
+            "Text0": {
+                "track":"0x04",
+                "tick":0,
+                "type":"0x03",
+                "text":"Lead 8 (bass + lead)"
+            }
+        },
+        "List5": {
+            "Text0": {
+                "track":"0x05",
+                "tick":0,
+                "type":"0x03",
+                "text":"Choir Aahs"
+            }
+        },
+        "List6": {
+            "Text0": {
+                "track":"0x06",
+                "tick":0,
+                "type":"0x03",
+                "text":"Acoustic Grand Piano"
+            }
+        },
+        "List7": {
+            "Text0": {
+                "track":"0x07",
+                "tick":0,
+                "type":"0x03",
+                "text":"Acoustic Grand Piano"
+            }
+        },
+        "List8": {
+            "Text0": {
+                "track":"0x08",
+                "tick":0,
+                "type":"0x03",
+                "text":"Fingered Bass"
+            }
+        },
+        "List9": {
+            "Text0": {
+                "track":"0x09",
+                "tick":0,
+                "type":"0x03",
+                "text":"Imported MIDI"
+            }
+        },
+        "List10": {
+            "Text0": {
+                "track":"0x0A",
+                "tick":0,
+                "type":"0x03",
+                "text":"Synth Bass 2"
+            }
+        }
+    }
+}

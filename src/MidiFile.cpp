@@ -253,15 +253,14 @@ namespace GoldType{
         bool MidiFile::is_write_error(void)const {
             return m_state==MidiFileState::write_error;
         }
-
-        // MidiErrorType get_error(MidiError&_midiError,const MidiFile&file){
-        //     MidiErrorType type=MidiErrorType::no_error;
-        //     type=get_error(_midiError,file.head);
-        //     if(type!=MidiErrorType::no_error){
-        //         return type;
-        //     }
-        //     type=get_error(_midiError,file.tracks);
-        //     return type;
-        // }
+        MidiErrorType MidiFile::get_error(MidiError&_midiError)const{
+            MidiErrorType type=MidiErrorType::no_error;
+            type=head.get_error(_midiError);
+            if(type!=MidiErrorType::no_error){
+                return type;
+            }
+            type=tracks.get_error(_midiError);
+            return type;
+        }
     }
 }

@@ -1,8 +1,8 @@
 /********************************************************************************************************
  * File Name    : MidiHead.hpp
  * Author       : Csrua / Gold_RsC
- * github       : https://github.com/Gold-RsC
- * bilibili     : https://space.bilibili.com/361846321
+ * github       : Gold-RsC(https://github.com/Gold-RsC)
+ * bilibili     : Csrua(https://space.bilibili.com/361846321)
  * QQ           : 310106329
  * Email        : 310106329@qq.com
  * Create Date  : 2020/07/26
@@ -14,7 +14,7 @@
 #include"MidiError.hpp"
 namespace GoldType{
     namespace MidiParse{
-        class MidiHead{
+        class MidiHead:public MidiObject{
             public:
                 uint16_t format;
                 uint16_t ntracks;
@@ -22,6 +22,8 @@ namespace GoldType{
             public:
                 MidiHead(uint16_t _format=0,uint16_t _ntracks=1,uint16_t _division=120);
                 uint16_t tpqn(void)const;
+
+                MidiErrorType get_error(MidiError&_midiError=midiError)const override final;
         };
         
     }

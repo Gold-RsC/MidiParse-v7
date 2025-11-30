@@ -2,39 +2,82 @@
 
 namespace GoldType{
     namespace MidiParse{
-        BasicMidiEvent::BasicMidiEvent(uint64_t _time,MidiTimeMode _timeMode,uint8_t _track):
-            time(_time),timeMode(_timeMode),track(_track){}
-        uint64_t&BasicMidiEvent::tick(void){
-            if(timeMode==MidiTimeMode::tick){
-                return time;
+        MidiEventType MidiMessage::type(void)const {
+            if(operator[](0)==0xFF||operator[](0)==0xF0||operator[](0)==0xF7){
+                return MidiEventType(operator[](0));
             }
-            return __time_error_v;
-        }
-        const uint64_t&BasicMidiEvent::tick(void)const {
-            if(timeMode==MidiTimeMode::tick){
-                return time;
+            else{
+                return MidiEventType(operator[](0)&0xF0);
             }
-            return __time_error_v;
         }
-        uint64_t&BasicMidiEvent::microsecond(void){
-            if(timeMode==MidiTimeMode::microsecond){
-                return time;
+        uint8_t MidiMessage::channel(void)const {
+#ifdef MIDI_DEBUG
+            if(operator[](0)<0xF0&&operator[](0)>0x7F){
+#endif
+                return operator[](0)&0x0F;
+#ifdef MIDI_DEBUG
             }
-            return __time_error_v;
+            return 0xFF;
+#endif
         }
-        const uint64_t&BasicMidiEvent::microsecond(void)const {
-            if(timeMode==MidiTimeMode::microsecond){
-                return time;
+        MidiErrorType MidiMessage::get_error(MidiError&_midiError)const{
+            MidiEventType _type=type();
+            switch(_type){
+                case MidiEventType::note_off:
+                case MidiEventType::note_on:
+                case MidiEventType::key_afterTouch:
+                case MidiEventType::controller:
+                case MidiEventType::pitchWheel:{
+                    if(operator[](1)&0x80){
+                        return _midiError(MidiErrorType((uint8_t)_type|0x01));
+                    }
+                    if(operator[](2)&0x80){
+                        return _midiError(MidiErrorType((uint8_t)_type|0x02));
+                    }
+                    break;
+                }
+                case MidiEventType::program:
+                case MidiEventType::channel_afterTouch:{
+                    if(operator[](1)&0x80){
+                        return _midiError(MidiErrorType((uint8_t)_type|0x01));
+                    }
+                    break;
+                }
+                case MidiEventType::sysex_begin:
+                case MidiEventType::sysex_end:{
+                    size_t i=1;
+                    uint32_t length=0;
+                    for(;i<5;++i) {
+                        length=(length<<7)|(operator[](i)&0x7F);
+                        if(operator[](i)<0x80) {
+                            break;
+                        }
+                    }
+                    if(i+length+1!=size()){
+                        return _midiError(MidiErrorType::sysex_length);
+                    }
+                    break;
+                }
+                case MidiEventType::meta:{
+                    size_t i=2;
+                    uint32_t length=0;
+                    for(;i<5;++i) {
+                        length=(length<<7)|(operator[](i)&0x7F);
+                        if(operator[](i)<0x80) {
+                            break;
+                        }
+                    }
+                    if(i+length+1!=size()){
+                        return _midiError(MidiErrorType::meta_length);
+                    }
+                    break;
+                }
+                default:{
+                    return _midiError(MidiErrorType::event_unknown_type);
+                }
             }
-            return __time_error_v;
+            return _midiError(MidiErrorType::no_error);
         }
-        uint64_t BasicMidiEvent::__time_error_v=uint64_t(-1);
-        
-        BasicMidiEvent_Non::BasicMidiEvent_Non(uint64_t _time,MidiTimeMode _timeMode,uint8_t _track,uint8_t _channel):
-            BasicMidiEvent(_time,_timeMode,_track),channel(_channel){}
-        BasicMidiEvent_Meta::BasicMidiEvent_Meta(uint64_t _time,MidiTimeMode _timeMode,uint8_t _track):
-            BasicMidiEvent(_time,_timeMode,_track){}
-        
         MidiEvent::MidiEvent(void):
             message() {}
         MidiEvent::MidiEvent(const MidiMessage&_message):
@@ -54,70 +97,14 @@ namespace GoldType{
         bool MidiEvent::is_sysex(void)const{
             return type()==MidiEventType::sysex_begin||type()==MidiEventType::sysex_end;
         }
+        MidiErrorType MidiEvent::get_error(MidiError&_midiError)const{
+            return message.get_error(_midiError);
+        }
         uint8_t&MidiEvent::operator[](size_t idx) {
             return message[idx];
         }
         const uint8_t&MidiEvent::operator[](size_t idx) const{
             return message[idx];
         }
-
-        // MidiErrorType get_error(MidiError&_midiError,const MidiEvent&_midiEvent){
-        //     MidiErrorType type=MidiErrorType::no_error;
-        //     switch(_midiEvent.type()){
-        //         case MidiEventType::note_off:
-        //         case MidiEventType::note_on:
-        //         case MidiEventType::key_afterTouch:
-        //         case MidiEventType::controller:
-        //         case MidiEventType::pitchWheel:{
-        //             if(_midiEvent[1]&0x80){
-        //                 return _midiError(MidiErrorType((uint8_t)type|0x01));
-        //             }
-        //             if(_midiEvent[2]&0x80){
-        //                 return _midiError(MidiErrorType((uint8_t)type|0x02));
-        //             }
-        //             break;
-        //         }
-        //         case MidiEventType::program:
-        //         case MidiEventType::channel_afterTouch:{
-        //             if(_midiEvent[1]&0x80){
-        //                 return _midiError(MidiErrorType((uint8_t)type|0x01));
-        //             }
-        //             break;
-        //         }
-        //         case MidiEventType::sysex_begin:
-        //         case MidiEventType::sysex_end:{
-        //             size_t i=1;
-        //             uint32_t length=0;
-        //             for(;i<5;++i) {
-        //                 length=(length<<7)|(_midiEvent[i]&0x7F);
-        //                 if(_midiEvent[i]<0x80) {
-        //                     break;
-        //                 }
-        //             }
-        //             if(i+length+1!=_midiEvent.message.size()){
-        //                 return _midiError(MidiErrorType::sysex_length);
-        //             }
-        //             break;
-        //         }
-        //         case MidiEventType::meta:{
-        //             size_t i=2;
-        //             uint32_t length=0;
-        //             for(;i<5;++i) {
-        //                 length=(length<<7)|(_midiEvent[i]&0x7F);
-        //                 if(_midiEvent[i]<0x80) {
-        //                     break;
-        //                 }
-        //             }
-        //             if(i+length+1!=_midiEvent.message.size()){
-        //                 return _midiError(MidiErrorType::meta_length);
-        //             }
-        //             break;
-        //         }
-        //         default:{
-        //             return _midiError(MidiErrorType::event_unknown_type);
-        //         }
-        //     }
-        //     return _midiError(MidiErrorType::no_error);
-        // }
     }
 }

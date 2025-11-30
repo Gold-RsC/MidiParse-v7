@@ -31,27 +31,27 @@ namespace GoldType{
             }
         }
         
-        // MidiErrorType get_error(MidiError&_midiError,const MidiHead&_midiHead){
-        //     if(!(_midiHead.format==0||_midiHead.format==1||_midiHead.format==2)) {
-        //         return _midiError(MidiErrorType::head_format);
-        //     }
-        //     if(_midiHead.format==0&&_midiHead.ntracks!=1) {
-        //         return _midiError(MidiErrorType::head_ntracks);
-        //     }
-        //     if(_midiHead.division&0x8000){
-        //         uint16_t fps=0x0100-(_midiHead.division>>8)&0xFF;
-        //         uint16_t tpf=_midiHead.division&0xFF;
-        //         switch(fps){
-        //             case 24:break;
-        //             case 25:break;
-        //             case 29:break;
-        //             case 30:break;
-        //             default:{
-        //                 return _midiError(MidiErrorType::head_division);
-        //             }
-        //         }
-        //     }
-        //     return _midiError(MidiErrorType::no_error);
-        // }
+        MidiErrorType MidiHead::get_error(MidiError&_midiError)const{
+            if(!(format==0||format==1||format==2)) {
+                return _midiError(MidiErrorType::head_format);
+            }
+            if(format==0&&ntracks!=1) {
+                return _midiError(MidiErrorType::head_ntracks);
+            }
+            if(division&0x8000){
+                uint16_t fps=0x0100-(division>>8)&0xFF;
+                uint16_t tpf=division&0xFF;
+                switch(fps){
+                    case 24:break;
+                    case 25:break;
+                    case 29:break;
+                    case 30:break;
+                    default:{
+                        return _midiError(MidiErrorType::head_division);
+                    }
+                }
+            }
+            return _midiError(MidiErrorType::no_error);
+        }
     }
 }

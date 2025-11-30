@@ -1,8 +1,8 @@
 /********************************************************************************************************
  * File Name    : MidiError.hpp
  * Author       : Csrua / Gold_RsC
- * github       : https://github.com/Gold-RsC
- * bilibili     : https://space.bilibili.com/361846321
+ * github       : Gold-RsC(https://github.com/Gold-RsC)
+ * bilibili     : Csrua(https://space.bilibili.com/361846321)
  * QQ           : 310106329
  * Email        : 310106329@qq.com
  * Create Date  : 2020/07/26
@@ -13,7 +13,12 @@
 #define MIDIERROR_HPP
 #include<stdio.h>
 #include<stdint.h>
-
+// #ifndef MIDI_DEBUG
+// #define MIDI_DEBUG
+// #endif
+// #ifndef MIDI_WARNING
+// #define MIDI_WARNING
+// #endif
 namespace GoldType{
     namespace MidiParse{
         enum class MidiErrorType:uint8_t{
@@ -69,23 +74,17 @@ namespace GoldType{
                 MidiError&operator<<(const char*_text);
 
                 MidiErrorType operator()(MidiErrorType _mErrType);
-                // template<typename T>
-                // MidiErrorType operator()(const T&_t){
-                //     return get_error(*this,_t);
-                // }
+                template<typename T>
+                MidiErrorType operator()(const T&_t){
+                    return _t.get_error(*this);
+                }
         };
         extern MidiError midiError;
 
-        // class MidiEvent;
-        // class MidiTrack;
-        // class MidiTrackList;
-        // class MidiHead;
-        // class MidiFile;
-        // MidiErrorType get_error(MidiError&_midiError,const MidiEvent&event);
-        // MidiErrorType get_error(MidiError&_midiError,const MidiTrack&track);
-        // MidiErrorType get_error(MidiError&_midiError,const MidiTrackList&tracks);
-        // MidiErrorType get_error(MidiError&_midiError,const MidiHead&head);
-        // MidiErrorType get_error(MidiError&_midiError,const MidiFile&file);
+        class MidiObject{
+            public:
+                virtual MidiErrorType get_error(MidiError&_midiError)const=0;
+        };
     }
 }
 #endif

@@ -1,8 +1,8 @@
 /********************************************************************************************************
  * File Name    : MidiPlayer.hpp
  * Author       : Csrua / Gold_RsC
- * github       : https://github.com/Gold-RsC
- * bilibili     : https://space.bilibili.com/361846321
+ * github       : Gold-RsC(https://github.com/Gold-RsC)
+ * bilibili     : Csrua(https://space.bilibili.com/361846321)
  * QQ           : 310106329
  * Email        : 310106329@qq.com
  * Create Date  : 2020/07/26
@@ -11,7 +11,7 @@
  ********************************************************************************************************/
 #ifndef NOTEPAIR_HPP
 #define NOTEPAIR_HPP
-#include"MoreMidiEvent.hpp"
+#include"Note.hpp"
 namespace GoldType{
     namespace MidiParse{
         bool is_notePair(const Note&_begin,const Note&_end);

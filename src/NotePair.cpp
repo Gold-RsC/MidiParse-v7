@@ -1,4 +1,6 @@
 #include"NotePair.hpp"
+#include<map>
+#include<queue>
 namespace GoldType{
     namespace MidiParse{
         bool is_notePair(const Note&_begin,const Note&_end){

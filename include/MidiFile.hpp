@@ -1,8 +1,8 @@
 /********************************************************************************************************
  * File Name    : MidiFile.hpp
  * Author       : Csrua / Gold_RsC
- * github       : https://github.com/Gold-RsC
- * bilibili     : https://space.bilibili.com/361846321
+ * github       : Gold-RsC(https://github.com/Gold-RsC)
+ * bilibili     : Csrua(https://space.bilibili.com/361846321)
  * QQ           : 310106329
  * Email        : 310106329@qq.com
  * Create Date  : 2020/07/26
@@ -17,11 +17,7 @@
 
 namespace GoldType{
     namespace MidiParse{
-        /********************************
-                    Midi File
-        ********************************/
-        
-        class MidiFile {
+        class MidiFile:public MidiObject {
             protected:
                 enum class MidiFileState:uint8_t{
                     untouched,
@@ -69,6 +65,8 @@ namespace GoldType{
                 bool is_read_error(void)const;
                 bool is_write_success(void)const;
                 bool is_write_error(void)const;
+
+                MidiErrorType get_error(MidiError&_midiError=midiError)const override final;
         };
 
         

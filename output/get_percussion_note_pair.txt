@@ -1,0 +1,1 @@
+time(us)	duration(us)	channel	pitch	instrument	velocity	bar_begin	bar_end	beat_begin	beat_end

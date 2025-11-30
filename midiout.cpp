@@ -150,7 +150,7 @@ void fun8() {
     getline(cin,filename);
     MidiPrinter pout("write_test_fun8.json");
     MidiParser parser(filename,MidiTimeMode::microsecond);
-    pout<< MidiPrintFormat::json<<MidiPrintJsonFormat(jsonFormat_file|jsonFormat_pretty)<<parser.noteMap();
+    pout<< MidiPrintFormat::json<<MidiPrintJsonFormat(jsonFormat_file|jsonFormat_pretty)<<parser.textMap();
     MidiPlayer player(filename);
     bool isSpacePressed = false;
     bool isF1Pressed = false;
@@ -247,6 +247,6 @@ void fun9(){
     mout<< MidiPrintFormat::json<<MidiPrintJsonFormat(jsonFormat_file|jsonFormat_pretty)<<a.tracks;
 }
 int main(){
-    fun9();
+    fun8();
     return 0;
 }

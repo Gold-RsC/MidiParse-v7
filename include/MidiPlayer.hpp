@@ -1,8 +1,8 @@
 /********************************************************************************************************
  * File Name    : MidiPlayer.hpp
  * Author       : Csrua / Gold_RsC
- * github       : https://github.com/Gold-RsC
- * bilibili     : https://space.bilibili.com/361846321
+ * github       : Gold-RsC(https://github.com/Gold-RsC)
+ * bilibili     : Csrua(https://space.bilibili.com/361846321)
  * QQ           : 310106329
  * Email        : 310106329@qq.com
  * Create Date  : 2020/07/26
@@ -16,7 +16,6 @@
 #include<windows.h>
 #include<algorithm>
 #include<condition_variable>
-#pragma comment(lib,"winmm.lib")
 #include"MidiParser.hpp"
 namespace GoldType{
     namespace MidiParse{
@@ -86,10 +85,13 @@ namespace GoldType{
                     m_speed(1.0),
                     m_handle(nullptr),
                     m_current_time(0),
-                    m_current_iterator(m_messages.end()){
+                    m_current_iterator(m_messages.begin()){
+                    if(m_current_iterator!=m_messages.end()){
+                        m_current_time=m_current_iterator->time;
+                    }
                 }
-                MidiPlayer(const MidiPlayer&)=delete;
-                MidiPlayer(MidiPlayer&&)=delete;
+                MidiPlayer(const MidiPlayer&);
+                MidiPlayer(MidiPlayer&&);
                 ~MidiPlayer(void);
             public:
                 void start_normal(void);
@@ -112,8 +114,8 @@ namespace GoldType{
                 void set_speed(double speed);
                 double get_speed(void);
             public:
-                MidiPlayer&operator=(const MidiPlayer&)=delete;
-                MidiPlayer&operator=(MidiPlayer&&other)=delete;
+                MidiPlayer&operator=(const MidiPlayer&);
+                MidiPlayer&operator=(MidiPlayer&&other);
         };
     }
 }

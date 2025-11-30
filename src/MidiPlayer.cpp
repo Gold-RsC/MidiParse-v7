@@ -57,7 +57,7 @@ namespace GoldType{
             if(_file.is_read_success()){
                 MidiParser _parser(_file);
                 MidiTrackList tracks=_file.tracks;
-                time_delta2absolute(tracks);
+                tracks.to_abs();
                 _parser.change_timeMode(tracks,MidiTimeMode::microsecond);
                 for_event(tracks,[this](const MidiEvent&event){
                     if(event.is_normal()){
@@ -134,18 +134,18 @@ namespace GoldType{
             LARGE_INTEGER freq;
             {
                 std::unique_lock<std::mutex> lock(m_mutex);
-                midiOutOpen(&m_handle,0,0,0,CALLBACK_NULL);
+                MMRESULT result=midiOutOpen(&m_handle,0,0,0,CALLBACK_NULL);
+                if(result!=MMSYSERR_NOERROR){
+                    throw std::runtime_error("midiOutOpen failed");
+                }
                 midiOutReset(m_handle);
                 QueryPerformanceFrequency(&m_freq);
                 QueryPerformanceCounter(&m_current_node);
-                m_current_iterator=m_messages.begin();
-                m_current_time=m_current_iterator->time;
                 freq=m_freq;
             }
             for(;;){
                 uint64_t target_time;
                 double speed;
-                
                 LARGE_INTEGER target_node;
                 {
                     std::unique_lock<std::mutex> lock(m_mutex);
@@ -243,8 +243,6 @@ namespace GoldType{
                 midiOutReset(m_handle);
                 QueryPerformanceFrequency(&m_freq);
                 QueryPerformanceCounter(&m_current_node);
-                m_current_iterator=m_messages.begin();
-                m_current_time=m_current_iterator->time;
                 freq=m_freq;
             }
             for(;;){
@@ -345,17 +343,29 @@ namespace GoldType{
             m_speed(1.0),
             m_handle(nullptr),
             m_current_time(0),
-            m_current_iterator(m_messages.end()){
+            m_current_iterator(m_messages.begin()){
 
         }
-        
+        MidiPlayer::MidiPlayer(const MidiPlayer&other):
+            m_messages(other.m_messages),
+            m_state(other.m_state),
+            m_speed(other.m_speed),
+            m_handle(nullptr),
+            m_current_time(other.m_current_time),
+            m_current_iterator((other.m_current_iterator-other.m_messages.begin())+m_messages.begin()){}
+        MidiPlayer::MidiPlayer(MidiPlayer&&other):
+            m_messages(std::move(other.m_messages)),
+            m_state(State::beingstarting),
+            m_speed(other.m_speed),
+            m_handle(nullptr),
+            m_current_time(other.m_current_time),
+            m_current_iterator((other.m_current_iterator-other.m_messages.begin())+m_messages.begin()){}
         MidiPlayer::~MidiPlayer(void){
             if(m_handle!=nullptr){
                 midiOutReset(m_handle);
                 midiOutClose(m_handle);
                 m_handle=nullptr;
             }
-            join();
         }
     
         void MidiPlayer::start_normal(void){
@@ -528,6 +538,35 @@ namespace GoldType{
         double MidiPlayer::get_speed(void){
             std::lock_guard<std::mutex> lock(m_mutex);
             return m_speed;
+        }
+
+        MidiPlayer& MidiPlayer::operator=(const MidiPlayer&other){
+            if(!m_messages.size()){
+                size_t idx=other.m_current_iterator-other.m_messages.begin();
+                m_messages=other.m_messages;
+                m_current_iterator=idx+m_messages.begin();
+                if(m_current_iterator!=m_messages.end()){
+                    m_current_time=m_current_iterator->time;
+                }
+                m_handle=nullptr;
+                m_speed=other.m_speed;
+                m_state=other.m_state;
+            }
+            return *this;
+        }
+        MidiPlayer& MidiPlayer::operator=(MidiPlayer&&other){
+            if(!m_messages.size()){
+                size_t idx=other.m_current_iterator-other.m_messages.begin();
+                m_messages=std::move(other.m_messages);
+                m_current_iterator=idx+m_messages.begin();
+                if(m_current_iterator!=m_messages.end()){
+                    m_current_time=m_current_iterator->time;
+                }
+                m_handle=nullptr;
+                m_speed=other.m_speed;
+                m_state=other.m_state;
+            }
+            return *this;
         }
     }
 }

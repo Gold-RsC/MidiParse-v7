@@ -1,8 +1,8 @@
 /********************************************************************************************************
  * File Name    : MidiPrinter.hpp
  * Author       : Csrua / Gold_RsC
- * github       : https://github.com/Gold-RsC
- * bilibili     : https://space.bilibili.com/361846321
+ * github       : Gold-RsC(https://github.com/Gold-RsC)
+ * bilibili     : Csrua(https://space.bilibili.com/361846321)
  * QQ           : 310106329
  * Email        : 310106329@qq.com
  * Create Date  : 2020/07/26
@@ -13,13 +13,12 @@
 #define MIDIPRINTER_HPP
 
 #include"MidiParser.hpp"
-#include"NotePair.hpp"
 
 namespace GoldType{
     namespace MidiParse{
         enum MidiPrintFormat:uint8_t{
             table,
-            json
+            json,
         };
         enum MidiPrintJsonFormat:uint8_t{
             jsonFormat_minimal=0x01,
