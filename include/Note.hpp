@@ -1,11 +1,10 @@
 /********************************************************************************************************
- * File Name    : MoreMidiEvent.hpp
+ * File Name    : Note.hpp
  * Author       : Csrua / Gold_RsC
  * github       : Gold-RsC(https://github.com/Gold-RsC)
  * bilibili     : Csrua(https://space.bilibili.com/361846321)
- * QQ           : 310106329
  * Email        : 310106329@qq.com
- * Create Date  : 2020/07/26
+ * Create Date  : 2020/04/26
  * Update Date  : 2025/12/01
  * Details      : README.md 
  ********************************************************************************************************/
