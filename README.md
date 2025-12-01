@@ -1,6 +1,8 @@
 ## 项目信息
 
-- 项目名称 : MidiParse
+- 项目名称 : MidiParse 库
+
+- 项目简介 : 本项目提供Midi解析相关的头文件和相关源文件，包含Midi文件读取、解析、播放、输出几个模块。原用于进行Minecraft红石音乐的制作。后因项目规模扩大，形成独立项目并开源。
 
 - 版本号     : 7.0.0
 
@@ -289,15 +291,13 @@ classDiagram
 
 ## 细节文档
 
-| 模块   | 相关头文件       | 相关细节文档                                                |
-| ---- | ----------- | ----------------------------------------------------- |
+| 模块   | 相关头文件       | 相关细节文档                    |
+| ---- | ----------- | ------------------------- |
 | 错误处理 | MidiError   | [debug.md](docs/debug.md) |
-| 文件读取 | MidiFile    | [file.md](docs/file.md)                               |
-| 信息解析 | MidiParser  | [parse.md](docs/parse.md)                             |
-| 音乐播放 | MidiPlayer  | [play.md](docs/play.md)                               |
-| 信息打印 | MidiPrinter | [print.md](docs/print.md)                             |
-
-
+| 文件读取 | MidiFile    | [file.md](docs/file.md)   |
+| 信息解析 | MidiParser  | [parse.md](docs/parse.md) |
+| 音乐播放 | MidiPlayer  | [play.md](docs/play.md)   |
+| 信息打印 | MidiPrinter | [print.md](docs/print.md) |
 
 
 
