@@ -26,6 +26,8 @@ namespace GoldType{
                 ~NotePair(void)=default;
             public:
                 std::pair<Note,Note> devide(void)const;
+            public:
+                MidiErrorType get_error(MidiError&_midiError)const final;
         };
         bool operator==(const NotePair&a,const NotePair&b);
         bool operator!=(const NotePair&a,const NotePair&b);

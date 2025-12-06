@@ -30,6 +30,9 @@ namespace GoldType{
             }
             return timeNode;
         }
+        MidiErrorType Tempo::get_error(MidiError&_midiError)const{
+            return MidiErrorType::no_error;
+        }
         bool operator==(const Tempo&a,const Tempo&b){
             return a.timeMode==b.timeMode&&a.time==b.time&&a.track==b.track&&a.mispqn==b.mispqn;
         }

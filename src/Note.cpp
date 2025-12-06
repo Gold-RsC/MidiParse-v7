@@ -6,6 +6,9 @@ namespace GoldType{
         bool Note::is_empty(void)const {
             return !(time)&&!(channel)&&!(track)&&!(pitch)&&!(velocity)&&(!instrument);
         }
+        MidiErrorType Note::get_error(MidiError&_midiError)const{
+            return MidiErrorType::no_error;
+        }
         bool operator==(const Note&a,const Note&b){
             return a.time==b.time&&
             a.timeMode==b.timeMode&&

@@ -31,6 +31,8 @@ namespace GoldType{
                 const uint64_t&tick(void)const;
                 uint64_t&microsecond(void);
                 const uint64_t&microsecond(void)const;
+            public:
+                MidiErrorType get_error(MidiError&_midiError)const final;
         };
         bool operator==(const Tempo&a,const Tempo&b);
         bool operator!=(const Tempo&a,const Tempo&b);

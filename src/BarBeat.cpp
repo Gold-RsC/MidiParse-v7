@@ -3,10 +3,13 @@ namespace GoldType{
     namespace MidiParse{
         BarBeat::BarBeat(uint64_t _time,MidiTimeMode _timeMode,uint8_t _track,double _barNode,double _beatNode,uint8_t _numerator,uint8_t _denominator):
             BasicMidiEvent_Meta(_time,_timeMode,_track),barNode(_barNode),beatNode(_beatNode),numerator(_numerator),denominator(_denominator){}
+        MidiErrorType BarBeat::get_error(MidiError&_midiError)const{
+            return MidiErrorType::no_error;
+        }
         bool operator==(const BarBeat&a,const BarBeat&b){
             return a.time==b.time&&
             a.timeMode==b.timeMode&&
-            a.track==b.track&&a.barNode==b.barNode&&a.barNode==b.barNode;
+            a.track==b.track&&a.barNode==b.barNode&&a.beatNode==b.beatNode;
         }
         bool operator!=(const BarBeat&a,const BarBeat&b){
             return !(a==b);

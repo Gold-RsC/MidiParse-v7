@@ -3,6 +3,9 @@ namespace GoldType{
     namespace MidiParse{
         TimeSignature::TimeSignature(uint64_t _time,MidiTimeMode _timeMode,uint8_t _track,uint8_t _numerator,uint8_t _denominator,uint8_t _tickPerMidiclock,uint8_t _num32ndNotePer24Midiclock):
             BasicMidiEvent_Meta(_time,_timeMode,_track),numerator(_numerator),denominator(_denominator),tickPerMidiclock(_tickPerMidiclock),num32ndNotePer24Midiclock(_num32ndNotePer24Midiclock){}
+        MidiErrorType TimeSignature::get_error(MidiError&_midiError)const{
+            return MidiErrorType::no_error;
+        }
         bool operator==(const TimeSignature&a,const TimeSignature&b){
             return a.time==b.time&&
             a.timeMode==b.timeMode&&

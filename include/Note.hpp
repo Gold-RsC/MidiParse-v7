@@ -27,6 +27,7 @@ namespace GoldType{
                 ~Note(void)=default;
 
                 bool is_empty(void)const;
+                MidiErrorType get_error(MidiError&_midiError)const override;
         };
         bool operator==(const Note&a,const Note&b);
         bool operator!=(const Note&a,const Note&b);

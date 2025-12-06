@@ -39,6 +39,9 @@ namespace GoldType{
             return std::pair<Note,Note>(Note(time,timeMode,track,channel,pitch,velocity,instrument,bar,beat),
                 Note(time+duration,timeMode,track,channel,pitch,0,instrument,bar+bar_diff,beat+beat_diff));
         }
+        MidiErrorType NotePair::get_error(MidiError&_midiError)const{
+            return MidiErrorType::no_error;
+        }
         bool operator==(const NotePair&a,const NotePair&b){
             return a.time==b.time&&
             a.duration==b.duration&&

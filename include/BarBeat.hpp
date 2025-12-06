@@ -24,6 +24,8 @@ namespace GoldType{
                 BarBeat(uint64_t _time=0,MidiTimeMode _timeMode=MidiTimeMode::tick,uint8_t _track=0,double _barNode=0,double _beatNode=0,uint8_t _numerator=4,uint8_t _denominator=4);
                 BarBeat(const BarBeat&)=default;
                 ~BarBeat(void)=default;
+            public:
+                MidiErrorType get_error(MidiError&_midiError)const final;
         };
         bool operator==(const BarBeat&a,const BarBeat&b);
         bool operator!=(const BarBeat&a,const BarBeat&b);

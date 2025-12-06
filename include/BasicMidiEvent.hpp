@@ -36,7 +36,7 @@ namespace GoldType{
                 virtual uint64_t&microsecond(void);
                 virtual const uint64_t&microsecond(void)const;
 
-                MidiErrorType get_error(MidiError&_midiError=midiError)const override;
+                virtual MidiErrorType get_error(MidiError&_midiError)const=0;
         };
         
         class BasicMidiEvent_Non:public BasicMidiEvent{
@@ -47,7 +47,7 @@ namespace GoldType{
                 BasicMidiEvent_Non(const BasicMidiEvent_Non&)=default;
                 virtual ~BasicMidiEvent_Non(void)=default;
             public:
-                MidiErrorType get_error(MidiError&_midiError)const override;
+                virtual MidiErrorType get_error(MidiError&_midiError)const=0;
         };
         class BasicMidiEvent_Meta:public BasicMidiEvent{
             public:
@@ -55,11 +55,17 @@ namespace GoldType{
                 BasicMidiEvent_Meta(const BasicMidiEvent_Meta&)=default;
                 virtual ~BasicMidiEvent_Meta(void)=default;
             public:
-                MidiErrorType get_error(MidiError&_midiError=midiError)const override;
+                virtual MidiErrorType get_error(MidiError&_midiError)const=0;
         };
 
+
         template<typename _MidiEvent>
-        class MidiEventList:public std::vector<_MidiEvent>,public MidiObject{
+        class BasicMidiEventContainer:public MidiObject{
+            public:
+                virtual MidiErrorType get_error(MidiError&_midiError=midiError)const=0;
+        };
+        template<typename _MidiEvent>
+        class MidiEventList:public std::vector<_MidiEvent>,public BasicMidiEventContainer<_MidiEvent>{
             public:
                 using std::vector<_MidiEvent>::vector;
             public:
@@ -105,7 +111,7 @@ namespace GoldType{
                 }
         };
         template<typename _MidiEvent>
-        class MidiEventMap:public std::vector<MidiEventList<_MidiEvent>>,public MidiObject{
+        class MidiEventMap:public std::vector<MidiEventList<_MidiEvent>>,public BasicMidiEventContainer<_MidiEvent>{
             public:
                 using std::vector<MidiEventList<_MidiEvent>>::vector;
             public:
