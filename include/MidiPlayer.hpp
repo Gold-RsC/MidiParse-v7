@@ -5,7 +5,7 @@
  * bilibili     : Csrua(https://space.bilibili.com/361846321)
  * Email        : 310106329@qq.com
  * Create Date  : 2020/04/26
- * Update Date  : 2025/12/01
+ * Update Date  : 2026/02/25
  * Details      : README.md 
  ********************************************************************************************************/
 #ifndef MIDIPLAYER_HPP
@@ -18,6 +18,8 @@
 #include"MidiParser.hpp"
 namespace GoldType{
     namespace MidiParse{
+        #warning "MidiPlayer.hpp is designed for windows system only"
+        #warning "同一时间只允许存在一个MidiPlayer对象"
         class MidiShortMessage{
             public:
                 uint64_t time;
