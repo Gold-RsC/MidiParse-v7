@@ -1,5 +1,10 @@
 # 音乐播放
 
+## 重要说明
+- `MidiPlayer`头文件使用`winapi`的`winmm`库进行音乐播放，所以**不兼容非`windows`系统**
+- 由于`winapi`的限制，同一时间只允许存在一个句柄播放音乐，也就是说同一时间**只允许存在一个`MidiPlayer`对象**，用户无法通过创建多个`MidiPlayer`对象实现多音乐的同时播放
+- `MidiPlayer`头文件的设计初衷是为了方便用户调试时使用，所以它的设计并不追求完美，甚至有些地方是非常粗糙的，但它绝对能满足大多数用户的需求，并且使用起来非常简单，当然如果你有更好的设计方案，也欢迎提交pull request
+
 ## 头文件
 
 MidiPlayer.hpp
@@ -20,7 +25,7 @@ class MidiShortMessage{
 };
 ```
 
-一般情况ShortMessage的细节是无需用户关心的，除非用户真的有使用short message的需求
+一般情况`ShortMessage`的细节是无需用户关心的，除非用户真的有使用short message的需求
 
 
 
@@ -40,7 +45,7 @@ class MidiShortMessageList:public std::vector<MidiShortMessage>{
 };
 ```
 
-一般情况ShortMessageList的细节是无需用户关心的，除非用户真的有使用short message的需求
+一般情况`ShortMessageList`的细节是无需用户关心的，除非用户真的有使用short message的需求
 
 
 
@@ -81,7 +86,7 @@ class MidiPlayer{
 };
 ```
 
-这一部分是MidiPlayer头文件的重要内容
+这一部分是`MidiPlayer`头文件的重要内容
 
 
 
@@ -93,7 +98,7 @@ class MidiPlayer{
 MidiPlayer(void)
 ```
 
-创建一个空的MdiPlayer，在操作前**必须**用拷贝赋值运算/移动赋值运算为MidiPlayer配置内容
+创建一个空的`MidiPlayer`，在操作前**必须**用拷贝赋值运算/移动赋值运算为`MidiPlayer`配置内容
 
 ```c++
 //examples\play\game.cpp
@@ -126,7 +131,7 @@ int main(){
 }
 ```
 
-其中`player=MidiPlayer("../../../midi/nggyu.mid");`确保了player在执行操作类函数前不为空。
+其中`player=MidiPlayer("../../../midi/nggyu.mid");`确保了`player`在执行操作类函数前不为空。
 
 
 
@@ -159,7 +164,7 @@ MidiPlayer(_Object&&_object)
 
 ##### MidiPlayer(MidiPlayer&&)
 
-以上两个函数功能基本相同，均只能复制MidiPlayer中的ShortMessageList、音乐播放时长、迭代器，而无法复制线程
+以上两个函数功能基本相同，均只能复制`MidiPlayer`中的`ShortMessageList`、音乐播放时长、迭代器，而无法复制线程
 
 
 
@@ -215,7 +220,7 @@ MidiPlayer("sound.mid").start_normal();
 
 #### 控制类函数
 
-此处的“控制”意为让MidiPlayer进行暂停、继续、停止的操作
+此处的“控制”意为让`MidiPlayer`进行暂停、继续、停止的操作
 
 ##### void play(void)
 
@@ -253,7 +258,7 @@ MidiPlayer("sound.mid").start_normal();
 
 - `double get_speed(void)`
 
-需要注意的是，set_time和set_speed的参数须在有效范围内才有效
+需要注意的是，`set_time`和`set_speed`的参数须在有效范围内才有效
 
 
 
