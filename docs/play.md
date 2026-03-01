@@ -1,4 +1,4 @@
-# 音乐播放
+# Midi播放
 
 ## 重要说明
 - `MidiPlayer`头文件使用`winapi`的`winmm`库进行音乐播放，所以**不兼容非`windows`系统**

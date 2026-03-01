@@ -38,7 +38,7 @@ void print_json_minimal(const BarBeatMap&bbMap){
 }
 void print_json_pretty(const TextMap&textMap){
     MidiPrinter printer("../../../output/text.json");
-    printer<<MidiPrintFormat::json<<MidiPrintJsonFormat(jsonFormat_pretty|jsonFormat_file)<<textMap;
+    printer<<MidiPrintFormat::json<<MidiPrintJsonFormat(jsonFormat_pretty|jsonFormat_object)<<textMap;
 }
 int main(){
     MidiParser parser("../../../midi/faded.mid",MidiTimeMode::microsecond);
