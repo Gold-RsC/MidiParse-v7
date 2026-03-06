@@ -2,28 +2,29 @@
 
 ## 项目基本信息
 - **项目名称**: MidiParse
-- **版本**: 7.0.0
-- **开发时间**: 2020/04/26 - 2026/03/06 (5年10月10天)
-- **总开发天数**: 2140 天
+- **版本**: v7
+- **开发时间**: 2020/04/26 - 2026/03/06
 
 ## 项目结构
 ```
-└── ./
-    ├── bin/
-    │   ├── examples/
-    │   │   ├── debug/
-    │   │   │   └── debug.exe
-    │   │   ├── parse/
-    │   │   │   └── get_percussion_note_pair.exe
-    │   │   ├── play/
-    │   │   │   ├── game.exe
-    │   │   │   ├── play.exe
-    │   │   │   ├── play_error.exe
-    │   │   │   └── sound_pool.exe
-    │   │   └── print/
-    │   │       └── print.exe
-    │   └── test/
-    │       └── play_music_list.exe
+    ├── include/
+    │   ├── BarBeat.hpp
+    │   ├── BasicMidiEvent.hpp
+    │   ├── MidiError.hpp
+    │   ├── MidiEvent.hpp
+    │   ├── MidiFile.hpp
+    │   ├── MidiHead.hpp
+    │   ├── MidiParser.hpp
+    │   ├── MidiPlayer.hpp
+    │   ├── MidiPrinter.hpp
+    │   ├── MidiTrack.hpp
+    │   ├── MoreMidiEvent.hpp
+    │   ├── Note.hpp
+    │   ├── NotePair.hpp
+    │   ├── Program.hpp
+    │   ├── Tempo.hpp
+    │   ├── Text.hpp
+    │   └── TimeSignature.hpp
     ├── docs/
     │   ├── debug.md
     │   ├── file.md
@@ -43,24 +44,26 @@
     │   │   └── sound_pool.cpp
     │   └── print/
     │       └── print.cpp
-    ├── include/
-    │   ├── BarBeat.hpp
-    │   ├── BasicMidiEvent.hpp
-    │   ├── MidiError.hpp
-    │   ├── MidiEvent.hpp
-    │   ├── MidiFile.hpp
-    │   ├── MidiHead.hpp
-    │   ├── MidiParser.hpp
-    │   ├── MidiPlayer.hpp
-    │   ├── MidiPrinter.hpp
-    │   ├── MidiTrack.hpp
-    │   ├── MoreMidiEvent.hpp
-    │   ├── Note.hpp
-    │   ├── NotePair.hpp
-    │   ├── Program.hpp
-    │   ├── Tempo.hpp
-    │   ├── Text.hpp
-    │   └── TimeSignature.hpp
+    ├── bin/
+    │   ├── examples/
+    │   │   ├── debug/
+    │   │   │   └── debug.exe
+    │   │   ├── parse/
+    │   │   │   └── get_percussion_note_pair.exe
+    │   │   ├── play/
+    │   │   │   ├── game.exe
+    │   │   │   ├── play.exe
+    │   │   │   ├── play_error.exe
+    │   │   │   └── sound_pool.exe
+    │   │   └── print/
+    │   │       └── print.exe
+    │   └── test/
+    │       └── play_music_list.exe
+    ├── output/
+    │   ├── bar_beat.json
+    │   ├── get_percussion_note_pair.txt
+    │   ├── note_pair.txt
+    │   └── text.json
     ├── midi/
     │   ├── faded.mid
     │   ├── nggyu.mid
@@ -68,11 +71,6 @@
     │   ├── renai_circulation.mid
     │   ├── see_you_again.mid
     │   └── spring_festival_overture.mid
-    ├── output/
-    │   ├── bar_beat.json
-    │   ├── get_percussion_note_pair.txt
-    │   ├── note_pair.txt
-    │   └── text.json
     ├── test/
     │   └── play_music_list.cpp
     ├── LICENSE
