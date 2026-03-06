@@ -284,5 +284,23 @@ MidiEventMap<_MidiEvent> filter_event(const MidiEventMap<_MidiEvent>& _map, _Fun
     }
     return ret;
 }
+template <typename _MidiEvent, typename _Fun, typename... _Args>
+size_t count_event(const MidiEventList<_MidiEvent>& _list, _Fun&& _fun, _Args&&... _args) {
+    size_t ret = 0;
+    for (size_t i = 0; i < _list.size(); ++i) {
+        if (_fun(_list[i], std::forward(_args)...)) {
+            ++ret;
+        }
+    }
+    return ret;
+}
+template <typename _MidiEvent, typename _Fun, typename... _Args>
+size_t count_event(const MidiEventMap<_MidiEvent>& _map, _Fun&& _fun, _Args&&... _args) {
+    size_t ret = 0;
+    for (uint8_t trackIdx = 0; trackIdx < _map.size(); ++trackIdx) {
+        ret += count_event(_map[trackIdx], std::forward(_fun), std::forward(_args)...);
+    }
+    return ret;
+}
 }  // namespace GoldType::MidiParse
 #endif
