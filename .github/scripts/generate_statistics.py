@@ -3,7 +3,10 @@ import json
 import datetime
 from pathlib import Path
 
- # 定义目录优先级顺序
+def get_project_structure(root_dir):
+    """生成类似tree命令的B+树结构"""
+    structure = []
+    # 定义目录优先级顺序
     priority_dirs = ['include', 'docs', 'examples', 'bin', 'output', 'midi', 'test']
     
     def build_tree(path, prefix="", is_last=True, is_root=False):
