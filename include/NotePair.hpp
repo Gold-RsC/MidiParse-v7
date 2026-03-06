@@ -10,6 +10,8 @@
 #ifndef NOTEPAIR_HPP
 #define NOTEPAIR_HPP
 #include "Note.hpp"
+#include <map>
+#include <queue>
 namespace GoldType::MidiParse {
 
 bool is_notePair(const Note& _begin, const Note& _end) {

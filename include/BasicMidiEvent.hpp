@@ -26,7 +26,7 @@ using MidiChannelNum = uint8_t;
 
 class BasicMidiEvent : public MidiObject {
 public:
-    static uint64_t __time_error_v;
+    static MidiTime __time_error_v;
     MidiTime time;
     MidiTimeMode timeMode : 1;
     MidiTrackNum track : 7;
@@ -68,7 +68,7 @@ public:
 
     virtual MidiErrorType get_error(MidiError& _midiError) const = 0;
 };
-
+MidiTime BasicMidiEvent::__time_error_v = MidiTime(-1);
 class BasicMidiEvent_Non : public BasicMidiEvent {
 public:
     uint8_t channel : 4;
