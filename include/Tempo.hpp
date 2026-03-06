@@ -22,15 +22,15 @@ namespace GoldType{
                 uint32_t mispqn;
                 uint64_t timeNode;
             public:
-                Tempo(uint64_t _time=0,MidiTimeMode _timeMode=MidiTimeMode::tick,uint8_t _track=0,uint32_t _mispqn=0x07A120,uint64_t _timeNode=0);
+                Tempo(MidiTime _time=0,MidiTimeMode _timeMode=MidiTimeMode::tick,MidiTrackNum _track=0,uint32_t _mispqn=0x07A120,uint64_t _timeNode=0);
                 Tempo(const Tempo&)=default;
                 ~Tempo(void)=default;
             public:
                 double bpm(void)const;
-                uint64_t&tick(void);
-                const uint64_t&tick(void)const;
-                uint64_t&microsecond(void);
-                const uint64_t&microsecond(void)const;
+                MidiTime&tick(void);
+                const MidiTime&tick(void)const;
+                MidiTime&microsecond(void);
+                const MidiTime&microsecond(void)const;
             public:
                 MidiErrorType get_error(MidiError&_midiError)const final;
         };

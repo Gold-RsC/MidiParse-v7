@@ -7,7 +7,7 @@
  * 5. 按下 Ctrl+Left 时间 -15s
  * 6. 按下 Ctrl+Right 时间 +15s
  ******************************/
-
+#define MIDIPLAYER_NO_WARNING
 #include"MidiPlayer.hpp"
 #include<iostream>
 using namespace GoldType::MidiParse;

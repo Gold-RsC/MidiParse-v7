@@ -1,7 +1,7 @@
 #include"Note.hpp"
 namespace GoldType{
     namespace MidiParse{
-        Note::Note(uint64_t _time,MidiTimeMode _timeMode,uint8_t _track,uint8_t _channel,uint8_t _pitch,uint8_t _velocity,uint8_t _instrument,double _bar,double _beat):
+        Note::Note(MidiTime _time,MidiTimeMode _timeMode,MidiTrackNum _track,MidiChannelNum _channel,uint8_t _pitch,uint8_t _velocity,uint8_t _instrument,double _bar,double _beat):
             BasicMidiEvent_Non(_time,_timeMode,_track,_channel),pitch(_pitch),velocity(_velocity),instrument(_instrument),bar(_bar),beat(_beat){}
         bool Note::is_empty(void)const {
             return !(time)&&!(channel)&&!(track)&&!(pitch)&&!(velocity)&&(!instrument);

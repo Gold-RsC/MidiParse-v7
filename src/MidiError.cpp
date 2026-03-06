@@ -3,17 +3,17 @@ namespace GoldType{
     namespace MidiParse{
         MidiError::MidiError(void):
             m_file(stderr){}
-        MidiError::MidiError(const char*_name):
-            m_file(fopen(_name,"w")){}
+        MidiError::MidiError(const std::string&_name):
+            m_file(fopen(_name.c_str(),"w")){}
         MidiError::~MidiError(void){
             if(m_file!=stderr){
                 fclose(m_file);
             }
             m_file=nullptr;
         }
-        void MidiError::replace(const char*_name){
+        void MidiError::replace(const std::string&_name){
             this->~MidiError();
-            m_file=fopen(_name,"w");
+            m_file=fopen(_name.c_str(),"w");
         }
         void MidiError::write_type(MidiErrorType _mErrType){
             if(_mErrType==MidiErrorType::no_error){
@@ -156,15 +156,15 @@ namespace GoldType{
                 }
             }
         }
-        void MidiError::write_text(const char*_text){
+        void MidiError::write_text(const std::string&_text){
             fprintf(m_file,"MidiError:\n\t");
-            fprintf(m_file,_text);
+            fprintf(m_file,_text.c_str());
         }
         MidiError&MidiError::operator<<(MidiErrorType _mErrType){
             write_type(_mErrType);
             return *this;
         }
-        MidiError&MidiError::operator<<(const char*_text){
+        MidiError&MidiError::operator<<(const std::string&_text){
             write_text(_text);
             return *this;
         }

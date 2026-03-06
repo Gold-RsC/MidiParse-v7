@@ -20,7 +20,7 @@ namespace GoldType{
                 uint8_t type;
                 std::string text;
             public:
-                Text(uint64_t _time=0,MidiTimeMode _timeMode=MidiTimeMode::tick,uint8_t _track=0,uint8_t _type=0,const std::string&_text="");
+                Text(MidiTime _time=0,MidiTimeMode _timeMode=MidiTimeMode::tick,MidiTrackNum _track=0,uint8_t _type=0,const std::string&_text="");
                 Text(const Text&)=default;
                 ~Text(void)=default;
             public:

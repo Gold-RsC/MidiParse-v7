@@ -12,6 +12,7 @@
 #define MIDIERROR_HPP
 #include<stdio.h>
 #include<stdint.h>
+#include<string>
 // #ifndef MIDI_DEBUG
 // #define MIDI_DEBUG
 // #endif
@@ -61,16 +62,16 @@ namespace GoldType{
                 FILE*m_file;
             private:
                 void write_type(MidiErrorType _mErrType);
-                void write_text(const char*_text);
+                void write_text(const std::string&_text);
             public:
                 MidiError(void);
-                MidiError(const char*_name);
+                MidiError(const std::string&_name);
                 ~MidiError(void);
 
-                void replace(const char*_name);
+                void replace(const std::string&_name);
 
                 MidiError&operator<<(MidiErrorType _mErrType);
-                MidiError&operator<<(const char*_text);
+                MidiError&operator<<(const std::string&_text);
 
                 MidiErrorType operator()(MidiErrorType _mErrType);
                 template<typename T>

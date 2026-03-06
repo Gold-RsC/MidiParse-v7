@@ -1,30 +1,30 @@
 #include"Tempo.hpp"
 namespace GoldType{
     namespace MidiParse{
-        Tempo::Tempo(uint64_t _time,MidiTimeMode _timeMode,uint8_t _track,uint32_t _mispqn,uint64_t _timeNode):
+        Tempo::Tempo(MidiTime _time,MidiTimeMode _timeMode,MidiTrackNum _track,uint32_t _mispqn,uint64_t _timeNode):
             BasicMidiEvent_Meta(_time,_timeMode,_track),mispqn(_mispqn),timeNode(_timeNode){}
         double Tempo::bpm(void)const{
             return 6e7/mispqn;
         }
-        uint64_t&Tempo::tick(void){
+        MidiTime&Tempo::tick(void){
             if(timeMode==MidiTimeMode::tick){
                 return time;
             }
             return timeNode;
         }
-        const uint64_t&Tempo::tick(void)const {
+        const MidiTime&Tempo::tick(void)const {
             if(timeMode==MidiTimeMode::tick){
                 return time;
             }
             return timeNode;
         }
-        uint64_t&Tempo::microsecond(void){
+        MidiTime&Tempo::microsecond(void){
             if(timeMode==MidiTimeMode::microsecond){
                 return time;
             }
             return timeNode;
         }
-        const uint64_t&Tempo::microsecond(void)const {
+        const MidiTime&Tempo::microsecond(void)const {
             if(timeMode==MidiTimeMode::microsecond){
                 return time;
             }

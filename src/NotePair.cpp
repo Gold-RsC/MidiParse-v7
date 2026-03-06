@@ -12,7 +12,7 @@ namespace GoldType{
                    _begin.instrument==_end.instrument&&
                    _begin.velocity&&!(_end.velocity);
         }
-        NotePair::NotePair(uint64_t _time,uint64_t _duration,MidiTimeMode _timeMode,uint8_t _track,uint8_t _channel,uint8_t _pitch,uint8_t _velocity,uint8_t _instrument,double _bar,double _bar_diff,double _beat,double _beat_diff):
+        NotePair::NotePair(MidiTime _time,MidiTime _duration,MidiTimeMode _timeMode,MidiTrackNum _track,MidiChannelNum _channel,uint8_t _pitch,uint8_t _velocity,uint8_t _instrument,double _bar,double _bar_diff,double _beat,double _beat_diff):
             Note(_time,_timeMode,_track,_channel,_pitch,_velocity,_instrument,_bar,_beat),duration(_duration),bar_diff(_bar_diff),beat_diff(_beat_diff){}
         NotePair::NotePair(const Note&_begin,const Note&_end){
             if(is_notePair(_begin,_end)){

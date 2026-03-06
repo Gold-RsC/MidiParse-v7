@@ -19,22 +19,27 @@ namespace GoldType{
             tick=0,
             microsecond=1
         };
+
+        using MidiTime=uint64_t;
         
+        using MidiTrackNum=uint8_t;
+        using MidiChannelNum=uint8_t;
+
         class BasicMidiEvent:public MidiObject{
             public:
                 static uint64_t __time_error_v;
-                uint64_t time;
+                MidiTime time;
                 MidiTimeMode timeMode:1;
-                uint8_t track:7;
+                MidiTrackNum track:7;
             public:
-                BasicMidiEvent(uint64_t _time=0,MidiTimeMode _timeMode=MidiTimeMode::tick,uint8_t _track=0);
+                BasicMidiEvent(MidiTime _time=0,MidiTimeMode _timeMode=MidiTimeMode::tick,MidiTrackNum _track=0);
                 BasicMidiEvent(const BasicMidiEvent&)=default;
                 virtual ~BasicMidiEvent(void)=default;
             public:
-                virtual uint64_t&tick(void);
-                virtual const uint64_t&tick(void)const;
-                virtual uint64_t&microsecond(void);
-                virtual const uint64_t&microsecond(void)const;
+                virtual MidiTime&tick(void);
+                virtual const MidiTime&tick(void)const;
+                virtual MidiTime&microsecond(void);
+                virtual const MidiTime&microsecond(void)const;
 
                 virtual MidiErrorType get_error(MidiError&_midiError)const=0;
         };
@@ -43,7 +48,7 @@ namespace GoldType{
             public:
                 uint8_t channel:4;
             public:
-                BasicMidiEvent_Non(uint64_t _time=0,MidiTimeMode _timeMode=MidiTimeMode::tick,uint8_t _track=0,uint8_t _channel=0);
+                BasicMidiEvent_Non(MidiTime _time=0,MidiTimeMode _timeMode=MidiTimeMode::tick,MidiTrackNum _track=0,MidiChannelNum _channel=0);
                 BasicMidiEvent_Non(const BasicMidiEvent_Non&)=default;
                 virtual ~BasicMidiEvent_Non(void)=default;
             public:
@@ -51,7 +56,7 @@ namespace GoldType{
         };
         class BasicMidiEvent_Meta:public BasicMidiEvent{
             public:
-                BasicMidiEvent_Meta(uint64_t _time=0,MidiTimeMode _timeMode=MidiTimeMode::tick,uint8_t _track=0);
+                BasicMidiEvent_Meta(MidiTime _time=0,MidiTimeMode _timeMode=MidiTimeMode::tick,MidiTrackNum _track=0);
                 BasicMidiEvent_Meta(const BasicMidiEvent_Meta&)=default;
                 virtual ~BasicMidiEvent_Meta(void)=default;
             public:
@@ -187,15 +192,15 @@ namespace GoldType{
         }
         
         template<typename _MidiEvent>
-        uint8_t get_ntracks(const MidiEventList<_MidiEvent>&_list){
+        MidiTrackNum get_ntracks(const MidiEventList<_MidiEvent>&_list){
             uint8_t _num=0;
             for(typename MidiEventList<_MidiEvent>::iterator it=_list.begin();it!=_list.end();++it){
-                _num=max(_num,it->track);
+                _num=std::max(_num,it->track);
             }
             return _num+1;
         }
         template<typename _MidiEvent>
-        uint8_t get_ntracks(const MidiEventMap<_MidiEvent>&_map){
+        MidiTrackNum get_ntracks(const MidiEventMap<_MidiEvent>&_map){
             return _map.size();
         }
         

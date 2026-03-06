@@ -1,7 +1,7 @@
 #include"Text.hpp"
 namespace GoldType{
     namespace MidiParse{
-        Text::Text(uint64_t _time,MidiTimeMode _timeMode,uint8_t _track,uint8_t _type,const std::string&_text):
+        Text::Text(MidiTime _time,MidiTimeMode _timeMode,MidiTrackNum _track,uint8_t _type,const std::string&_text):
             BasicMidiEvent_Meta(_time,_timeMode,_track),type(_type),text(_text){}
         MidiErrorType Text::get_error(MidiError&_midiError)const{
             return MidiErrorType::no_error;

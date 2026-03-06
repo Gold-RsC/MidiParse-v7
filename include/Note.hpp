@@ -22,7 +22,7 @@ namespace GoldType{
                 double bar;
                 double beat;
             public:
-                Note(uint64_t _time=0,MidiTimeMode _timeMode=MidiTimeMode::tick,uint8_t _track=0,uint8_t _channel=0,uint8_t _pitch=0,uint8_t _velocity=0,uint8_t _instrument=0,double _bar=0,double _beat=0);
+                Note(MidiTime _time=0,MidiTimeMode _timeMode=MidiTimeMode::tick,MidiTrackNum _track=0,MidiChannelNum _channel=0,uint8_t _pitch=0,uint8_t _velocity=0,uint8_t _instrument=0,double _bar=0,double _beat=0);
                 Note(const Note&)=default;
                 ~Note(void)=default;
 

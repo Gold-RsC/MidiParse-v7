@@ -1,7 +1,7 @@
 #include"Program.hpp"
 namespace GoldType{
     namespace MidiParse{
-        Program::Program(uint64_t _time,MidiTimeMode _timeMode,uint8_t _track,uint8_t _channel,uint8_t _instrument):
+        Program::Program(MidiTime _time,MidiTimeMode _timeMode,MidiTrackNum _track,MidiChannelNum _channel,uint8_t _instrument):
             BasicMidiEvent_Non(_time,_timeMode,_track,_channel),instrument(_instrument){}
         MidiErrorType Program::get_error(MidiError&_midiError)const{
             return MidiErrorType::no_error;

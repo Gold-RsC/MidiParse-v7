@@ -38,11 +38,12 @@ namespace GoldType{
             *******************/
             meta=0xFF
         };
-        class MidiMessage:public std::vector<uint8_t>,public MidiObject{
+        using MidiByte=uint8_t;
+        class MidiMessage:public std::vector<MidiByte>,public MidiObject{
             public:
-                using std::vector<uint8_t>::vector;
+                using std::vector<MidiByte>::vector;
                 MidiEventType type(void)const;
-                uint8_t channel(void)const;
+                MidiChannelNum channel(void)const;
                 MidiErrorType get_error(MidiError&_midiError=midiError)const override final;
         };
 
@@ -56,15 +57,15 @@ namespace GoldType{
                 ~MidiEvent(void)=default;
             public:
                 MidiEventType type(void)const;
-                uint8_t channel(void)const;
+                MidiChannelNum channel(void)const;
             public:
                 bool is_normal(void)const;
                 bool is_meta(void)const;
                 bool is_sysex(void)const;
                 MidiErrorType get_error(MidiError&_midiError=midiError)const override final;
             public:
-                uint8_t&operator[](size_t idx);
-                const uint8_t&operator[](size_t idx)const;
+                MidiByte&operator[](size_t idx);
+                const MidiByte&operator[](size_t idx)const;
                 MidiEvent&operator=(const MidiEvent&another)=default;
         };
     }

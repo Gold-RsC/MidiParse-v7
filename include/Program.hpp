@@ -19,7 +19,7 @@ namespace GoldType{
             public:
                 uint8_t instrument;
             public:
-                Program(uint64_t _time=0,MidiTimeMode _timeMode=MidiTimeMode::tick,uint8_t _track=0,uint8_t _channel=0,uint8_t _instrument=0);
+                Program(MidiTime _time=0,MidiTimeMode _timeMode=MidiTimeMode::tick,MidiTrackNum _track=0,MidiChannelNum _channel=0,uint8_t _instrument=0);
                 Program(const Program&)=default;
                 ~Program(void)=default;
             public:

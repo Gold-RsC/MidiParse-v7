@@ -16,10 +16,14 @@
 #include<algorithm>
 #include<condition_variable>
 #include"MidiParser.hpp"
+
+#ifndef MIDIPLAYER_NO_WARNING
+    #warning "MidiPlayer.hpp is designed for windows system only"
+    #warning "Only one MidiPlayer object is allowed at the same time"
+#endif
+
 namespace GoldType{
     namespace MidiParse{
-        #warning "MidiPlayer.hpp is designed for windows system only"
-        #warning "同一时间只允许存在一个MidiPlayer对象"
         class MidiShortMessage{
             public:
                 uint64_t time;

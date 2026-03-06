@@ -1,3 +1,4 @@
+#define MIDIPLAYER_NO_WARNING
 #include"MidiPlayer.hpp"
 #include<iostream>
 #include<windows.h>

@@ -25,7 +25,7 @@ namespace GoldType{
                 uint8_t tickPerMidiclock;
                 uint8_t num32ndNotePer24Midiclock;
             public:
-                TimeSignature(uint64_t _time=0,MidiTimeMode _timeMode=MidiTimeMode::tick,uint8_t _track=0,uint8_t _numerator=4,uint8_t _denominator=4,uint8_t _tickPerMidiclock=24,uint8_t _num32ndNotePer24Midiclock=8);
+                TimeSignature(MidiTime _time=0,MidiTimeMode _timeMode=MidiTimeMode::tick,MidiTrackNum _track=0,uint8_t _numerator=4,uint8_t _denominator=4,uint8_t _tickPerMidiclock=24,uint8_t _num32ndNotePer24Midiclock=8);
                 TimeSignature(const TimeSignature&)=default;
                 ~TimeSignature(void)=default;
             public:
