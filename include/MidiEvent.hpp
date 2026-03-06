@@ -37,6 +37,30 @@ enum class MidiEventType : uint8_t {
     *******************/
     meta = 0xFF
 };
+enum class MidiMetaType : uint8_t {
+    // 00
+    track_order = 0x00,
+    // 0x:Text
+    track_text = 0x01,
+    song_copyright = 0x02,
+    track_name = 0x03,
+    instrument_name = 0x04,
+    lyric = 0x05,
+    marker = 0x06,
+    start_point = 0x07,
+    program_name = 0x08,
+    device_name = 0x09,
+    // 2x
+    midi_channel = 0x20,
+    midi_port = 0x21,
+    end_of_track = 0x2F,
+    // 5x
+    tempo = 0x51,
+    time_signature = 0x58,
+    key_signature = 0x59,
+    // 7F
+    specific_info = 0x7F
+};
 using MidiByte = uint8_t;
 class MidiMessage : public std::vector<MidiByte>, public MidiObject {
 public:

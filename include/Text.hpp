@@ -16,12 +16,12 @@ namespace GoldType::MidiParse {
 
 class Text : public BasicMidiEvent_Meta {
 public:
-    uint8_t type;
+    MidiMetaType type;
     std::string text;
 
 public:
-    Text(MidiTime _time = 0, MidiTimeMode _timeMode = MidiTimeMode::tick, MidiTrackNum _track = 0, uint8_t _type = 0,
-         const std::string& _text = "")
+    Text(MidiTime _time = 0, MidiTimeMode _timeMode = MidiTimeMode::tick, MidiTrackNum _track = 0,
+         MidiMetaType _type = MidiMetaType::track_text, const std::string& _text = "")
             : BasicMidiEvent_Meta(_time, _timeMode, _track),
               type(_type),
               text(_text) {

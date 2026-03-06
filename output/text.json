@@ -1,102 +1,154 @@
-"Map": {
-    "List0": {
-        "Text0": {
-            "track":"0x00",
-            "microsecond":0,
-            "type":"0x02",
-            "text":"Copyright (c) xxxx Copyright Holder"
+{
+    "Map": {
+        "List0": {
+            "Text0": {
+                "track": "0x00",
+                "microsecond": 0,
+                "type": "track_name",
+                "text": "Never Gonna Give You Up"
+            },
+            "Text1": {
+                "track": "0x00",
+                "microsecond": 0,
+                "type": "song_copyright",
+                "text": "?? © "
+            }
         },
-        "Text1": {
-            "track":"0x00",
-            "microsecond":0,
-            "type":"0x07",
-            "text":"Created by Rosegarden"
+        "List1": {
+            "Text0": {
+                "track": "0x01",
+                "microsecond": 0,
+                "type": "track_name",
+                "text": "VOCAL"
+            }
         },
-        "Text2": {
-            "track":"0x00",
-            "microsecond":0,
-            "type":"0x07",
-            "text":"http://www.rosegardenmusic.com/"
-        }
-    },
-    "List1": {
-        "Text0": {
-            "track":"0x01",
-            "microsecond":0,
-            "type":"0x03",
-            "text":"Acoustic Grand Piano"
-        }
-    },
-    "List2": {
-        "Text0": {
-            "track":"0x02",
-            "microsecond":0,
-            "type":"0x03",
-            "text":"Acoustic Grand Piano"
-        }
-    },
-    "List3": {
-        "Text0": {
-            "track":"0x03",
-            "microsecond":0,
-            "type":"0x03",
-            "text":"Lead 1 (square)"
-        }
-    },
-    "List4": {
-        "Text0": {
-            "track":"0x04",
-            "microsecond":0,
-            "type":"0x03",
-            "text":"Lead 8 (bass + lead)"
-        }
-    },
-    "List5": {
-        "Text0": {
-            "track":"0x05",
-            "microsecond":0,
-            "type":"0x03",
-            "text":"Choir Aahs"
-        }
-    },
-    "List6": {
-        "Text0": {
-            "track":"0x06",
-            "microsecond":0,
-            "type":"0x03",
-            "text":"Acoustic Grand Piano"
-        }
-    },
-    "List7": {
-        "Text0": {
-            "track":"0x07",
-            "microsecond":0,
-            "type":"0x03",
-            "text":"Acoustic Grand Piano"
-        }
-    },
-    "List8": {
-        "Text0": {
-            "track":"0x08",
-            "microsecond":0,
-            "type":"0x03",
-            "text":"Fingered Bass"
-        }
-    },
-    "List9": {
-        "Text0": {
-            "track":"0x09",
-            "microsecond":0,
-            "type":"0x03",
-            "text":"Imported MIDI"
-        }
-    },
-    "List10": {
-        "Text0": {
-            "track":"0x0A",
-            "microsecond":0,
-            "type":"0x03",
-            "text":"Synth Bass 2"
+        "List2": {
+            "Text0": {
+                "track": "0x02",
+                "microsecond": 0,
+                "type": "track_name",
+                "text": "SYNTH VOICE"
+            }
+        },
+        "List3": {
+            "Text0": {
+                "track": "0x03",
+                "microsecond": 0,
+                "type": "track_name",
+                "text": "CHOIR AHAS"
+            }
+        },
+        "List4": {
+            "Text0": {
+                "track": "0x04",
+                "microsecond": 0,
+                "type": "track_name",
+                "text": "TRUMPET"
+            }
+        },
+        "List5": {
+            "Text0": {
+                "track": "0x05",
+                "microsecond": 0,
+                "type": "track_name",
+                "text": "FX5"
+            }
+        },
+        "List6": {
+            "Text0": {
+                "track": "0x06",
+                "microsecond": 0,
+                "type": "track_name",
+                "text": "STRING 1"
+            }
+        },
+        "List7": {
+            "Text0": {
+                "track": "0x07",
+                "microsecond": 0,
+                "type": "track_name",
+                "text": "STRING 2"
+            }
+        },
+        "List8": {
+            "Text0": {
+                "track": "0x08",
+                "microsecond": 0,
+                "type": "track_name",
+                "text": "ELECTRIC PIANO"
+            }
+        },
+        "List9": {
+            "Text0": {
+                "track": "0x09",
+                "microsecond": 0,
+                "type": "track_name",
+                "text": "GUITAR 1"
+            }
+        },
+        "List10": {
+            "Text0": {
+                "track": "0x0A",
+                "microsecond": 0,
+                "type": "track_name",
+                "text": "GUITAR 2"
+            }
+        },
+        "List11": {
+            "Text0": {
+                "track": "0x0B",
+                "microsecond": 0,
+                "type": "track_name",
+                "text": "BASS"
+            }
+        },
+        "List12": {
+            "Text0": {
+                "track": "0x0C",
+                "microsecond": 0,
+                "type": "track_name",
+                "text": "DRUM 1"
+            }
+        },
+        "List13": {
+            "Text0": {
+                "track": "0x0D",
+                "microsecond": 0,
+                "type": "track_name",
+                "text": "DRUM 2"
+            }
+        },
+        "List14": {
+            "Text0": {
+                "track": "0x0E",
+                "microsecond": 0,
+                "type": "track_name",
+                "text": "DRUM 3"
+            }
+        },
+        "List15": {
+            "Text0": {
+                "track": "0x0F",
+                "microsecond": 0,
+                "type": "track_name",
+                "text": "DRUM 4"
+            }
+        },
+        "List16": {
+            "Text0": {
+                "track": "0x10",
+                "microsecond": 0,
+                "type": "track_name",
+                "text": "SLAP"
+            }
+        },
+        "List17": {
+            "Text0": {
+                "track": "0x11",
+                "microsecond": 0,
+                "type": "track_name",
+                "text": "DRUM"
+            }
         }
     }
 }

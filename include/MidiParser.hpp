@@ -117,16 +117,17 @@ protected:
                         break;
                     }
                     case MidiEventType::meta: {
-                        switch (event[1]) {
-                            case 0x01:
-                            case 0x02:
-                            case 0x03:
-                            case 0x04:
-                            case 0x05:
-                            case 0x06:
-                            case 0x07:
-                            case 0x08:
-                            case 0x09: {
+                        MidiMetaType metaType = MidiMetaType(event[1]);
+                        switch (metaType) {
+                            case MidiMetaType::track_text:
+                            case MidiMetaType::song_copyright:
+                            case MidiMetaType::track_name:
+                            case MidiMetaType::instrument_name:
+                            case MidiMetaType::lyric:
+                            case MidiMetaType::marker:
+                            case MidiMetaType::start_point:
+                            case MidiMetaType::program_name:
+                            case MidiMetaType::device_name: {
                                 uint32_t _size = 0;
                                 size_t beginIdx = 2;
                                 for (; beginIdx < 6; ++beginIdx) {
@@ -138,13 +139,13 @@ protected:
                                     }
                                 }
 
-                                m_textMap[trackIdx].emplace_back(time, MidiTimeMode::tick, trackIdx, event[1],
+                                m_textMap[trackIdx].emplace_back(time, MidiTimeMode::tick, trackIdx, metaType,
                                                                  std::string(event.message.begin() + beginIdx,
                                                                              event.message.begin() + beginIdx + _size));
                                 break;
                             }
 
-                            case 0x51: {
+                            case MidiMetaType::tempo: {
                                 uint32_t mispqn = (event[3] << 16) | (event[4] << 8) | (event[5]);
                                 if (m_tempoMap[metaTrack].size()) {
                                     m_tempoMap[metaTrack].emplace_back(
@@ -159,7 +160,7 @@ protected:
                                 }
                                 break;
                             }
-                            case 0x58: {
+                            case MidiMetaType::time_signature: {
                                 double newBeat, newBar;
                                 if (m_bbMap[metaTrack].size()) {
                                     double deltaBeat;

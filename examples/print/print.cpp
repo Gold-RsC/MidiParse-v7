@@ -1,4 +1,4 @@
-#include"MidiPrinter.hpp"
+#include "MidiPrinter.hpp"
 using namespace GoldType::MidiParse;
 /********************************************************
  * MidiPrintFormat:
@@ -28,23 +28,23 @@ using namespace GoldType::MidiParse;
     ---------------------
     * formatChar_default    // 默认格式(根据MidiPrintFormat由程序自主选择)
  */
-void print_table(const NotePairMap&notePairMap){
+void print_table(const NotePairMap& notePairMap) {
     MidiPrinter printer("../../../output/note_pair.txt");
-    printer<<MidiPrintFormat::table<<notePairMap;
+    printer << MidiPrintFormat::table << notePairMap;
 }
-void print_json_minimal(const BarBeatMap&bbMap){
+void print_json_minimal(const BarBeatMap& bbMap) {
     MidiPrinter printer("../../../output/bar_beat.json");
-    printer<<MidiPrintFormat::json<<MidiPrintJsonFormat(jsonFormat_minimal|jsonFormat_file)<<bbMap;
+    printer << MidiPrintFormat::json << MidiPrintJsonFormat(jsonFormat_minimal | jsonFormat_file) << bbMap;
 }
-void print_json_pretty(const TextMap&textMap){
+void print_json_pretty(const TextMap& textMap) {
     MidiPrinter printer("../../../output/text.json");
-    printer<<MidiPrintFormat::json<<MidiPrintJsonFormat(jsonFormat_pretty|jsonFormat_object)<<textMap;
+    printer << MidiPrintFormat::json << MidiPrintJsonFormat(jsonFormat_pretty | jsonFormat_file) << textMap;
 }
-int main(){
-    MidiParser parser("../../../midi/faded.mid",MidiTimeMode::microsecond);
-    NoteMap noteMap=parser.noteMap();
-    BarBeatMap bbMap=parser.bbMap();
-    TextMap textMap=parser.textMap();
+int main() {
+    MidiParser parser("../../../midi/nggyu.mid", MidiTimeMode::microsecond);
+    NoteMap noteMap = parser.noteMap();
+    BarBeatMap bbMap = parser.bbMap();
+    TextMap textMap = parser.textMap();
     print_table(link_notePair(noteMap));
     print_json_minimal(bbMap);
     print_json_pretty(textMap);

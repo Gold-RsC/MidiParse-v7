@@ -70,6 +70,42 @@ public:
     }
 
 private:
+    std::string get_text_name(MidiMetaType type) {
+        std::string ret;
+        switch (type) {
+            case MidiMetaType::track_text:
+                ret = "track_text";
+                break;
+            case MidiMetaType::song_copyright:
+                ret = "song_copyright";
+                break;
+            case MidiMetaType::track_name:
+                ret = "track_name";
+                break;
+            case MidiMetaType::instrument_name:
+                ret = "instrument_name";
+                break;
+            case MidiMetaType::lyric:
+                ret = "lyric";
+                break;
+            case MidiMetaType::marker:
+                ret = "marker";
+                break;
+            case MidiMetaType::start_point:
+                ret = "start_point";
+                break;
+            case MidiMetaType::program_name:
+                ret = "program_name";
+                break;
+            case MidiMetaType::device_name:
+                ret = "device_name";
+                break;
+            default:
+                ret = "unknown";
+                break;
+        }
+        return ret;
+    }
     void print_table_without_lable(const Note& a, FormatChar formatChar = FormatChar::tableChar_default) {
         if (formatChar == FormatChar::formatChar_default) {
             formatChar = FormatChar::tableChar_default;
@@ -114,7 +150,8 @@ private:
         }
         char stepC = (formatChar & FormatChar::stepChar_space ? ' ' : '\t');
         char endC = (formatChar & FormatChar::endChar_comma ? ',' : '\n');
-        fprintf(m_file, "%llu%c%2.2X%c\"%s\"%c", a.time, stepC, a.type, stepC, a.text.c_str(), endC);
+        fprintf(m_file, "%llu%c\"%s\"%c\"%s\"%c", a.time, stepC, get_text_name(a.type).c_str(), stepC, a.text.c_str(),
+                endC);
     }
     void print_table_without_lable(const MidiEvent& a, FormatChar formatChar = FormatChar::tableChar_default) {
         if (formatChar == FormatChar::formatChar_default) {
@@ -321,8 +358,9 @@ private:
         else {
             fprintf(m_file, "\"Text%zu\":", index);
         }
-        fprintf(m_file, "{\"track\":\"0x%2.2X\",\"%s\":%llu,\"type\":\"0x%2.2X\",\"text\":\"%s\"}", a.track,
-                a.timeMode == MidiTimeMode::tick ? "tick" : "microsecond", a.time, a.type, a.text.c_str());
+        fprintf(m_file, "{\"track\":\"0x%2.2X\",\"%s\":%llu,\"type\":\"%s\",\"text\":\"%s\"}", a.track,
+                a.timeMode == MidiTimeMode::tick ? "tick" : "microsecond", a.time, get_text_name(a.type).c_str(),
+                a.text.c_str());
         if (jsonFormat & MidiPrintJsonFormat::jsonFormat_file) {
             fprintf(m_file, "}");
         }
@@ -626,7 +664,7 @@ private:
         print_json_pretty_newline(indentStr, indent, "\"track\":\"0x%2.2X\",", a.track);
         print_json_pretty_newline(indentStr, indent, "\"%s\":%llu,",
                                   a.timeMode == MidiTimeMode::tick ? "tick" : "microsecond", a.time);
-        print_json_pretty_newline(indentStr, indent, "\"type\":\"0x%2.2X\",", a.type);
+        print_json_pretty_newline(indentStr, indent, "\"type\":\"%s\",", get_text_name(a.type).c_str());
         print_json_pretty_newline(indentStr, indent, "\"text\":\"%s\"", a.text.c_str());
         --indent;
         if (formatChar & FormatChar::endChar_comma) {

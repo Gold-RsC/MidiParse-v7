@@ -6,26 +6,26 @@
 #include "MidiFile.hpp"
 #include <iostream>
 using namespace GoldType::MidiParse;
-int main(){
+int main() {
     MidiFile midifile("../../../midi/no_existing.mid");
 
     // 读取MIDI文件,返回值为读取时发生的错误，如文件名等错误
-    MidiErrorType err=midifile.read();
+    MidiErrorType err = midifile.read();
 
     // 打印错误信息
-    midiError<<err;
+    midiError << err;
 
 
     // 检查读取到的MIDI文件，返回值为检查出的错误，不包括文件名、标识符之类的错误
     // 下面两个语句等价
     // 若不开启#define MIDI_DEBUG，则为获取错误信息
     // 否则为获取并打印错误信息
-    err=midiError(midifile);
-    err=midifile.get_error();
+    err = midiError(midifile);
+    err = midifile.get_error();
 
     // 打印错误信息
-    midiError<<err;
-    
+    midiError << err;
+
     system("pause");
     return 0;
 }
