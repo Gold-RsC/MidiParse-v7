@@ -8,7 +8,7 @@
 
 - 作者         : Csrua / Gold_RsC
 
-- 开发时间 : 2020/04/26 - 2025/12/01
+- 开发时间 : 2020/04/26 - 2026/03/06
 
 - github     : [Gold-RsC](https://github.com/Gold-RsC)
 
@@ -46,22 +46,6 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "-std=c++11",
-                "${workspaceFolder}/src/MidiError.cpp",
-                "${workspaceFolder}/src/BasicMidiEvent.cpp",
-                "${workspaceFolder}/src/MidiEvent.cpp",
-                "${workspaceFolder}/src/MidiTrack.cpp",
-                "${workspaceFolder}/src/MidiHead.cpp",
-                "${workspaceFolder}/src/Note.cpp",
-                "${workspaceFolder}/src/NotePair.cpp",
-                "${workspaceFolder}/src/BarBeat.cpp",
-                "${workspaceFolder}/src/Program.cpp",
-                "${workspaceFolder}/src/Tempo.cpp",
-                "${workspaceFolder}/src/Text.cpp",
-                "${workspaceFolder}/src/TimeSignature.cpp",
-                "${workspaceFolder}/src/MidiFile.cpp",
-                "${workspaceFolder}/src/MidiParser.cpp",
-                "${workspaceFolder}/src/MidiPrinter.cpp",
-                "${workspaceFolder}/src/MidiPlayer.cpp",
                 "${file}",//包含main函数的源文件
                 "-I${workspaceFolder}/include",
                 "-o",
@@ -86,7 +70,7 @@
 
 #### DevC++
 
-请在链接器里添加
+若你很不幸选择了DevC++，请在链接器里添加，以确保版本为C++11，且能够链接winmm库
 
 ```
 -std=c++11
@@ -115,23 +99,6 @@
 │   ├── MidiParser.hpp
 │   ├── MidiPrinter.hpp
 │   └── MidiPlayer.hpp
-├── src/
-│   ├── MidiError.cpp
-│   ├── BasicMidiEvent.cpp
-│   ├── MidiEvent.cpp
-│   ├── MidiHead.cpp
-│   ├── MidiTrack.cpp
-│   ├── Note.cpp
-│   ├── NotePair.cpp
-│   ├── BarBeat.cpp
-│   ├── Program.cpp
-│   ├── Tempo.cpp
-│   ├── Text.cpp
-│   ├── TimeSignature.cpp
-│   ├── MidiFile.cpp
-│   ├── MidiParser.cpp
-│   ├── MidiPrinter.cpp
-│   └── MidiPlayer.cpp
 ├── examples/
 │   ├── ...
 │   └── ...

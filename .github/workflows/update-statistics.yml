@@ -1,0 +1,185 @@
+name: Update Statistics
+
+on:
+  workflow-dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  generate-statistics:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # 获取完整的git历史
+    
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+    
+    - name: Generate statistics
+      run: |
+        # 创建统计脚本
+        cat > generate_statistics.py << 'EOF'
+        import os
+        import json
+        import datetime
+        from pathlib import Path
+        
+        def get_project_structure(root_dir):
+            """生成类似tree命令的B+树结构"""
+            structure = []
+            
+            def build_tree(path, prefix="", is_last=True):
+                name = os.path.basename(path)
+                
+                if os.path.isdir(path):
+                    structure.append(f"{prefix}{'└── ' if is_last else '├── '}{name}/")
+                    
+                    # 获取目录内容并排序
+                    items = []
+                    for item in os.listdir(path):
+                        item_path = os.path.join(path, item)
+                        if not item.startswith('.') and item not in ['.git', '__pycache__', '.github']:
+                            items.append((item, item_path, os.path.isdir(item_path)))
+                    
+                    items.sort(key=lambda x: (not x[2], x[0]))  # 目录在前，文件在后
+                    
+                    new_prefix = prefix + ("    " if is_last else "│   ")
+                    for i, (item_name, item_path, is_dir) in enumerate(items):
+                        build_tree(item_path, new_prefix, i == len(items) - 1)
+                else:
+                    structure.append(f"{prefix}{'└── ' if is_last else '├── '}{name}")
+            
+            build_tree(root_dir)
+            return structure
+        
+        def get_file_statistics(root_dir):
+            """获取文件统计信息"""
+            stats = {
+                'total_files': 0,
+                'total_dirs': 0,
+                'file_types': {},
+                'total_size': 0
+            }
+            
+            for root, dirs, files in os.walk(root_dir):
+                # 过滤掉隐藏文件和.git目录
+                dirs[:] = [d for d in dirs if not d.startswith('.') and d != '.git']
+                files = [f for f in files if not f.startswith('.')]
+                
+                stats['total_dirs'] += len(dirs)
+                stats['total_files'] += len(files)
+                
+                for file in files:
+                    file_path = os.path.join(root, file)
+                    try:
+                        file_size = os.path.getsize(file_path)
+                        stats['total_size'] += file_size
+                        
+                        # 统计文件类型
+                        ext = Path(file).suffix.lower()
+                        if ext:
+                            stats['file_types'][ext] = stats['file_types'].get(ext, 0) + 1
+                        else:
+                            stats['file_types']['no_extension'] = stats['file_types'].get('no_extension', 0) + 1
+                    except OSError:
+                        pass
+            
+            return stats
+        
+        def get_development_time():
+            """计算开发时间"""
+            start_date = datetime.datetime(2020, 4, 26)
+            current_date = datetime.datetime.now()
+            
+            total_days = (current_date - start_date).days
+            years = total_days // 365
+            months = (total_days % 365) // 30
+            days = total_days % 30
+            
+            return {
+                'start_date': start_date.strftime('%Y/%m/%d'),
+                'current_date': current_date.strftime('%Y/%m/%d'),
+                'total_days': total_days,
+                'formatted_duration': f"{years}年{months}月{days}天"
+            }
+        
+        def main():
+            root_dir = "."
+            
+            # 获取项目结构
+            structure = get_project_structure(root_dir)
+            
+            # 获取文件统计
+            stats = get_file_statistics(root_dir)
+            
+            # 获取开发时间
+            dev_time = get_development_time()
+            
+            # 生成markdown内容
+            md_content = f"""# 项目统计信息
+ 
+## 项目基本信息
+- **项目名称**: MidiParse
+- **版本**: 7.0.0
+- **开发时间**: {dev_time['start_date']} - {dev_time['current_date']} ({dev_time['formatted_duration']})
+- **总开发天数**: {dev_time['total_days']} 天
+ 
+## 项目结构
+```
+{chr(10).join(structure)}
+```
+ 
+## 文件统计
+- **总文件数**: {stats['total_files']} 个
+- **总目录数**: {stats['total_dirs']} 个
+- **总大小**: {stats['total_size'] / 1024 / 1024:.2f} MB
+ 
+### 文件类型分布
+"""
+            
+            # 添加文件类型统计
+            for ext, count in sorted(stats['file_types'].items(), key=lambda x: x[1], reverse=True):
+                if ext == 'no_extension':
+                    md_content += f"- **无扩展名文件**: {count} 个\n"
+                else:
+                    md_content += f"- **{ext}文件**: {count} 个\n"
+            
+            md_content += """
+## 最近更新
+_统计信息最后更新于: {dev_time['current_date']}_
+ 
+---
+*本文件由GitHub Actions自动生成*
+""".format(dev_time['current_date'])
+            
+            # 写入statistics.md文件
+            with open('statistics.md', 'w', encoding='utf-8') as f:
+                f.write(md_content)
+            
+            print("统计信息已成功生成到 statistics.md")
+        
+        if __name__ == "__main__":
+            main()
+        EOF
+        
+        # 运行统计生成脚本
+        python generate_statistics.py
+    
+    - name: Commit and push if changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        
+        git add statistics.md
+        
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          git commit -m "docs: 自动更新项目统计信息 [skip ci]"
+          git push
+        fi
