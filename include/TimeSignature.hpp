@@ -4,47 +4,88 @@
  * github       : Gold-RsC(https://github.com/Gold-RsC)
  * bilibili     : Csrua(https://space.bilibili.com/361846321)
  * Email        : 310106329@qq.com
- * Create Date  : 2020/04/26
- * Update Date  : 2025/12/01
- * Details      : README.md 
+ * Update Date  : 2026/03/06
+ * Details      : README.md
  ********************************************************************************************************/
 #ifndef TIMESIGNATURE_HPP
 #define TIMESIGNATURE_HPP
 
-#include"BasicMidiEvent.hpp"
-#include<string>
-#include<map>
-#include<queue>
-namespace GoldType{
-    namespace MidiParse{
+#include "BasicMidiEvent.hpp"
+#include <map>
+#include <queue>
+#include <string>
 
-        class TimeSignature:public BasicMidiEvent_Meta{
-            public:
-                uint8_t numerator;
-                uint8_t denominator;
-                uint8_t tickPerMidiclock;
-                uint8_t num32ndNotePer24Midiclock;
-            public:
-                TimeSignature(MidiTime _time=0,MidiTimeMode _timeMode=MidiTimeMode::tick,MidiTrackNum _track=0,uint8_t _numerator=4,uint8_t _denominator=4,uint8_t _tickPerMidiclock=24,uint8_t _num32ndNotePer24Midiclock=8);
-                TimeSignature(const TimeSignature&)=default;
-                ~TimeSignature(void)=default;
-            public:
-                MidiErrorType get_error(MidiError&_midiError)const final;
-        };
-        bool operator==(const TimeSignature&a,const TimeSignature&b);
-        bool operator!=(const TimeSignature&a,const TimeSignature&b);
-        bool operator<(const TimeSignature&a,const TimeSignature&b);
-        bool operator>(const TimeSignature&a,const TimeSignature&b);
-        bool operator<=(const TimeSignature&a,const TimeSignature&b);
-        bool operator>=(const TimeSignature&a,const TimeSignature&b);
+namespace GoldType::MidiParse {
 
 
+class TimeSignature : public BasicMidiEvent_Meta {
+public:
+    uint8_t numerator;
+    uint8_t denominator;
+    uint8_t tickPerMidiclock;
+    uint8_t num32ndNotePer24Midiclock;
 
-        using TsList=MidiEventList<TimeSignature>;
-
-
-        using TsMap=MidiEventMap<TimeSignature>;
-
+public:
+    TimeSignature(MidiTime _time = 0, MidiTimeMode _timeMode = MidiTimeMode::tick, MidiTrackNum _track = 0,
+                  uint8_t _numerator = 4, uint8_t _denominator = 4, uint8_t _tickPerMidiclock = 24,
+                  uint8_t _num32ndNotePer24Midiclock = 8)
+            : BasicMidiEvent_Meta(_time, _timeMode, _track),
+              numerator(_numerator),
+              denominator(_denominator),
+              tickPerMidiclock(_tickPerMidiclock),
+              num32ndNotePer24Midiclock(_num32ndNotePer24Midiclock) {
     }
+    TimeSignature(const TimeSignature&) = default;
+    ~TimeSignature(void) = default;
+
+public:
+    MidiErrorType get_error(MidiError& _midiError) const final {
+        return MidiErrorType::no_error;
+    }
+};
+bool operator==(const TimeSignature& a, const TimeSignature& b) {
+    return a.time == b.time && a.timeMode == b.timeMode && a.track == b.track && a.numerator == b.numerator &&
+           a.denominator == b.denominator && a.tickPerMidiclock == b.tickPerMidiclock &&
+           a.num32ndNotePer24Midiclock == b.num32ndNotePer24Midiclock;
 }
+bool operator!=(const TimeSignature& a, const TimeSignature& b) {
+    return !(a == b);
+}
+bool operator<(const TimeSignature& a, const TimeSignature& b) {
+    if (a.timeMode != b.timeMode) {
+        return a.timeMode < b.timeMode;
+    }
+    if (a.time != b.time) {
+        return a.time < b.time;
+    }
+    if (a.track != b.track) {
+        return a.track < b.track;
+    }
+    if (a.numerator != b.numerator) {
+        return a.numerator < b.numerator;
+    }
+    if (a.denominator != b.denominator) {
+        return a.denominator < b.denominator;
+    }
+    if (a.tickPerMidiclock != b.tickPerMidiclock) {
+        return a.tickPerMidiclock < b.tickPerMidiclock;
+    }
+    return a.num32ndNotePer24Midiclock < b.num32ndNotePer24Midiclock;
+}
+bool operator>(const TimeSignature& a, const TimeSignature& b) {
+    return b < a;
+}
+bool operator<=(const TimeSignature& a, const TimeSignature& b) {
+    return !(a > b);
+}
+bool operator>=(const TimeSignature& a, const TimeSignature& b) {
+    return !(a < b);
+}
+
+using TsList = MidiEventList<TimeSignature>;
+
+using TsMap = MidiEventMap<TimeSignature>;
+
+
+}  // namespace GoldType::MidiParse
 #endif

@@ -4,39 +4,78 @@
  * github       : Gold-RsC(https://github.com/Gold-RsC)
  * bilibili     : Csrua(https://space.bilibili.com/361846321)
  * Email        : 310106329@qq.com
- * Create Date  : 2020/04/26
- * Update Date  : 2025/12/01
- * Details      : README.md 
+ * Update Date  : 2026/03/06
+ * Details      : README.md
  ********************************************************************************************************/
 #ifndef BARBEAT_HPP
 #define BARBEAT_HPP
-#include"BasicMidiEvent.hpp"
+#include "BasicMidiEvent.hpp"
 
-namespace GoldType{
-    namespace MidiParse{
-        class BarBeat:public BasicMidiEvent_Meta{
-            public:
-                double barNode;
-                double beatNode;
-                uint8_t numerator;
-                uint8_t denominator;
-            public:
-                BarBeat(uint64_t _time=0,MidiTimeMode _timeMode=MidiTimeMode::tick,uint8_t _track=0,double _barNode=0,double _beatNode=0,uint8_t _numerator=4,uint8_t _denominator=4);
-                BarBeat(const BarBeat&)=default;
-                ~BarBeat(void)=default;
-            public:
-                MidiErrorType get_error(MidiError&_midiError)const final;
-        };
-        bool operator==(const BarBeat&a,const BarBeat&b);
-        bool operator!=(const BarBeat&a,const BarBeat&b);
-        bool operator<(const BarBeat&a,const BarBeat&b);
-        bool operator>(const BarBeat&a,const BarBeat&b);
-        bool operator<=(const BarBeat&a,const BarBeat&b);
-        bool operator>=(const BarBeat&a,const BarBeat&b);
-        
-        using BarBeatList=MidiEventList<BarBeat>;
+namespace GoldType::MidiParse {
+class BarBeat : public BasicMidiEvent_Meta {
+public:
+    double barNode;
+    double beatNode;
+    uint8_t numerator;
+    uint8_t denominator;
 
-        using BarBeatMap=MidiEventMap<BarBeat>;
+public:
+    BarBeat(uint64_t _time = 0, MidiTimeMode _timeMode = MidiTimeMode::tick, uint8_t _track = 0, double _barNode = 0,
+            double _beatNode = 0, uint8_t _numerator = 4, uint8_t _denominator = 4)
+            : BasicMidiEvent_Meta(_time, _timeMode, _track),
+              barNode(_barNode),
+              beatNode(_beatNode),
+              numerator(_numerator),
+              denominator(_denominator) {
     }
+    BarBeat(const BarBeat&) = default;
+    ~BarBeat(void) = default;
+
+public:
+    MidiErrorType get_error(MidiError& _midiError) const final {
+        return MidiErrorType::no_error;
+    }
+};
+bool operator==(const BarBeat& a, const BarBeat& b) {
+    return a.time == b.time && a.timeMode == b.timeMode && a.track == b.track && a.barNode == b.barNode &&
+           a.beatNode == b.beatNode;
 }
+bool operator!=(const BarBeat& a, const BarBeat& b) {
+    return !(a == b);
+}
+bool operator<(const BarBeat& a, const BarBeat& b) {
+    if (a.timeMode != b.timeMode) {
+        return a.timeMode < b.timeMode;
+    }
+    if (a.time != b.time) {
+        return a.time < b.time;
+    }
+    if (a.track != b.track) {
+        return a.track < b.track;
+    }
+    if (a.barNode != b.barNode) {
+        return a.barNode < b.barNode;
+    }
+    if (a.barNode != b.barNode) {
+        return a.barNode < b.barNode;
+    }
+    if (a.numerator != b.numerator) {
+        return a.numerator < b.numerator;
+    }
+    return a.denominator < b.denominator;
+}
+bool operator>(const BarBeat& a, const BarBeat& b) {
+    return b < a;
+}
+bool operator<=(const BarBeat& a, const BarBeat& b) {
+    return !(a > b);
+}
+bool operator>=(const BarBeat& a, const BarBeat& b) {
+    return !(a < b);
+}
+
+using BarBeatList = MidiEventList<BarBeat>;
+
+using BarBeatMap = MidiEventMap<BarBeat>;
+}  // namespace GoldType::MidiParse
 #endif
