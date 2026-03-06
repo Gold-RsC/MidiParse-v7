@@ -94,7 +94,6 @@ def get_development_time():
     return {
         'start_date': start_date.strftime('%Y/%m/%d'),
         'current_date': current_date.strftime('%Y/%m/%d'),
-        'total_days': total_days,
     }
 
 def main():
