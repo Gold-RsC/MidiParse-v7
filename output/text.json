@@ -1,153 +1,3329 @@
 {
     "Map": {
         "List0": {
-            "Text0": {
-                "track": "0x00",
-                "microsecond": 0,
-                "type": "track_name",
-                "text": "Never Gonna Give You Up"
-            },
-            "Text1": {
-                "track": "0x00",
-                "microsecond": 0,
-                "type": "song_copyright",
-                "text": "?? © "
-            }
         },
         "List1": {
             "Text0": {
-                "track": "0x01",
-                "microsecond": 0,
-                "type": "track_name",
-                "text": "VOCAL"
+                "track":"0x01",
+                "microsecond":0,
+                "type":"track_name",
+                "text":"Soft karaoke"
+            },
+            "Text1": {
+                "track":"0x01",
+                "microsecond":0,
+                "type":"track_text",
+                "text":"@KMIDI KARAOKE FILE"
+            },
+            "Text2": {
+                "track":"0x01",
+                "microsecond":0,
+                "type":"track_text",
+                "text":"@IGenerated with Karakan version 6.4"
             }
         },
         "List2": {
             "Text0": {
-                "track": "0x02",
-                "microsecond": 0,
-                "type": "track_name",
-                "text": "SYNTH VOICE"
+                "track":"0x02",
+                "microsecond":0,
+                "type":"track_name",
+                "text":"Words"
+            },
+            "Text1": {
+                "track":"0x02",
+                "microsecond":0,
+                "type":"track_text",
+                "text":"@LENGL"
+            },
+            "Text2": {
+                "track":"0x02",
+                "microsecond":0,
+                "type":"track_text",
+                "text":"@TWiz Khalifa ft Charlie Puth - See You Again(2015)"
+            },
+            "Text3": {
+                "track":"0x02",
+                "microsecond":0,
+                "type":"track_text",
+                "text":"@TKar by Geoffrey Carter 25th April 2015"
+            },
+            "Text4": {
+                "track":"0x02",
+                "microsecond":13875000,
+                "type":"lyric",
+                "text":"\It's"
+            },
+            "Text5": {
+                "track":"0x02",
+                "microsecond":14250000,
+                "type":"lyric",
+                "text":"been"
+            },
+            "Text6": {
+                "track":"0x02",
+                "microsecond":14625000,
+                "type":"lyric",
+                "text":"a"
+            },
+            "Text7": {
+                "track":"0x02",
+                "microsecond":15000000,
+                "type":"lyric",
+                "text":"lo-"
+            },
+            "Text8": {
+                "track":"0x02",
+                "microsecond":15187500,
+                "type":"lyric",
+                "text":"n-"
+            },
+            "Text9": {
+                "track":"0x02",
+                "microsecond":15375000,
+                "type":"lyric",
+                "text":"g.."
+            },
+            "Text10": {
+                "track":"0x02",
+                "microsecond":16125000,
+                "type":"lyric",
+                "text":"da-"
+            },
+            "Text11": {
+                "track":"0x02",
+                "microsecond":16687500,
+                "type":"lyric",
+                "text":"y..-"
+            },
+            "Text12": {
+                "track":"0x02",
+                "microsecond":17812500,
+                "type":"lyric",
+                "text":"/With-"
+            },
+            "Text13": {
+                "track":"0x02",
+                "microsecond":18000000,
+                "type":"lyric",
+                "text":"out"
+            },
+            "Text14": {
+                "track":"0x02",
+                "microsecond":18375000,
+                "type":"lyric",
+                "text":"you,"
+            },
+            "Text15": {
+                "track":"0x02",
+                "microsecond":18750000,
+                "type":"lyric",
+                "text":"my"
+            },
+            "Text16": {
+                "track":"0x02",
+                "microsecond":19125000,
+                "type":"lyric",
+                "text":"friend..-"
+            },
+            "Text17": {
+                "track":"0x02",
+                "microsecond":20625000,
+                "type":"lyric",
+                "text":"/And"
+            },
+            "Text18": {
+                "track":"0x02",
+                "microsecond":20812500,
+                "type":"lyric",
+                "text":"I'll"
+            },
+            "Text19": {
+                "track":"0x02",
+                "microsecond":21000000,
+                "type":"lyric",
+                "text":"tell"
+            },
+            "Text20": {
+                "track":"0x02",
+                "microsecond":21375000,
+                "type":"lyric",
+                "text":"you"
+            },
+            "Text21": {
+                "track":"0x02",
+                "microsecond":21750000,
+                "type":"lyric",
+                "text":"all"
+            },
+            "Text22": {
+                "track":"0x02",
+                "microsecond":22125000,
+                "type":"lyric",
+                "text":"a-"
+            },
+            "Text23": {
+                "track":"0x02",
+                "microsecond":22500000,
+                "type":"lyric",
+                "text":"bout"
+            },
+            "Text24": {
+                "track":"0x02",
+                "microsecond":22875000,
+                "type":"lyric",
+                "text":"it-"
+            },
+            "Text25": {
+                "track":"0x02",
+                "microsecond":23250000,
+                "type":"lyric",
+                "text":"/When"
+            },
+            "Text26": {
+                "track":"0x02",
+                "microsecond":23625000,
+                "type":"lyric",
+                "text":"I"
+            },
+            "Text27": {
+                "track":"0x02",
+                "microsecond":24000000,
+                "type":"lyric",
+                "text":"see"
+            },
+            "Text28": {
+                "track":"0x02",
+                "microsecond":24375000,
+                "type":"lyric",
+                "text":"you"
+            },
+            "Text29": {
+                "track":"0x02",
+                "microsecond":24750000,
+                "type":"lyric",
+                "text":"a-"
+            },
+            "Text30": {
+                "track":"0x02",
+                "microsecond":25125000,
+                "type":"lyric",
+                "text":"gai-"
+            },
+            "Text31": {
+                "track":"0x02",
+                "microsecond":25500000,
+                "type":"lyric",
+                "text":"n..-"
+            },
+            "Text32": {
+                "track":"0x02",
+                "microsecond":26437500,
+                "type":"lyric",
+                "text":"/We've"
+            },
+            "Text33": {
+                "track":"0x02",
+                "microsecond":26625000,
+                "type":"lyric",
+                "text":"come"
+            },
+            "Text34": {
+                "track":"0x02",
+                "microsecond":26812500,
+                "type":"lyric",
+                "text":"a"
+            },
+            "Text35": {
+                "track":"0x02",
+                "microsecond":27000000,
+                "type":"lyric",
+                "text":"lo~-"
+            },
+            "Text36": {
+                "track":"0x02",
+                "microsecond":27375000,
+                "type":"lyric",
+                "text":"ng.."
+            },
+            "Text37": {
+                "track":"0x02",
+                "microsecond":28125000,
+                "type":"lyric",
+                "text":"wa-"
+            },
+            "Text38": {
+                "track":"0x02",
+                "microsecond":28875000,
+                "type":"lyric",
+                "text":"y..-"
+            },
+            "Text39": {
+                "track":"0x02",
+                "microsecond":29812500,
+                "type":"lyric",
+                "text":"/From"
+            },
+            "Text40": {
+                "track":"0x02",
+                "microsecond":30000000,
+                "type":"lyric",
+                "text":"where"
+            },
+            "Text41": {
+                "track":"0x02",
+                "microsecond":30375000,
+                "type":"lyric",
+                "text":"we"
+            },
+            "Text42": {
+                "track":"0x02",
+                "microsecond":30750000,
+                "type":"lyric",
+                "text":"be-"
+            },
+            "Text43": {
+                "track":"0x02",
+                "microsecond":31125000,
+                "type":"lyric",
+                "text":"ga-"
+            },
+            "Text44": {
+                "track":"0x02",
+                "microsecond":31500000,
+                "type":"lyric",
+                "text":"n..-"
+            },
+            "Text45": {
+                "track":"0x02",
+                "microsecond":32250000,
+                "type":"lyric",
+                "text":"/Oh,"
+            },
+            "Text46": {
+                "track":"0x02",
+                "microsecond":32625000,
+                "type":"lyric",
+                "text":"I'll"
+            },
+            "Text47": {
+                "track":"0x02",
+                "microsecond":33000000,
+                "type":"lyric",
+                "text":"tell"
+            },
+            "Text48": {
+                "track":"0x02",
+                "microsecond":33375000,
+                "type":"lyric",
+                "text":"you"
+            },
+            "Text49": {
+                "track":"0x02",
+                "microsecond":33750000,
+                "type":"lyric",
+                "text":"all"
+            },
+            "Text50": {
+                "track":"0x02",
+                "microsecond":34125000,
+                "type":"lyric",
+                "text":"a-"
+            },
+            "Text51": {
+                "track":"0x02",
+                "microsecond":34500000,
+                "type":"lyric",
+                "text":"bout"
+            },
+            "Text52": {
+                "track":"0x02",
+                "microsecond":34875000,
+                "type":"lyric",
+                "text":"it-"
+            },
+            "Text53": {
+                "track":"0x02",
+                "microsecond":35250000,
+                "type":"lyric",
+                "text":"/When"
+            },
+            "Text54": {
+                "track":"0x02",
+                "microsecond":35625000,
+                "type":"lyric",
+                "text":"I"
+            },
+            "Text55": {
+                "track":"0x02",
+                "microsecond":36000000,
+                "type":"lyric",
+                "text":"see"
+            },
+            "Text56": {
+                "track":"0x02",
+                "microsecond":36375000,
+                "type":"lyric",
+                "text":"you"
+            },
+            "Text57": {
+                "track":"0x02",
+                "microsecond":36750000,
+                "type":"lyric",
+                "text":"a-"
+            },
+            "Text58": {
+                "track":"0x02",
+                "microsecond":37125000,
+                "type":"lyric",
+                "text":"gai-"
+            },
+            "Text59": {
+                "track":"0x02",
+                "microsecond":37500000,
+                "type":"lyric",
+                "text":"n..-"
+            },
+            "Text60": {
+                "track":"0x02",
+                "microsecond":38250000,
+                "type":"lyric",
+                "text":"/When"
+            },
+            "Text61": {
+                "track":"0x02",
+                "microsecond":38625000,
+                "type":"lyric",
+                "text":"I"
+            },
+            "Text62": {
+                "track":"0x02",
+                "microsecond":39000000,
+                "type":"lyric",
+                "text":"see"
+            },
+            "Text63": {
+                "track":"0x02",
+                "microsecond":39375000,
+                "type":"lyric",
+                "text":"you"
+            },
+            "Text64": {
+                "track":"0x02",
+                "microsecond":39750000,
+                "type":"lyric",
+                "text":"a-"
+            },
+            "Text65": {
+                "track":"0x02",
+                "microsecond":40125000,
+                "type":"lyric",
+                "text":"gain...-"
+            },
+            "Text66": {
+                "track":"0x02",
+                "microsecond":43125000,
+                "type":"lyric",
+                "text":"\Rap: Damn,"
+            },
+            "Text67": {
+                "track":"0x02",
+                "microsecond":43875000,
+                "type":"lyric",
+                "text":"who"
+            },
+            "Text68": {
+                "track":"0x02",
+                "microsecond":44062500,
+                "type":"lyric",
+                "text":"knew?-"
+            },
+            "Text69": {
+                "track":"0x02",
+                "microsecond":44625000,
+                "type":"lyric",
+                "text":"/All"
+            },
+            "Text70": {
+                "track":"0x02",
+                "microsecond":44812500,
+                "type":"lyric",
+                "text":"the"
+            },
+            "Text71": {
+                "track":"0x02",
+                "microsecond":45000000,
+                "type":"lyric",
+                "text":"planes"
+            },
+            "Text72": {
+                "track":"0x02",
+                "microsecond":45375000,
+                "type":"lyric",
+                "text":"we"
+            },
+            "Text73": {
+                "track":"0x02",
+                "microsecond":45562500,
+                "type":"lyric",
+                "text":"flew-"
+            },
+            "Text74": {
+                "track":"0x02",
+                "microsecond":46125000,
+                "type":"lyric",
+                "text":"/Good"
+            },
+            "Text75": {
+                "track":"0x02",
+                "microsecond":46312500,
+                "type":"lyric",
+                "text":"things"
+            },
+            "Text76": {
+                "track":"0x02",
+                "microsecond":46687500,
+                "type":"lyric",
+                "text":"we've"
+            },
+            "Text77": {
+                "track":"0x02",
+                "microsecond":46875000,
+                "type":"lyric",
+                "text":"been"
+            },
+            "Text78": {
+                "track":"0x02",
+                "microsecond":47250000,
+                "type":"lyric",
+                "text":"through-"
+            },
+            "Text79": {
+                "track":"0x02",
+                "microsecond":47812500,
+                "type":"lyric",
+                "text":"/That"
+            },
+            "Text80": {
+                "track":"0x02",
+                "microsecond":48000000,
+                "type":"lyric",
+                "text":"I'll"
+            },
+            "Text81": {
+                "track":"0x02",
+                "microsecond":48187500,
+                "type":"lyric",
+                "text":"be"
+            },
+            "Text82": {
+                "track":"0x02",
+                "microsecond":48375000,
+                "type":"lyric",
+                "text":"stand-"
+            },
+            "Text83": {
+                "track":"0x02",
+                "microsecond":48562500,
+                "type":"lyric",
+                "text":"ing"
+            },
+            "Text84": {
+                "track":"0x02",
+                "microsecond":48750000,
+                "type":"lyric",
+                "text":"right"
+            },
+            "Text85": {
+                "track":"0x02",
+                "microsecond":49125000,
+                "type":"lyric",
+                "text":"here"
+            },
+            "Text86": {
+                "track":"0x02",
+                "microsecond":49500000,
+                "type":"lyric",
+                "text":"talk-"
+            },
+            "Text87": {
+                "track":"0x02",
+                "microsecond":49687500,
+                "type":"lyric",
+                "text":"ing"
+            },
+            "Text88": {
+                "track":"0x02",
+                "microsecond":49875000,
+                "type":"lyric",
+                "text":"to"
+            },
+            "Text89": {
+                "track":"0x02",
+                "microsecond":50062500,
+                "type":"lyric",
+                "text":"you-"
+            },
+            "Text90": {
+                "track":"0x02",
+                "microsecond":50625000,
+                "type":"lyric",
+                "text":"/About"
+            },
+            "Text91": {
+                "track":"0x02",
+                "microsecond":50812500,
+                "type":"lyric",
+                "text":"an-"
+            },
+            "Text92": {
+                "track":"0x02",
+                "microsecond":51000000,
+                "type":"lyric",
+                "text":"oth-"
+            },
+            "Text93": {
+                "track":"0x02",
+                "microsecond":51187500,
+                "type":"lyric",
+                "text":"er"
+            },
+            "Text94": {
+                "track":"0x02",
+                "microsecond":51375000,
+                "type":"lyric",
+                "text":"path-"
+            },
+            "Text95": {
+                "track":"0x02",
+                "microsecond":51937500,
+                "type":"lyric",
+                "text":"/I"
+            },
+            "Text96": {
+                "track":"0x02",
+                "microsecond":52125000,
+                "type":"lyric",
+                "text":"know"
+            },
+            "Text97": {
+                "track":"0x02",
+                "microsecond":52312500,
+                "type":"lyric",
+                "text":"we"
+            },
+            "Text98": {
+                "track":"0x02",
+                "microsecond":52500000,
+                "type":"lyric",
+                "text":"loved"
+            },
+            "Text99": {
+                "track":"0x02",
+                "microsecond":52687500,
+                "type":"lyric",
+                "text":"to"
+            },
+            "Text100": {
+                "track":"0x02",
+                "microsecond":52875000,
+                "type":"lyric",
+                "text":"hit"
+            },
+            "Text101": {
+                "track":"0x02",
+                "microsecond":53062500,
+                "type":"lyric",
+                "text":"the"
+            },
+            "Text102": {
+                "track":"0x02",
+                "microsecond":53250000,
+                "type":"lyric",
+                "text":"road"
+            },
+            "Text103": {
+                "track":"0x02",
+                "microsecond":53437500,
+                "type":"lyric",
+                "text":"and"
+            },
+            "Text104": {
+                "track":"0x02",
+                "microsecond":53625000,
+                "type":"lyric",
+                "text":"laugh-"
+            },
+            "Text105": {
+                "track":"0x02",
+                "microsecond":54187500,
+                "type":"lyric",
+                "text":"/But"
+            },
+            "Text106": {
+                "track":"0x02",
+                "microsecond":54375000,
+                "type":"lyric",
+                "text":"some-"
+            },
+            "Text107": {
+                "track":"0x02",
+                "microsecond":54562500,
+                "type":"lyric",
+                "text":"thing"
+            },
+            "Text108": {
+                "track":"0x02",
+                "microsecond":54750000,
+                "type":"lyric",
+                "text":"told"
+            },
+            "Text109": {
+                "track":"0x02",
+                "microsecond":54937500,
+                "type":"lyric",
+                "text":"me"
+            },
+            "Text110": {
+                "track":"0x02",
+                "microsecond":55125000,
+                "type":"lyric",
+                "text":"that"
+            },
+            "Text111": {
+                "track":"0x02",
+                "microsecond":55312500,
+                "type":"lyric",
+                "text":"it"
+            },
+            "Text112": {
+                "track":"0x02",
+                "microsecond":55500000,
+                "type":"lyric",
+                "text":"would-"
+            },
+            "Text113": {
+                "track":"0x02",
+                "microsecond":55687500,
+                "type":"lyric",
+                "text":"n't"
+            },
+            "Text114": {
+                "track":"0x02",
+                "microsecond":55875000,
+                "type":"lyric",
+                "text":"last-"
+            },
+            "Text115": {
+                "track":"0x02",
+                "microsecond":56625000,
+                "type":"lyric",
+                "text":"/Had"
+            },
+            "Text116": {
+                "track":"0x02",
+                "microsecond":56812500,
+                "type":"lyric",
+                "text":"to"
+            },
+            "Text117": {
+                "track":"0x02",
+                "microsecond":57000000,
+                "type":"lyric",
+                "text":"switch"
+            },
+            "Text118": {
+                "track":"0x02",
+                "microsecond":57375000,
+                "type":"lyric",
+                "text":"up-"
+            },
+            "Text119": {
+                "track":"0x02",
+                "microsecond":57750000,
+                "type":"lyric",
+                "text":"/Look"
+            },
+            "Text120": {
+                "track":"0x02",
+                "microsecond":57937500,
+                "type":"lyric",
+                "text":"at"
+            },
+            "Text121": {
+                "track":"0x02",
+                "microsecond":58125000,
+                "type":"lyric",
+                "text":"things"
+            },
+            "Text122": {
+                "track":"0x02",
+                "microsecond":58500000,
+                "type":"lyric",
+                "text":"dif-"
+            },
+            "Text123": {
+                "track":"0x02",
+                "microsecond":58687500,
+                "type":"lyric",
+                "text":"f'ent"
+            },
+            "Text124": {
+                "track":"0x02",
+                "microsecond":58875000,
+                "type":"lyric",
+                "text":"see"
+            },
+            "Text125": {
+                "track":"0x02",
+                "microsecond":59062500,
+                "type":"lyric",
+                "text":"the"
+            },
+            "Text126": {
+                "track":"0x02",
+                "microsecond":59250000,
+                "type":"lyric",
+                "text":"big-"
+            },
+            "Text127": {
+                "track":"0x02",
+                "microsecond":59437500,
+                "type":"lyric",
+                "text":"ger"
+            },
+            "Text128": {
+                "track":"0x02",
+                "microsecond":59625000,
+                "type":"lyric",
+                "text":"pic-"
+            },
+            "Text129": {
+                "track":"0x02",
+                "microsecond":59812500,
+                "type":"lyric",
+                "text":"ture-"
+            },
+            "Text130": {
+                "track":"0x02",
+                "microsecond":60375000,
+                "type":"lyric",
+                "text":"/Those"
+            },
+            "Text131": {
+                "track":"0x02",
+                "microsecond":60750000,
+                "type":"lyric",
+                "text":"were"
+            },
+            "Text132": {
+                "track":"0x02",
+                "microsecond":60937500,
+                "type":"lyric",
+                "text":"the"
+            },
+            "Text133": {
+                "track":"0x02",
+                "microsecond":61125000,
+                "type":"lyric",
+                "text":"days-"
+            },
+            "Text134": {
+                "track":"0x02",
+                "microsecond":61500000,
+                "type":"lyric",
+                "text":"/Hard"
+            },
+            "Text135": {
+                "track":"0x02",
+                "microsecond":61875000,
+                "type":"lyric",
+                "text":"work"
+            },
+            "Text136": {
+                "track":"0x02",
+                "microsecond":62062500,
+                "type":"lyric",
+                "text":"for-"
+            },
+            "Text137": {
+                "track":"0x02",
+                "microsecond":62250000,
+                "type":"lyric",
+                "text":"ev-"
+            },
+            "Text138": {
+                "track":"0x02",
+                "microsecond":62437500,
+                "type":"lyric",
+                "text":"er"
+            },
+            "Text139": {
+                "track":"0x02",
+                "microsecond":62625000,
+                "type":"lyric",
+                "text":"pays-"
+            },
+            "Text140": {
+                "track":"0x02",
+                "microsecond":63375000,
+                "type":"lyric",
+                "text":"/Now"
+            },
+            "Text141": {
+                "track":"0x02",
+                "microsecond":63562500,
+                "type":"lyric",
+                "text":"I"
+            },
+            "Text142": {
+                "track":"0x02",
+                "microsecond":63750000,
+                "type":"lyric",
+                "text":"see"
+            },
+            "Text143": {
+                "track":"0x02",
+                "microsecond":63937500,
+                "type":"lyric",
+                "text":"you"
+            },
+            "Text144": {
+                "track":"0x02",
+                "microsecond":64125000,
+                "type":"lyric",
+                "text":"in"
+            },
+            "Text145": {
+                "track":"0x02",
+                "microsecond":64312500,
+                "type":"lyric",
+                "text":"a"
+            },
+            "Text146": {
+                "track":"0x02",
+                "microsecond":64500000,
+                "type":"lyric",
+                "text":"bet-"
+            },
+            "Text147": {
+                "track":"0x02",
+                "microsecond":64687500,
+                "type":"lyric",
+                "text":"ter"
+            },
+            "Text148": {
+                "track":"0x02",
+                "microsecond":64875000,
+                "type":"lyric",
+                "text":"place...-"
+            },
+            "Text149": {
+                "track":"0x02",
+                "microsecond":67125000,
+                "type":"lyric",
+                "text":"\Aw!...-"
+            },
+            "Text150": {
+                "track":"0x02",
+                "microsecond":68250000,
+                "type":"lyric",
+                "text":"\Sung: How"
+            },
+            "Text151": {
+                "track":"0x02",
+                "microsecond":68437500,
+                "type":"lyric",
+                "text":"could"
+            },
+            "Text152": {
+                "track":"0x02",
+                "microsecond":68625000,
+                "type":"lyric",
+                "text":"we"
+            },
+            "Text153": {
+                "track":"0x02",
+                "microsecond":68812500,
+                "type":"lyric",
+                "text":"not"
+            },
+            "Text154": {
+                "track":"0x02",
+                "microsecond":69187500,
+                "type":"lyric",
+                "text":"talk"
+            },
+            "Text155": {
+                "track":"0x02",
+                "microsecond":69375000,
+                "type":"lyric",
+                "text":"a-"
+            },
+            "Text156": {
+                "track":"0x02",
+                "microsecond":69562500,
+                "type":"lyric",
+                "text":"bout"
+            },
+            "Text157": {
+                "track":"0x02",
+                "microsecond":69750000,
+                "type":"lyric",
+                "text":"fam-"
+            },
+            "Text158": {
+                "track":"0x02",
+                "microsecond":69937500,
+                "type":"lyric",
+                "text":"'ly-"
+            },
+            "Text159": {
+                "track":"0x02",
+                "microsecond":70125000,
+                "type":"lyric",
+                "text":"/when"
+            },
+            "Text160": {
+                "track":"0x02",
+                "microsecond":70312500,
+                "type":"lyric",
+                "text":"fam-"
+            },
+            "Text161": {
+                "track":"0x02",
+                "microsecond":70500000,
+                "type":"lyric",
+                "text":"'ly's"
+            },
+            "Text162": {
+                "track":"0x02",
+                "microsecond":70687500,
+                "type":"lyric",
+                "text":"all"
+            },
+            "Text163": {
+                "track":"0x02",
+                "microsecond":70875000,
+                "type":"lyric",
+                "text":"that"
+            },
+            "Text164": {
+                "track":"0x02",
+                "microsecond":71062500,
+                "type":"lyric",
+                "text":"we"
+            },
+            "Text165": {
+                "track":"0x02",
+                "microsecond":71250000,
+                "type":"lyric",
+                "text":"got?-"
+            },
+            "Text166": {
+                "track":"0x02",
+                "microsecond":71812500,
+                "type":"lyric",
+                "text":"/Ev-"
+            },
+            "Text167": {
+                "track":"0x02",
+                "microsecond":72000000,
+                "type":"lyric",
+                "text":"'ry-"
+            },
+            "Text168": {
+                "track":"0x02",
+                "microsecond":72187500,
+                "type":"lyric",
+                "text":"thing"
+            },
+            "Text169": {
+                "track":"0x02",
+                "microsecond":72375000,
+                "type":"lyric",
+                "text":"I"
+            },
+            "Text170": {
+                "track":"0x02",
+                "microsecond":72562500,
+                "type":"lyric",
+                "text":"went"
+            },
+            "Text171": {
+                "track":"0x02",
+                "microsecond":72750000,
+                "type":"lyric",
+                "text":"through-"
+            },
+            "Text172": {
+                "track":"0x02",
+                "microsecond":72937500,
+                "type":"lyric",
+                "text":"/you"
+            },
+            "Text173": {
+                "track":"0x02",
+                "microsecond":73125000,
+                "type":"lyric",
+                "text":"were"
+            },
+            "Text174": {
+                "track":"0x02",
+                "microsecond":73312500,
+                "type":"lyric",
+                "text":"stand-"
+            },
+            "Text175": {
+                "track":"0x02",
+                "microsecond":73500000,
+                "type":"lyric",
+                "text":"ing"
+            },
+            "Text176": {
+                "track":"0x02",
+                "microsecond":73687500,
+                "type":"lyric",
+                "text":"there"
+            },
+            "Text177": {
+                "track":"0x02",
+                "microsecond":73875000,
+                "type":"lyric",
+                "text":"by"
+            },
+            "Text178": {
+                "track":"0x02",
+                "microsecond":74062500,
+                "type":"lyric",
+                "text":"my"
+            },
+            "Text179": {
+                "track":"0x02",
+                "microsecond":74250000,
+                "type":"lyric",
+                "text":"side-"
+            },
+            "Text180": {
+                "track":"0x02",
+                "microsecond":74812500,
+                "type":"lyric",
+                "text":"/And"
+            },
+            "Text181": {
+                "track":"0x02",
+                "microsecond":75000000,
+                "type":"lyric",
+                "text":"now"
+            },
+            "Text182": {
+                "track":"0x02",
+                "microsecond":75187500,
+                "type":"lyric",
+                "text":"you"
+            },
+            "Text183": {
+                "track":"0x02",
+                "microsecond":75375000,
+                "type":"lyric",
+                "text":"gon-"
+            },
+            "Text184": {
+                "track":"0x02",
+                "microsecond":75468750,
+                "type":"lyric",
+                "text":"na"
+            },
+            "Text185": {
+                "track":"0x02",
+                "microsecond":75562500,
+                "type":"lyric",
+                "text":"be"
+            },
+            "Text186": {
+                "track":"0x02",
+                "microsecond":75750000,
+                "type":"lyric",
+                "text":"with"
+            },
+            "Text187": {
+                "track":"0x02",
+                "microsecond":75937500,
+                "type":"lyric",
+                "text":"me-"
+            },
+            "Text188": {
+                "track":"0x02",
+                "microsecond":76125000,
+                "type":"lyric",
+                "text":"/for"
+            },
+            "Text189": {
+                "track":"0x02",
+                "microsecond":76312500,
+                "type":"lyric",
+                "text":"the"
+            },
+            "Text190": {
+                "track":"0x02",
+                "microsecond":76500000,
+                "type":"lyric",
+                "text":"last ride..-"
+            },
+            "Text191": {
+                "track":"0x02",
+                "microsecond":76875000,
+                "type":"lyric",
+                "text":"\It's"
+            },
+            "Text192": {
+                "track":"0x02",
+                "microsecond":77250000,
+                "type":"lyric",
+                "text":"been"
+            },
+            "Text193": {
+                "track":"0x02",
+                "microsecond":77625000,
+                "type":"lyric",
+                "text":"a"
+            },
+            "Text194": {
+                "track":"0x02",
+                "microsecond":78000000,
+                "type":"lyric",
+                "text":"lo-"
+            },
+            "Text195": {
+                "track":"0x02",
+                "microsecond":78187500,
+                "type":"lyric",
+                "text":"n-"
+            },
+            "Text196": {
+                "track":"0x02",
+                "microsecond":78375000,
+                "type":"lyric",
+                "text":"g.."
+            },
+            "Text197": {
+                "track":"0x02",
+                "microsecond":79125000,
+                "type":"lyric",
+                "text":"da-"
+            },
+            "Text198": {
+                "track":"0x02",
+                "microsecond":79687500,
+                "type":"lyric",
+                "text":"y..-"
+            },
+            "Text199": {
+                "track":"0x02",
+                "microsecond":80812500,
+                "type":"lyric",
+                "text":"/With-"
+            },
+            "Text200": {
+                "track":"0x02",
+                "microsecond":81000000,
+                "type":"lyric",
+                "text":"out"
+            },
+            "Text201": {
+                "track":"0x02",
+                "microsecond":81375000,
+                "type":"lyric",
+                "text":"you,"
+            },
+            "Text202": {
+                "track":"0x02",
+                "microsecond":81750000,
+                "type":"lyric",
+                "text":"my"
+            },
+            "Text203": {
+                "track":"0x02",
+                "microsecond":82125000,
+                "type":"lyric",
+                "text":"friend..-"
+            },
+            "Text204": {
+                "track":"0x02",
+                "microsecond":83625000,
+                "type":"lyric",
+                "text":"/And"
+            },
+            "Text205": {
+                "track":"0x02",
+                "microsecond":83812500,
+                "type":"lyric",
+                "text":"I'll"
+            },
+            "Text206": {
+                "track":"0x02",
+                "microsecond":84000000,
+                "type":"lyric",
+                "text":"tell"
+            },
+            "Text207": {
+                "track":"0x02",
+                "microsecond":84375000,
+                "type":"lyric",
+                "text":"you"
+            },
+            "Text208": {
+                "track":"0x02",
+                "microsecond":84750000,
+                "type":"lyric",
+                "text":"all"
+            },
+            "Text209": {
+                "track":"0x02",
+                "microsecond":85125000,
+                "type":"lyric",
+                "text":"a-"
+            },
+            "Text210": {
+                "track":"0x02",
+                "microsecond":85500000,
+                "type":"lyric",
+                "text":"bout"
+            },
+            "Text211": {
+                "track":"0x02",
+                "microsecond":85875000,
+                "type":"lyric",
+                "text":"it-"
+            },
+            "Text212": {
+                "track":"0x02",
+                "microsecond":86250000,
+                "type":"lyric",
+                "text":"/When"
+            },
+            "Text213": {
+                "track":"0x02",
+                "microsecond":86625000,
+                "type":"lyric",
+                "text":"I"
+            },
+            "Text214": {
+                "track":"0x02",
+                "microsecond":87000000,
+                "type":"lyric",
+                "text":"see"
+            },
+            "Text215": {
+                "track":"0x02",
+                "microsecond":87375000,
+                "type":"lyric",
+                "text":"you"
+            },
+            "Text216": {
+                "track":"0x02",
+                "microsecond":87750000,
+                "type":"lyric",
+                "text":"a-"
+            },
+            "Text217": {
+                "track":"0x02",
+                "microsecond":88125000,
+                "type":"lyric",
+                "text":"gai-"
+            },
+            "Text218": {
+                "track":"0x02",
+                "microsecond":88500000,
+                "type":"lyric",
+                "text":"n..-"
+            },
+            "Text219": {
+                "track":"0x02",
+                "microsecond":88687500,
+                "type":"lyric",
+                "text":"/{I"
+            },
+            "Text220": {
+                "track":"0x02",
+                "microsecond":88875000,
+                "type":"lyric",
+                "text":"see"
+            },
+            "Text221": {
+                "track":"0x02",
+                "microsecond":89062500,
+                "type":"lyric",
+                "text":"you"
+            },
+            "Text222": {
+                "track":"0x02",
+                "microsecond":89250000,
+                "type":"lyric",
+                "text":"a-"
+            },
+            "Text223": {
+                "track":"0x02",
+                "microsecond":89343750,
+                "type":"lyric",
+                "text":"gain}-"
+            },
+            "Text224": {
+                "track":"0x02",
+                "microsecond":89437500,
+                "type":"lyric",
+                "text":"/We've"
+            },
+            "Text225": {
+                "track":"0x02",
+                "microsecond":89625000,
+                "type":"lyric",
+                "text":"come"
+            },
+            "Text226": {
+                "track":"0x02",
+                "microsecond":89812500,
+                "type":"lyric",
+                "text":"a"
+            },
+            "Text227": {
+                "track":"0x02",
+                "microsecond":90000000,
+                "type":"lyric",
+                "text":"lo~-"
+            },
+            "Text228": {
+                "track":"0x02",
+                "microsecond":90375000,
+                "type":"lyric",
+                "text":"ng.."
+            },
+            "Text229": {
+                "track":"0x02",
+                "microsecond":91125000,
+                "type":"lyric",
+                "text":"wa-"
+            },
+            "Text230": {
+                "track":"0x02",
+                "microsecond":91875000,
+                "type":"lyric",
+                "text":"y..-"
+            },
+            "Text231": {
+                "track":"0x02",
+                "microsecond":92062500,
+                "type":"lyric",
+                "text":"/{Yeah,"
+            },
+            "Text232": {
+                "track":"0x02",
+                "microsecond":92156250,
+                "type":"lyric",
+                "text":"we"
+            },
+            "Text233": {
+                "track":"0x02",
+                "microsecond":92250000,
+                "type":"lyric",
+                "text":"came"
+            },
+            "Text234": {
+                "track":"0x02",
+                "microsecond":92437500,
+                "type":"lyric",
+                "text":"a"
+            },
+            "Text235": {
+                "track":"0x02",
+                "microsecond":92625000,
+                "type":"lyric",
+                "text":"long"
+            },
+            "Text236": {
+                "track":"0x02",
+                "microsecond":92718750,
+                "type":"lyric",
+                "text":"way}-"
+            },
+            "Text237": {
+                "track":"0x02",
+                "microsecond":92812500,
+                "type":"lyric",
+                "text":"/From"
+            },
+            "Text238": {
+                "track":"0x02",
+                "microsecond":93000000,
+                "type":"lyric",
+                "text":"where"
+            },
+            "Text239": {
+                "track":"0x02",
+                "microsecond":93375000,
+                "type":"lyric",
+                "text":"we"
+            },
+            "Text240": {
+                "track":"0x02",
+                "microsecond":93750000,
+                "type":"lyric",
+                "text":"be-"
+            },
+            "Text241": {
+                "track":"0x02",
+                "microsecond":94125000,
+                "type":"lyric",
+                "text":"ga-"
+            },
+            "Text242": {
+                "track":"0x02",
+                "microsecond":94500000,
+                "type":"lyric",
+                "text":"n..-"
+            },
+            "Text243": {
+                "track":"0x02",
+                "microsecond":94687500,
+                "type":"lyric",
+                "text":"/{You"
+            },
+            "Text244": {
+                "track":"0x02",
+                "microsecond":94875000,
+                "type":"lyric",
+                "text":"know"
+            },
+            "Text245": {
+                "track":"0x02",
+                "microsecond":95062500,
+                "type":"lyric",
+                "text":"we"
+            },
+            "Text246": {
+                "track":"0x02",
+                "microsecond":95156250,
+                "type":"lyric",
+                "text":"started}-"
+            },
+            "Text247": {
+                "track":"0x02",
+                "microsecond":95250000,
+                "type":"lyric",
+                "text":"/Oh,"
+            },
+            "Text248": {
+                "track":"0x02",
+                "microsecond":95625000,
+                "type":"lyric",
+                "text":"I'll"
+            },
+            "Text249": {
+                "track":"0x02",
+                "microsecond":96000000,
+                "type":"lyric",
+                "text":"tell"
+            },
+            "Text250": {
+                "track":"0x02",
+                "microsecond":96375000,
+                "type":"lyric",
+                "text":"you"
+            },
+            "Text251": {
+                "track":"0x02",
+                "microsecond":96750000,
+                "type":"lyric",
+                "text":"all"
+            },
+            "Text252": {
+                "track":"0x02",
+                "microsecond":97125000,
+                "type":"lyric",
+                "text":"a-"
+            },
+            "Text253": {
+                "track":"0x02",
+                "microsecond":97500000,
+                "type":"lyric",
+                "text":"bout"
+            },
+            "Text254": {
+                "track":"0x02",
+                "microsecond":97875000,
+                "type":"lyric",
+                "text":"it-"
+            },
+            "Text255": {
+                "track":"0x02",
+                "microsecond":98250000,
+                "type":"lyric",
+                "text":"/When"
+            },
+            "Text256": {
+                "track":"0x02",
+                "microsecond":98625000,
+                "type":"lyric",
+                "text":"I"
+            },
+            "Text257": {
+                "track":"0x02",
+                "microsecond":99000000,
+                "type":"lyric",
+                "text":"see"
+            },
+            "Text258": {
+                "track":"0x02",
+                "microsecond":99375000,
+                "type":"lyric",
+                "text":"you"
+            },
+            "Text259": {
+                "track":"0x02",
+                "microsecond":99750000,
+                "type":"lyric",
+                "text":"a-"
+            },
+            "Text260": {
+                "track":"0x02",
+                "microsecond":100125000,
+                "type":"lyric",
+                "text":"gai-"
+            },
+            "Text261": {
+                "track":"0x02",
+                "microsecond":100500000,
+                "type":"lyric",
+                "text":"n..-"
+            },
+            "Text262": {
+                "track":"0x02",
+                "microsecond":100687500,
+                "type":"lyric",
+                "text":"/{Let"
+            },
+            "Text263": {
+                "track":"0x02",
+                "microsecond":100875000,
+                "type":"lyric",
+                "text":"me"
+            },
+            "Text264": {
+                "track":"0x02",
+                "microsecond":100968750,
+                "type":"lyric",
+                "text":"tell"
+            },
+            "Text265": {
+                "track":"0x02",
+                "microsecond":101062500,
+                "type":"lyric",
+                "text":"you}-"
+            },
+            "Text266": {
+                "track":"0x02",
+                "microsecond":101250000,
+                "type":"lyric",
+                "text":"/When"
+            },
+            "Text267": {
+                "track":"0x02",
+                "microsecond":101625000,
+                "type":"lyric",
+                "text":"I"
+            },
+            "Text268": {
+                "track":"0x02",
+                "microsecond":102000000,
+                "type":"lyric",
+                "text":"see"
+            },
+            "Text269": {
+                "track":"0x02",
+                "microsecond":102375000,
+                "type":"lyric",
+                "text":"you"
+            },
+            "Text270": {
+                "track":"0x02",
+                "microsecond":102750000,
+                "type":"lyric",
+                "text":"a-"
+            },
+            "Text271": {
+                "track":"0x02",
+                "microsecond":103125000,
+                "type":"lyric",
+                "text":"gain-"
+            },
+            "Text272": {
+                "track":"0x02",
+                "microsecond":119437500,
+                "type":"lyric",
+                "text":"\Semi~Spoken: First"
+            },
+            "Text273": {
+                "track":"0x02",
+                "microsecond":119625000,
+                "type":"lyric",
+                "text":"you"
+            },
+            "Text274": {
+                "track":"0x02",
+                "microsecond":119812500,
+                "type":"lyric",
+                "text":"both"
+            },
+            "Text275": {
+                "track":"0x02",
+                "microsecond":120187500,
+                "type":"lyric",
+                "text":"go"
+            },
+            "Text276": {
+                "track":"0x02",
+                "microsecond":120375000,
+                "type":"lyric",
+                "text":"out"
+            },
+            "Text277": {
+                "track":"0x02",
+                "microsecond":120562500,
+                "type":"lyric",
+                "text":"your"
+            },
+            "Text278": {
+                "track":"0x02",
+                "microsecond":120750000,
+                "type":"lyric",
+                "text":"way-"
+            },
+            "Text279": {
+                "track":"0x02",
+                "microsecond":120937500,
+                "type":"lyric",
+                "text":"/And"
+            },
+            "Text280": {
+                "track":"0x02",
+                "microsecond":121125000,
+                "type":"lyric",
+                "text":"the"
+            },
+            "Text281": {
+                "track":"0x02",
+                "microsecond":121312500,
+                "type":"lyric",
+                "text":"vibe"
+            },
+            "Text282": {
+                "track":"0x02",
+                "microsecond":121687500,
+                "type":"lyric",
+                "text":"is"
+            },
+            "Text283": {
+                "track":"0x02",
+                "microsecond":121875000,
+                "type":"lyric",
+                "text":"feel-"
+            },
+            "Text284": {
+                "track":"0x02",
+                "microsecond":122062500,
+                "type":"lyric",
+                "text":"ing"
+            },
+            "Text285": {
+                "track":"0x02",
+                "microsecond":122250000,
+                "type":"lyric",
+                "text":"strong-"
+            },
+            "Text286": {
+                "track":"0x02",
+                "microsecond":122437500,
+                "type":"lyric",
+                "text":"/And"
+            },
+            "Text287": {
+                "track":"0x02",
+                "microsecond":122625000,
+                "type":"lyric",
+                "text":"what's"
+            },
+            "Text288": {
+                "track":"0x02",
+                "microsecond":122812500,
+                "type":"lyric",
+                "text":"small"
+            },
+            "Text289": {
+                "track":"0x02",
+                "microsecond":123000000,
+                "type":"lyric",
+                "text":"turn"
+            },
+            "Text290": {
+                "track":"0x02",
+                "microsecond":123187500,
+                "type":"lyric",
+                "text":"to"
+            },
+            "Text291": {
+                "track":"0x02",
+                "microsecond":123375000,
+                "type":"lyric",
+                "text":"a"
+            },
+            "Text292": {
+                "track":"0x02",
+                "microsecond":123562500,
+                "type":"lyric",
+                "text":"friend-"
+            },
+            "Text293": {
+                "track":"0x02",
+                "microsecond":123750000,
+                "type":"lyric",
+                "text":"ship-"
+            },
+            "Text294": {
+                "track":"0x02",
+                "microsecond":123937500,
+                "type":"lyric",
+                "text":"/A"
+            },
+            "Text295": {
+                "track":"0x02",
+                "microsecond":124125000,
+                "type":"lyric",
+                "text":"friend-"
+            },
+            "Text296": {
+                "track":"0x02",
+                "microsecond":124312500,
+                "type":"lyric",
+                "text":"ship"
+            },
+            "Text297": {
+                "track":"0x02",
+                "microsecond":124500000,
+                "type":"lyric",
+                "text":"turn"
+            },
+            "Text298": {
+                "track":"0x02",
+                "microsecond":124687500,
+                "type":"lyric",
+                "text":"in-"
+            },
+            "Text299": {
+                "track":"0x02",
+                "microsecond":124875000,
+                "type":"lyric",
+                "text":"to"
+            },
+            "Text300": {
+                "track":"0x02",
+                "microsecond":125062500,
+                "type":"lyric",
+                "text":"a"
+            },
+            "Text301": {
+                "track":"0x02",
+                "microsecond":125250000,
+                "type":"lyric",
+                "text":"bond-"
+            },
+            "Text302": {
+                "track":"0x02",
+                "microsecond":125437500,
+                "type":"lyric",
+                "text":"/And"
+            },
+            "Text303": {
+                "track":"0x02",
+                "microsecond":125625000,
+                "type":"lyric",
+                "text":"that"
+            },
+            "Text304": {
+                "track":"0x02",
+                "microsecond":125812500,
+                "type":"lyric",
+                "text":"bond"
+            },
+            "Text305": {
+                "track":"0x02",
+                "microsecond":126000000,
+                "type":"lyric",
+                "text":"will"
+            },
+            "Text306": {
+                "track":"0x02",
+                "microsecond":126187500,
+                "type":"lyric",
+                "text":"nev-"
+            },
+            "Text307": {
+                "track":"0x02",
+                "microsecond":126375000,
+                "type":"lyric",
+                "text":"er"
+            },
+            "Text308": {
+                "track":"0x02",
+                "microsecond":126562500,
+                "type":"lyric",
+                "text":"be"
+            },
+            "Text309": {
+                "track":"0x02",
+                "microsecond":126750000,
+                "type":"lyric",
+                "text":"bro-"
+            },
+            "Text310": {
+                "track":"0x02",
+                "microsecond":126937500,
+                "type":"lyric",
+                "text":"ken-"
+            },
+            "Text311": {
+                "track":"0x02",
+                "microsecond":127125000,
+                "type":"lyric",
+                "text":"/The"
+            },
+            "Text312": {
+                "track":"0x02",
+                "microsecond":127312500,
+                "type":"lyric",
+                "text":"love"
+            },
+            "Text313": {
+                "track":"0x02",
+                "microsecond":127500000,
+                "type":"lyric",
+                "text":"will"
+            },
+            "Text314": {
+                "track":"0x02",
+                "microsecond":127687500,
+                "type":"lyric",
+                "text":"nev-"
+            },
+            "Text315": {
+                "track":"0x02",
+                "microsecond":127875000,
+                "type":"lyric",
+                "text":"er"
+            },
+            "Text316": {
+                "track":"0x02",
+                "microsecond":128062500,
+                "type":"lyric",
+                "text":"get"
+            },
+            "Text317": {
+                "track":"0x02",
+                "microsecond":128250000,
+                "type":"lyric",
+                "text":"lost..-"
+            },
+            "Text318": {
+                "track":"0x02",
+                "microsecond":128812500,
+                "type":"lyric",
+                "text":"/{And"
+            },
+            "Text319": {
+                "track":"0x02",
+                "microsecond":129000000,
+                "type":"lyric",
+                "text":"the"
+            },
+            "Text320": {
+                "track":"0x02",
+                "microsecond":129187500,
+                "type":"lyric",
+                "text":"love"
+            },
+            "Text321": {
+                "track":"0x02",
+                "microsecond":129375000,
+                "type":"lyric",
+                "text":"will"
+            },
+            "Text322": {
+                "track":"0x02",
+                "microsecond":129562500,
+                "type":"lyric",
+                "text":"nev-"
+            },
+            "Text323": {
+                "track":"0x02",
+                "microsecond":129750000,
+                "type":"lyric",
+                "text":"er"
+            },
+            "Text324": {
+                "track":"0x02",
+                "microsecond":129937500,
+                "type":"lyric",
+                "text":"get"
+            },
+            "Text325": {
+                "track":"0x02",
+                "microsecond":130125000,
+                "type":"lyric",
+                "text":"lost}-"
+            },
+            "Text326": {
+                "track":"0x02",
+                "microsecond":131437500,
+                "type":"lyric",
+                "text":"/And"
+            },
+            "Text327": {
+                "track":"0x02",
+                "microsecond":131625000,
+                "type":"lyric",
+                "text":"when"
+            },
+            "Text328": {
+                "track":"0x02",
+                "microsecond":131812500,
+                "type":"lyric",
+                "text":"broth-"
+            },
+            "Text329": {
+                "track":"0x02",
+                "microsecond":132000000,
+                "type":"lyric",
+                "text":"er-"
+            },
+            "Text330": {
+                "track":"0x02",
+                "microsecond":132187500,
+                "type":"lyric",
+                "text":"hood"
+            },
+            "Text331": {
+                "track":"0x02",
+                "microsecond":132375000,
+                "type":"lyric",
+                "text":"come"
+            },
+            "Text332": {
+                "track":"0x02",
+                "microsecond":132750000,
+                "type":"lyric",
+                "text":"first-"
+            },
+            "Text333": {
+                "track":"0x02",
+                "microsecond":132937500,
+                "type":"lyric",
+                "text":"/Then"
+            },
+            "Text334": {
+                "track":"0x02",
+                "microsecond":133125000,
+                "type":"lyric",
+                "text":"the"
+            },
+            "Text335": {
+                "track":"0x02",
+                "microsecond":133312500,
+                "type":"lyric",
+                "text":"line"
+            },
+            "Text336": {
+                "track":"0x02",
+                "microsecond":133500000,
+                "type":"lyric",
+                "text":"will"
+            },
+            "Text337": {
+                "track":"0x02",
+                "microsecond":133687500,
+                "type":"lyric",
+                "text":"nev-"
+            },
+            "Text338": {
+                "track":"0x02",
+                "microsecond":133875000,
+                "type":"lyric",
+                "text":"er"
+            },
+            "Text339": {
+                "track":"0x02",
+                "microsecond":134062500,
+                "type":"lyric",
+                "text":"be"
+            },
+            "Text340": {
+                "track":"0x02",
+                "microsecond":134250000,
+                "type":"lyric",
+                "text":"crossed-"
+            },
+            "Text341": {
+                "track":"0x02",
+                "microsecond":134625000,
+                "type":"lyric",
+                "text":"/Es-"
+            },
+            "Text342": {
+                "track":"0x02",
+                "microsecond":134812500,
+                "type":"lyric",
+                "text":"tab-"
+            },
+            "Text343": {
+                "track":"0x02",
+                "microsecond":135000000,
+                "type":"lyric",
+                "text":"lished"
+            },
+            "Text344": {
+                "track":"0x02",
+                "microsecond":135187500,
+                "type":"lyric",
+                "text":"it"
+            },
+            "Text345": {
+                "track":"0x02",
+                "microsecond":135375000,
+                "type":"lyric",
+                "text":"on"
+            },
+            "Text346": {
+                "track":"0x02",
+                "microsecond":135562500,
+                "type":"lyric",
+                "text":"our"
+            },
+            "Text347": {
+                "track":"0x02",
+                "microsecond":135750000,
+                "type":"lyric",
+                "text":"own-"
+            },
+            "Text348": {
+                "track":"0x02",
+                "microsecond":135937500,
+                "type":"lyric",
+                "text":"/When"
+            },
+            "Text349": {
+                "track":"0x02",
+                "microsecond":136125000,
+                "type":"lyric",
+                "text":"that"
+            },
+            "Text350": {
+                "track":"0x02",
+                "microsecond":136312500,
+                "type":"lyric",
+                "text":"line"
+            },
+            "Text351": {
+                "track":"0x02",
+                "microsecond":136687500,
+                "type":"lyric",
+                "text":"had"
+            },
+            "Text352": {
+                "track":"0x02",
+                "microsecond":136875000,
+                "type":"lyric",
+                "text":"to"
+            },
+            "Text353": {
+                "track":"0x02",
+                "microsecond":137062500,
+                "type":"lyric",
+                "text":"be"
+            },
+            "Text354": {
+                "track":"0x02",
+                "microsecond":137250000,
+                "type":"lyric",
+                "text":"drawn-"
+            },
+            "Text355": {
+                "track":"0x02",
+                "microsecond":137437500,
+                "type":"lyric",
+                "text":"/And"
+            },
+            "Text356": {
+                "track":"0x02",
+                "microsecond":137625000,
+                "type":"lyric",
+                "text":"that"
+            },
+            "Text357": {
+                "track":"0x02",
+                "microsecond":137812500,
+                "type":"lyric",
+                "text":"line"
+            },
+            "Text358": {
+                "track":"0x02",
+                "microsecond":138187500,
+                "type":"lyric",
+                "text":"is"
+            },
+            "Text359": {
+                "track":"0x02",
+                "microsecond":138375000,
+                "type":"lyric",
+                "text":"what"
+            },
+            "Text360": {
+                "track":"0x02",
+                "microsecond":138562500,
+                "type":"lyric",
+                "text":"we"
+            },
+            "Text361": {
+                "track":"0x02",
+                "microsecond":138750000,
+                "type":"lyric",
+                "text":"reach..-"
+            },
+            "Text362": {
+                "track":"0x02",
+                "microsecond":138937500,
+                "type":"lyric",
+                "text":"/So"
+            },
+            "Text363": {
+                "track":"0x02",
+                "microsecond":139125000,
+                "type":"lyric",
+                "text":"re-"
+            },
+            "Text364": {
+                "track":"0x02",
+                "microsecond":139312500,
+                "type":"lyric",
+                "text":"mem-"
+            },
+            "Text365": {
+                "track":"0x02",
+                "microsecond":139500000,
+                "type":"lyric",
+                "text":"ber"
+            },
+            "Text366": {
+                "track":"0x02",
+                "microsecond":139687500,
+                "type":"lyric",
+                "text":"me"
+            },
+            "Text367": {
+                "track":"0x02",
+                "microsecond":139875000,
+                "type":"lyric",
+                "text":"when"
+            },
+            "Text368": {
+                "track":"0x02",
+                "microsecond":140062500,
+                "type":"lyric",
+                "text":"I'm"
+            },
+            "Text369": {
+                "track":"0x02",
+                "microsecond":140250000,
+                "type":"lyric",
+                "text":"gone-"
+            },
+            "Text370": {
+                "track":"0x02",
+                "microsecond":141187500,
+                "type":"lyric",
+                "text":"/{Re-"
+            },
+            "Text371": {
+                "track":"0x02",
+                "microsecond":141375000,
+                "type":"lyric",
+                "text":"mem-"
+            },
+            "Text372": {
+                "track":"0x02",
+                "microsecond":141562500,
+                "type":"lyric",
+                "text":"ber"
+            },
+            "Text373": {
+                "track":"0x02",
+                "microsecond":141750000,
+                "type":"lyric",
+                "text":"me"
+            },
+            "Text374": {
+                "track":"0x02",
+                "microsecond":141937500,
+                "type":"lyric",
+                "text":"while"
+            },
+            "Text375": {
+                "track":"0x02",
+                "microsecond":142125000,
+                "type":"lyric",
+                "text":"I'm"
+            },
+            "Text376": {
+                "track":"0x02",
+                "microsecond":142312500,
+                "type":"lyric",
+                "text":"gone}-"
+            },
+            "Text377": {
+                "track":"0x02",
+                "microsecond":143250000,
+                "type":"lyric",
+                "text":"\Sung: How"
+            },
+            "Text378": {
+                "track":"0x02",
+                "microsecond":143437500,
+                "type":"lyric",
+                "text":"could"
+            },
+            "Text379": {
+                "track":"0x02",
+                "microsecond":143625000,
+                "type":"lyric",
+                "text":"we"
+            },
+            "Text380": {
+                "track":"0x02",
+                "microsecond":143812500,
+                "type":"lyric",
+                "text":"not"
+            },
+            "Text381": {
+                "track":"0x02",
+                "microsecond":144187500,
+                "type":"lyric",
+                "text":"talk"
+            },
+            "Text382": {
+                "track":"0x02",
+                "microsecond":144375000,
+                "type":"lyric",
+                "text":"a-"
+            },
+            "Text383": {
+                "track":"0x02",
+                "microsecond":144562500,
+                "type":"lyric",
+                "text":"bout"
+            },
+            "Text384": {
+                "track":"0x02",
+                "microsecond":144750000,
+                "type":"lyric",
+                "text":"fam-"
+            },
+            "Text385": {
+                "track":"0x02",
+                "microsecond":144937500,
+                "type":"lyric",
+                "text":"'ly-"
+            },
+            "Text386": {
+                "track":"0x02",
+                "microsecond":145125000,
+                "type":"lyric",
+                "text":"/when"
+            },
+            "Text387": {
+                "track":"0x02",
+                "microsecond":145312500,
+                "type":"lyric",
+                "text":"fam-"
+            },
+            "Text388": {
+                "track":"0x02",
+                "microsecond":145500000,
+                "type":"lyric",
+                "text":"'ly's"
+            },
+            "Text389": {
+                "track":"0x02",
+                "microsecond":145687500,
+                "type":"lyric",
+                "text":"all"
+            },
+            "Text390": {
+                "track":"0x02",
+                "microsecond":145875000,
+                "type":"lyric",
+                "text":"that"
+            },
+            "Text391": {
+                "track":"0x02",
+                "microsecond":146062500,
+                "type":"lyric",
+                "text":"we"
+            },
+            "Text392": {
+                "track":"0x02",
+                "microsecond":146250000,
+                "type":"lyric",
+                "text":"got?-"
+            },
+            "Text393": {
+                "track":"0x02",
+                "microsecond":146812500,
+                "type":"lyric",
+                "text":"/Ev-"
+            },
+            "Text394": {
+                "track":"0x02",
+                "microsecond":147000000,
+                "type":"lyric",
+                "text":"'ry-"
+            },
+            "Text395": {
+                "track":"0x02",
+                "microsecond":147187500,
+                "type":"lyric",
+                "text":"thing"
+            },
+            "Text396": {
+                "track":"0x02",
+                "microsecond":147375000,
+                "type":"lyric",
+                "text":"I"
+            },
+            "Text397": {
+                "track":"0x02",
+                "microsecond":147562500,
+                "type":"lyric",
+                "text":"went"
+            },
+            "Text398": {
+                "track":"0x02",
+                "microsecond":147750000,
+                "type":"lyric",
+                "text":"through-"
+            },
+            "Text399": {
+                "track":"0x02",
+                "microsecond":147937500,
+                "type":"lyric",
+                "text":"/you"
+            },
+            "Text400": {
+                "track":"0x02",
+                "microsecond":148125000,
+                "type":"lyric",
+                "text":"were"
+            },
+            "Text401": {
+                "track":"0x02",
+                "microsecond":148312500,
+                "type":"lyric",
+                "text":"stand-"
+            },
+            "Text402": {
+                "track":"0x02",
+                "microsecond":148500000,
+                "type":"lyric",
+                "text":"ing"
+            },
+            "Text403": {
+                "track":"0x02",
+                "microsecond":148687500,
+                "type":"lyric",
+                "text":"there"
+            },
+            "Text404": {
+                "track":"0x02",
+                "microsecond":148875000,
+                "type":"lyric",
+                "text":"by"
+            },
+            "Text405": {
+                "track":"0x02",
+                "microsecond":149062500,
+                "type":"lyric",
+                "text":"my"
+            },
+            "Text406": {
+                "track":"0x02",
+                "microsecond":149250000,
+                "type":"lyric",
+                "text":"side-"
+            },
+            "Text407": {
+                "track":"0x02",
+                "microsecond":149812500,
+                "type":"lyric",
+                "text":"/And"
+            },
+            "Text408": {
+                "track":"0x02",
+                "microsecond":150000000,
+                "type":"lyric",
+                "text":"now"
+            },
+            "Text409": {
+                "track":"0x02",
+                "microsecond":150187500,
+                "type":"lyric",
+                "text":"you"
+            },
+            "Text410": {
+                "track":"0x02",
+                "microsecond":150375000,
+                "type":"lyric",
+                "text":"gon-"
+            },
+            "Text411": {
+                "track":"0x02",
+                "microsecond":150468750,
+                "type":"lyric",
+                "text":"na"
+            },
+            "Text412": {
+                "track":"0x02",
+                "microsecond":150562500,
+                "type":"lyric",
+                "text":"be"
+            },
+            "Text413": {
+                "track":"0x02",
+                "microsecond":150750000,
+                "type":"lyric",
+                "text":"with"
+            },
+            "Text414": {
+                "track":"0x02",
+                "microsecond":150937500,
+                "type":"lyric",
+                "text":"me-"
+            },
+            "Text415": {
+                "track":"0x02",
+                "microsecond":151125000,
+                "type":"lyric",
+                "text":"/for"
+            },
+            "Text416": {
+                "track":"0x02",
+                "microsecond":151312500,
+                "type":"lyric",
+                "text":"the"
+            },
+            "Text417": {
+                "track":"0x02",
+                "microsecond":151500000,
+                "type":"lyric",
+                "text":"last ride..-"
+            },
+            "Text418": {
+                "track":"0x02",
+                "microsecond":151875000,
+                "type":"lyric",
+                "text":"\So"
+            },
+            "Text419": {
+                "track":"0x02",
+                "microsecond":152250000,
+                "type":"lyric",
+                "text":"let"
+            },
+            "Text420": {
+                "track":"0x02",
+                "microsecond":152625000,
+                "type":"lyric",
+                "text":"the"
+            },
+            "Text421": {
+                "track":"0x02",
+                "microsecond":153000000,
+                "type":"lyric",
+                "text":"li-"
+            },
+            "Text422": {
+                "track":"0x02",
+                "microsecond":153750000,
+                "type":"lyric",
+                "text":"ght"
+            },
+            "Text423": {
+                "track":"0x02",
+                "microsecond":154125000,
+                "type":"lyric",
+                "text":"guide"
+            },
+            "Text424": {
+                "track":"0x02",
+                "microsecond":155250000,
+                "type":"lyric",
+                "text":"your"
+            },
+            "Text425": {
+                "track":"0x02",
+                "microsecond":155625000,
+                "type":"lyric",
+                "text":"wa-"
+            },
+            "Text426": {
+                "track":"0x02",
+                "microsecond":156375000,
+                "type":"lyric",
+                "text":"y.."
+            },
+            "Text427": {
+                "track":"0x02",
+                "microsecond":157875000,
+                "type":"lyric",
+                "text":"yeah..-"
+            },
+            "Text428": {
+                "track":"0x02",
+                "microsecond":159375000,
+                "type":"lyric",
+                "text":"/Hold"
+            },
+            "Text429": {
+                "track":"0x02",
+                "microsecond":159750000,
+                "type":"lyric",
+                "text":"ev-"
+            },
+            "Text430": {
+                "track":"0x02",
+                "microsecond":160125000,
+                "type":"lyric",
+                "text":"'ry"
+            },
+            "Text431": {
+                "track":"0x02",
+                "microsecond":160312500,
+                "type":"lyric",
+                "text":"me-"
+            },
+            "Text432": {
+                "track":"0x02",
+                "microsecond":160500000,
+                "type":"lyric",
+                "text":"m-"
+            },
+            "Text433": {
+                "track":"0x02",
+                "microsecond":160875000,
+                "type":"lyric",
+                "text":"'ry"
+            },
+            "Text434": {
+                "track":"0x02",
+                "microsecond":161250000,
+                "type":"lyric",
+                "text":"a-"
+            },
+            "Text435": {
+                "track":"0x02",
+                "microsecond":161437500,
+                "type":"lyric",
+                "text":"s"
+            },
+            "Text436": {
+                "track":"0x02",
+                "microsecond":161625000,
+                "type":"lyric",
+                "text":"you"
+            },
+            "Text437": {
+                "track":"0x02",
+                "microsecond":161812500,
+                "type":"lyric",
+                "text":"go-"
+            },
+            "Text438": {
+                "track":"0x02",
+                "microsecond":162375000,
+                "type":"lyric",
+                "text":"...-"
+            },
+            "Text439": {
+                "track":"0x02",
+                "microsecond":164437500,
+                "type":"lyric",
+                "text":"/And"
+            },
+            "Text440": {
+                "track":"0x02",
+                "microsecond":164625000,
+                "type":"lyric",
+                "text":"ev-"
+            },
+            "Text441": {
+                "track":"0x02",
+                "microsecond":164812500,
+                "type":"lyric",
+                "text":"'ry"
+            },
+            "Text442": {
+                "track":"0x02",
+                "microsecond":165000000,
+                "type":"lyric",
+                "text":"road"
+            },
+            "Text443": {
+                "track":"0x02",
+                "microsecond":165375000,
+                "type":"lyric",
+                "text":"you"
+            },
+            "Text444": {
+                "track":"0x02",
+                "microsecond":165750000,
+                "type":"lyric",
+                "text":"ta-"
+            },
+            "Text445": {
+                "track":"0x02",
+                "microsecond":166312500,
+                "type":"lyric",
+                "text":"ke...-"
+            },
+            "Text446": {
+                "track":"0x02",
+                "microsecond":167812500,
+                "type":"lyric",
+                "text":"/Will"
+            },
+            "Text447": {
+                "track":"0x02",
+                "microsecond":168000000,
+                "type":"lyric",
+                "text":"a-"
+            },
+            "Text448": {
+                "track":"0x02",
+                "microsecond":168375000,
+                "type":"lyric",
+                "text":"l-"
+            },
+            "Text449": {
+                "track":"0x02",
+                "microsecond":168750000,
+                "type":"lyric",
+                "text":"wa-"
+            },
+            "Text450": {
+                "track":"0x02",
+                "microsecond":168937500,
+                "type":"lyric",
+                "text":"ys-"
+            },
+            "Text451": {
+                "track":"0x02",
+                "microsecond":169125000,
+                "type":"lyric",
+                "text":".."
+            },
+            "Text452": {
+                "track":"0x02",
+                "microsecond":169500000,
+                "type":"lyric",
+                "text":"lead"
+            },
+            "Text453": {
+                "track":"0x02",
+                "microsecond":170250000,
+                "type":"lyric",
+                "text":"yo-"
+            },
+            "Text454": {
+                "track":"0x02",
+                "microsecond":170437500,
+                "type":"lyric",
+                "text":"u-"
+            },
+            "Text455": {
+                "track":"0x02",
+                "microsecond":170625000,
+                "type":"lyric",
+                "text":"..-"
+            },
+            "Text456": {
+                "track":"0x02",
+                "microsecond":171000000,
+                "type":"lyric",
+                "text":"/Home.."
+            },
+            "Text457": {
+                "track":"0x02",
+                "microsecond":171750000,
+                "type":"lyric",
+                "text":"Ho~-"
+            },
+            "Text458": {
+                "track":"0x02",
+                "microsecond":173625000,
+                "type":"lyric",
+                "text":"~-"
+            },
+            "Text459": {
+                "track":"0x02",
+                "microsecond":174000000,
+                "type":"lyric",
+                "text":"me-"
+            },
+            "Text460": {
+                "track":"0x02",
+                "microsecond":174562500,
+                "type":"lyric",
+                "text":"...-"
+            },
+            "Text461": {
+                "track":"0x02",
+                "microsecond":175875000,
+                "type":"lyric",
+                "text":"\It's"
+            },
+            "Text462": {
+                "track":"0x02",
+                "microsecond":176250000,
+                "type":"lyric",
+                "text":"been"
+            },
+            "Text463": {
+                "track":"0x02",
+                "microsecond":176625000,
+                "type":"lyric",
+                "text":"a"
+            },
+            "Text464": {
+                "track":"0x02",
+                "microsecond":177000000,
+                "type":"lyric",
+                "text":"lo-"
+            },
+            "Text465": {
+                "track":"0x02",
+                "microsecond":177187500,
+                "type":"lyric",
+                "text":"n-"
+            },
+            "Text466": {
+                "track":"0x02",
+                "microsecond":177375000,
+                "type":"lyric",
+                "text":"g.."
+            },
+            "Text467": {
+                "track":"0x02",
+                "microsecond":178125000,
+                "type":"lyric",
+                "text":"da-"
+            },
+            "Text468": {
+                "track":"0x02",
+                "microsecond":178687500,
+                "type":"lyric",
+                "text":"y..-"
+            },
+            "Text469": {
+                "track":"0x02",
+                "microsecond":179812500,
+                "type":"lyric",
+                "text":"/With-"
+            },
+            "Text470": {
+                "track":"0x02",
+                "microsecond":180000000,
+                "type":"lyric",
+                "text":"out"
+            },
+            "Text471": {
+                "track":"0x02",
+                "microsecond":180375000,
+                "type":"lyric",
+                "text":"you,"
+            },
+            "Text472": {
+                "track":"0x02",
+                "microsecond":180750000,
+                "type":"lyric",
+                "text":"my"
+            },
+            "Text473": {
+                "track":"0x02",
+                "microsecond":181125000,
+                "type":"lyric",
+                "text":"friend..-"
+            },
+            "Text474": {
+                "track":"0x02",
+                "microsecond":182625000,
+                "type":"lyric",
+                "text":"/And"
+            },
+            "Text475": {
+                "track":"0x02",
+                "microsecond":182812500,
+                "type":"lyric",
+                "text":"I'll"
+            },
+            "Text476": {
+                "track":"0x02",
+                "microsecond":183000000,
+                "type":"lyric",
+                "text":"tell"
+            },
+            "Text477": {
+                "track":"0x02",
+                "microsecond":183375000,
+                "type":"lyric",
+                "text":"you"
+            },
+            "Text478": {
+                "track":"0x02",
+                "microsecond":183750000,
+                "type":"lyric",
+                "text":"all"
+            },
+            "Text479": {
+                "track":"0x02",
+                "microsecond":184125000,
+                "type":"lyric",
+                "text":"a-"
+            },
+            "Text480": {
+                "track":"0x02",
+                "microsecond":184500000,
+                "type":"lyric",
+                "text":"bout"
+            },
+            "Text481": {
+                "track":"0x02",
+                "microsecond":184875000,
+                "type":"lyric",
+                "text":"it-"
+            },
+            "Text482": {
+                "track":"0x02",
+                "microsecond":185250000,
+                "type":"lyric",
+                "text":"/When"
+            },
+            "Text483": {
+                "track":"0x02",
+                "microsecond":185625000,
+                "type":"lyric",
+                "text":"I"
+            },
+            "Text484": {
+                "track":"0x02",
+                "microsecond":186000000,
+                "type":"lyric",
+                "text":"see"
+            },
+            "Text485": {
+                "track":"0x02",
+                "microsecond":186375000,
+                "type":"lyric",
+                "text":"you"
+            },
+            "Text486": {
+                "track":"0x02",
+                "microsecond":186750000,
+                "type":"lyric",
+                "text":"a-"
+            },
+            "Text487": {
+                "track":"0x02",
+                "microsecond":187125000,
+                "type":"lyric",
+                "text":"gai-"
+            },
+            "Text488": {
+                "track":"0x02",
+                "microsecond":187500000,
+                "type":"lyric",
+                "text":"n..-"
+            },
+            "Text489": {
+                "track":"0x02",
+                "microsecond":188437500,
+                "type":"lyric",
+                "text":"/We've"
+            },
+            "Text490": {
+                "track":"0x02",
+                "microsecond":188625000,
+                "type":"lyric",
+                "text":"come"
+            },
+            "Text491": {
+                "track":"0x02",
+                "microsecond":188812500,
+                "type":"lyric",
+                "text":"a"
+            },
+            "Text492": {
+                "track":"0x02",
+                "microsecond":189000000,
+                "type":"lyric",
+                "text":"lo~-"
+            },
+            "Text493": {
+                "track":"0x02",
+                "microsecond":189375000,
+                "type":"lyric",
+                "text":"ng.."
+            },
+            "Text494": {
+                "track":"0x02",
+                "microsecond":190125000,
+                "type":"lyric",
+                "text":"wa-"
+            },
+            "Text495": {
+                "track":"0x02",
+                "microsecond":190875000,
+                "type":"lyric",
+                "text":"y..-"
+            },
+            "Text496": {
+                "track":"0x02",
+                "microsecond":191812500,
+                "type":"lyric",
+                "text":"/From"
+            },
+            "Text497": {
+                "track":"0x02",
+                "microsecond":192000000,
+                "type":"lyric",
+                "text":"where"
+            },
+            "Text498": {
+                "track":"0x02",
+                "microsecond":192375000,
+                "type":"lyric",
+                "text":"we"
+            },
+            "Text499": {
+                "track":"0x02",
+                "microsecond":192750000,
+                "type":"lyric",
+                "text":"be-"
+            },
+            "Text500": {
+                "track":"0x02",
+                "microsecond":193125000,
+                "type":"lyric",
+                "text":"ga-"
+            },
+            "Text501": {
+                "track":"0x02",
+                "microsecond":193500000,
+                "type":"lyric",
+                "text":"n..-"
+            },
+            "Text502": {
+                "track":"0x02",
+                "microsecond":194250000,
+                "type":"lyric",
+                "text":"/Oh,"
+            },
+            "Text503": {
+                "track":"0x02",
+                "microsecond":194625000,
+                "type":"lyric",
+                "text":"I'll"
+            },
+            "Text504": {
+                "track":"0x02",
+                "microsecond":195000000,
+                "type":"lyric",
+                "text":"tell"
+            },
+            "Text505": {
+                "track":"0x02",
+                "microsecond":195375000,
+                "type":"lyric",
+                "text":"you"
+            },
+            "Text506": {
+                "track":"0x02",
+                "microsecond":195750000,
+                "type":"lyric",
+                "text":"all"
+            },
+            "Text507": {
+                "track":"0x02",
+                "microsecond":196125000,
+                "type":"lyric",
+                "text":"a-"
+            },
+            "Text508": {
+                "track":"0x02",
+                "microsecond":196500000,
+                "type":"lyric",
+                "text":"bout"
+            },
+            "Text509": {
+                "track":"0x02",
+                "microsecond":196875000,
+                "type":"lyric",
+                "text":"it-"
+            },
+            "Text510": {
+                "track":"0x02",
+                "microsecond":197250000,
+                "type":"lyric",
+                "text":"/When"
+            },
+            "Text511": {
+                "track":"0x02",
+                "microsecond":197625000,
+                "type":"lyric",
+                "text":"I"
+            },
+            "Text512": {
+                "track":"0x02",
+                "microsecond":198000000,
+                "type":"lyric",
+                "text":"see"
+            },
+            "Text513": {
+                "track":"0x02",
+                "microsecond":198375000,
+                "type":"lyric",
+                "text":"you"
+            },
+            "Text514": {
+                "track":"0x02",
+                "microsecond":198750000,
+                "type":"lyric",
+                "text":"a-"
+            },
+            "Text515": {
+                "track":"0x02",
+                "microsecond":199125000,
+                "type":"lyric",
+                "text":"gai-"
+            },
+            "Text516": {
+                "track":"0x02",
+                "microsecond":199500000,
+                "type":"lyric",
+                "text":"n..-"
+            },
+            "Text517": {
+                "track":"0x02",
+                "microsecond":200250000,
+                "type":"lyric",
+                "text":"/When"
+            },
+            "Text518": {
+                "track":"0x02",
+                "microsecond":200625000,
+                "type":"lyric",
+                "text":"I"
+            },
+            "Text519": {
+                "track":"0x02",
+                "microsecond":201000000,
+                "type":"lyric",
+                "text":"see"
+            },
+            "Text520": {
+                "track":"0x02",
+                "microsecond":201375000,
+                "type":"lyric",
+                "text":"you"
+            },
+            "Text521": {
+                "track":"0x02",
+                "microsecond":201750000,
+                "type":"lyric",
+                "text":"a-"
+            },
+            "Text522": {
+                "track":"0x02",
+                "microsecond":202125000,
+                "type":"lyric",
+                "text":"gain...-"
+            },
+            "Text523": {
+                "track":"0x02",
+                "microsecond":225000000,
+                "type":"lyric",
+                "text":"\When"
+            },
+            "Text524": {
+                "track":"0x02",
+                "microsecond":225562500,
+                "type":"lyric",
+                "text":"I"
+            },
+            "Text525": {
+                "track":"0x02",
+                "microsecond":225750000,
+                "type":"lyric",
+                "text":"see"
+            },
+            "Text526": {
+                "track":"0x02",
+                "microsecond":226125000,
+                "type":"lyric",
+                "text":"you"
+            },
+            "Text527": {
+                "track":"0x02",
+                "microsecond":226312500,
+                "type":"lyric",
+                "text":"a-"
+            },
+            "Text528": {
+                "track":"0x02",
+                "microsecond":226500000,
+                "type":"lyric",
+                "text":"gain..."
             }
         },
         "List3": {
             "Text0": {
-                "track": "0x03",
-                "microsecond": 0,
-                "type": "track_name",
-                "text": "CHOIR AHAS"
+                "track":"0x03",
+                "microsecond":0,
+                "type":"track_name",
+                "text":"Wiz Khalifa ft Charlie Puth - See You Again(2015)"
             }
         },
         "List4": {
             "Text0": {
-                "track": "0x04",
-                "microsecond": 0,
-                "type": "track_name",
-                "text": "TRUMPET"
+                "track":"0x04",
+                "microsecond":0,
+                "type":"track_name",
+                "text":"From The Movie Soundtrack Fast & Furious 7"
             }
         },
         "List5": {
             "Text0": {
-                "track": "0x05",
-                "microsecond": 0,
-                "type": "track_name",
-                "text": "FX5"
+                "track":"0x05",
+                "microsecond":0,
+                "type":"track_name",
+                "text":"**************"
             }
         },
         "List6": {
             "Text0": {
-                "track": "0x06",
-                "microsecond": 0,
-                "type": "track_name",
-                "text": "STRING 1"
+                "track":"0x06",
+                "microsecond":0,
+                "type":"track_name",
+                "text":"Words & Music by Andrew Cedar, Justin Franks"
             }
         },
         "List7": {
             "Text0": {
-                "track": "0x07",
-                "microsecond": 0,
-                "type": "track_name",
-                "text": "STRING 2"
+                "track":"0x07",
+                "microsecond":0,
+                "type":"track_name",
+                "text":"Charlie Puth and Cameron Thomaz"
             }
         },
         "List8": {
             "Text0": {
-                "track": "0x08",
-                "microsecond": 0,
-                "type": "track_name",
-                "text": "ELECTRIC PIANO"
+                "track":"0x08",
+                "microsecond":0,
+                "type":"track_name",
+                "text":"Chart Positions: World Wide No.1 "
             }
         },
         "List9": {
             "Text0": {
-                "track": "0x09",
-                "microsecond": 0,
-                "type": "track_name",
-                "text": "GUITAR 1"
+                "track":"0x09",
+                "microsecond":0,
+                "type":"track_name",
+                "text":"Sequence by Geoffrey Carter 25th April 2015"
             }
         },
         "List10": {
             "Text0": {
-                "track": "0x0A",
-                "microsecond": 0,
-                "type": "track_name",
-                "text": "GUITAR 2"
+                "track":"0x0A",
+                "microsecond":0,
+                "type":"track_name",
+                "text":"Interjections"
             }
         },
         "List11": {
             "Text0": {
-                "track": "0x0B",
-                "microsecond": 0,
-                "type": "track_name",
-                "text": "BASS"
+                "track":"0x0B",
+                "microsecond":0,
+                "type":"track_name",
+                "text":"Acoustic Bass"
             }
         },
         "List12": {
             "Text0": {
-                "track": "0x0C",
-                "microsecond": 0,
-                "type": "track_name",
-                "text": "DRUM 1"
+                "track":"0x0C",
+                "microsecond":0,
+                "type":"track_name",
+                "text":"Percussion"
             }
         },
         "List13": {
             "Text0": {
-                "track": "0x0D",
-                "microsecond": 0,
-                "type": "track_name",
-                "text": "DRUM 2"
+                "track":"0x0D",
+                "microsecond":0,
+                "type":"track_name",
+                "text":"Pad 2 (warm)"
             }
         },
         "List14": {
             "Text0": {
-                "track": "0x0E",
-                "microsecond": 0,
-                "type": "track_name",
-                "text": "DRUM 3"
+                "track":"0x0E",
+                "microsecond":0,
+                "type":"track_name",
+                "text":"Pad 2 (warm)"
             }
         },
         "List15": {
             "Text0": {
-                "track": "0x0F",
-                "microsecond": 0,
-                "type": "track_name",
-                "text": "DRUM 4"
+                "track":"0x0F",
+                "microsecond":0,
+                "type":"track_name",
+                "text":"Remixed 17th September 2017"
             }
         },
         "List16": {
             "Text0": {
-                "track": "0x10",
-                "microsecond": 0,
-                "type": "track_name",
-                "text": "SLAP"
+                "track":"0x10",
+                "microsecond":0,
+                "type":"track_name",
+                "text":"**************"
             }
         },
         "List17": {
             "Text0": {
-                "track": "0x11",
-                "microsecond": 0,
-                "type": "track_name",
-                "text": "DRUM"
+                "track":"0x11",
+                "microsecond":0,
+                "type":"track_name",
+                "text":"**************"
+            }
+        },
+        "List18": {
+            "Text0": {
+                "track":"0x12",
+                "microsecond":0,
+                "type":"track_name",
+                "text":"**************"
             }
         }
     }

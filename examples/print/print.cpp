@@ -41,7 +41,7 @@ void print_json_pretty(const TextMap& textMap) {
     printer << MidiPrintFormat::json << MidiPrintJsonFormat(jsonFormat_pretty | jsonFormat_file) << textMap;
 }
 int main() {
-    MidiParser parser("../../../midi/nggyu.mid", MidiTimeMode::microsecond);
+    MidiParser parser("../../../midi/see_you_again.mid", MidiTimeMode::microsecond);
     NoteMap noteMap = parser.noteMap();
     BarBeatMap bbMap = parser.bbMap();
     TextMap textMap = parser.textMap();
