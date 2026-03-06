@@ -5,52 +5,50 @@ from pathlib import Path
 
 def get_project_structure(root_dir):
     """生成类似tree命令的B+树结构"""
-    structure = []
-    
+    structure = ['MidiParse-v7-repository']
     # 定义目录优先级顺序
     priority_dirs = ['include', 'docs', 'examples', 'bin', 'output', 'midi', 'test']
     
-    def build_tree(path, prefix="", is_last=True):
-        """递归构建树状结构"""
+    def build_tree(path, prefix="", is_last=True, is_root=False):
         name = os.path.basename(path)
         
-        # 如果是根目录，直接处理子项，不显示根目录
-        if path == root_dir:
+        # 如果是根目录，不显示名称
+        if is_root:
+            name = ""
+        
+        if os.path.isdir(path):
+            if not is_root:  # 根目录不显示
+                structure.append(f"{prefix}{'└── ' if is_last else '├── '}{name}/")
+            
+            # 获取目录内容并排序
             items = []
             for item in os.listdir(path):
                 item_path = os.path.join(path, item)
                 if not item.startswith('.') and item not in ['.git', '__pycache__', '.github']:
-                    return (0, len(priority_dirs) + ord(name[0]) if name else 0)
+                    items.append((item, item_path, os.path.isdir(item_path)))
+            
+            # 自定义排序：优先目录在前，然后按优先级排序
+            def custom_sort(item):
+                name, _, is_dir = item
+                # 目录优先
+                if not is_dir:
+                    return (1, name)
+                # 按优先级排序
+                if name in priority_dirs:
+                    return (0, priority_dirs.index(name))
+                # 其他目录按字母顺序
+                return (0, len(priority_dirs) + ord(name[0]) if name else 0)
             
             items.sort(key=custom_sort)
             
+            new_prefix = prefix + ("" if is_last else "│   ")
             for i, (item_name, item_path, is_dir) in enumerate(items):
-                # 对于根目录的子项，prefix为空，确保从最左边开始
-                build_tree(item_path, "", i == len(items) - 1)
+                build_tree(item_path, new_prefix, i == len(items) - 1, False)
         else:
-            if os.path.isdir(path):
-                # 添加目录到结构
-                structure.append(f"{prefix}{'└── ' if is_last else '├── '}{name}/")
-                
-                # 获取目录内容并排序
-                items = []
-                for item in os.listdir(path):
-                    item_path = os.path.join(path, item)
-                    if not item.startswith('.') and item not in ['.git', '__pycache__', '.github']:
-                        items.append((item, item_path, os.path.isdir(item_path)))
-                
-                items.sort(key=lambda x: (not x[2], x[0]))  # 目录在前，文件在后
-                
-                # 计算新的前缀
-                new_prefix = prefix + ("    " if is_last else "│   ")
-                
-                for i, (item_name, item_path, is_dir) in enumerate(items):
-                    build_tree(item_path, new_prefix, i == len(items) - 1)
-            else:
-                # 添加文件到结构
+            if not is_root:  # 根目录的文件不显示
                 structure.append(f"{prefix}{'└── ' if is_last else '├── '}{name}")
     
-    build_tree(root_dir)
+    build_tree(root_dir, "", True, True)
     return structure
 
 def get_file_statistics(root_dir):
