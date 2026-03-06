@@ -9,6 +9,10 @@
  ********************************************************************************************************/
 #ifndef MIDIPLAYER_HPP
 #define MIDIPLAYER_HPP
+
+#ifndef _WIN32
+#error "MidiPlayer.hpp is designed for windows system only"
+#else
 #include "MidiParser.hpp"
 #include <algorithm>
 #include <condition_variable>
@@ -17,9 +21,9 @@
 #include <windows.h>
 
 #ifndef MIDIPLAYER_NO_WARNING
-#warning "MidiPlayer.hpp is designed for windows system only"
 #warning "Only one MidiPlayer object is allowed at the same time"
 #endif
+
 
 namespace GoldType::MidiParse {
 class MidiShortMessage {
@@ -29,8 +33,8 @@ public:
 
 public:
     MidiShortMessage(uint64_t _time = 0, uint32_t _message = 0)
-            : time(_time),
-              message(_message) {
+        : time(_time),
+          message(_message) {
     }
 
     MidiShortMessage(uint64_t _time, const MidiMessage& _message) {
@@ -54,7 +58,7 @@ public:
         }
     }
     MidiShortMessage(const MidiEvent& _event)
-            : MidiShortMessage(_event.time, _event.message) {
+        : MidiShortMessage(_event.time, _event.message) {
     }
 };
 bool operator==(const MidiShortMessage& a, const MidiShortMessage& b) {
@@ -135,13 +139,13 @@ public:
         std::sort(this->begin(), this->end());
     }
     MidiShortMessageList(const NoteMap& _map)
-            : MidiShortMessageList(merge_event(_map)) {
+        : MidiShortMessageList(merge_event(_map)) {
     }
     MidiShortMessageList(const NotePairList& _notePairList)
-            : MidiShortMessageList(devide_notePair(_notePairList)) {
+        : MidiShortMessageList(devide_notePair(_notePairList)) {
     }
     MidiShortMessageList(const NotePairMap& _notePairMap)
-            : MidiShortMessageList(devide_notePair(_notePairMap)) {
+        : MidiShortMessageList(devide_notePair(_notePairMap)) {
     }
 
 public:
@@ -270,7 +274,7 @@ private:
                 }
                 target_time = m_current_iterator->time;
                 target_node.QuadPart =
-                        m_current_node.QuadPart + (target_time - m_current_time) * freq.QuadPart / 1000000llu / speed;
+                    m_current_node.QuadPart + (target_time - m_current_time) * freq.QuadPart / 1000000llu / speed;
                 message = m_current_iterator->message;
             }
 
@@ -371,7 +375,7 @@ private:
                 }
                 target_time = m_current_iterator->time;
                 target_node.QuadPart =
-                        m_current_node.QuadPart + (target_time - m_current_time) * freq.QuadPart / 1000000llu / speed;
+                    m_current_node.QuadPart + (target_time - m_current_time) * freq.QuadPart / 1000000llu / speed;
                 message = m_current_iterator->message;
             }
 
@@ -397,43 +401,43 @@ private:
 
 public:
     MidiPlayer(void)
-            : m_state(State::beingstarting),
-              m_is_jump(false),
-              m_speed(1.0),
-              m_handle(nullptr),
-              m_current_time(0),
-              m_current_iterator(m_messages.begin()) {
+        : m_state(State::beingstarting),
+          m_is_jump(false),
+          m_speed(1.0),
+          m_handle(nullptr),
+          m_current_time(0),
+          m_current_iterator(m_messages.begin()) {
     }
     template <typename _Object>
     MidiPlayer(_Object&& _object)
-            : m_messages(std::forward<_Object>(_object)),
-              m_state(State::beingstarting),
-              m_is_jump(false),
-              m_speed(1.0),
-              m_handle(nullptr),
-              m_current_time(0),
-              m_current_iterator(m_messages.begin()) {
+        : m_messages(std::forward<_Object>(_object)),
+          m_state(State::beingstarting),
+          m_is_jump(false),
+          m_speed(1.0),
+          m_handle(nullptr),
+          m_current_time(0),
+          m_current_iterator(m_messages.begin()) {
         if (m_current_iterator != m_messages.end()) {
             m_current_time = m_current_iterator->time;
         }
     }
     MidiPlayer(const MidiPlayer& other)
-            : m_messages(other.m_messages),
-              m_state(other.m_state),
-              m_is_jump(false),
-              m_speed(other.m_speed),
-              m_handle(nullptr),
-              m_current_time(other.m_current_time),
-              m_current_iterator((other.m_current_iterator - other.m_messages.begin()) + m_messages.begin()) {
+        : m_messages(other.m_messages),
+          m_state(other.m_state),
+          m_is_jump(false),
+          m_speed(other.m_speed),
+          m_handle(nullptr),
+          m_current_time(other.m_current_time),
+          m_current_iterator((other.m_current_iterator - other.m_messages.begin()) + m_messages.begin()) {
     }
     MidiPlayer(MidiPlayer&& other)
-            : m_messages(std::move(other.m_messages)),
-              m_state(State::beingstarting),
-              m_is_jump(false),
-              m_speed(other.m_speed),
-              m_handle(nullptr),
-              m_current_time(other.m_current_time),
-              m_current_iterator((other.m_current_iterator - other.m_messages.begin()) + m_messages.begin()) {
+        : m_messages(std::move(other.m_messages)),
+          m_state(State::beingstarting),
+          m_is_jump(false),
+          m_speed(other.m_speed),
+          m_handle(nullptr),
+          m_current_time(other.m_current_time),
+          m_current_iterator((other.m_current_iterator - other.m_messages.begin()) + m_messages.begin()) {
     }
     ~MidiPlayer(void) {
         join();
@@ -586,4 +590,6 @@ public:
     }
 };
 }  // namespace GoldType::MidiParse
+
+#endif
 #endif
