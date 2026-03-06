@@ -135,7 +135,7 @@ public:
         std::sort(this->begin(), this->end());
     }
     MidiShortMessageList(const NoteMap& _map)
-            : MidiShortMessageList(event_map_to_list(_map)) {
+            : MidiShortMessageList(merge_event(_map)) {
     }
     MidiShortMessageList(const NotePairList& _notePairList)
             : MidiShortMessageList(devide_notePair(_notePairList)) {

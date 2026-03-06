@@ -195,7 +195,7 @@ public:
 };
 
 template <typename _MidiEvent>
-MidiEventList<_MidiEvent> event_map_to_list(const MidiEventMap<_MidiEvent>& _map) {
+MidiEventList<_MidiEvent> merge_event(const MidiEventMap<_MidiEvent>& _map) {
     size_t _size = 0;
     for (size_t i = 0; i < _map.size(); ++i) {
         _size += _map[i].size();
@@ -208,7 +208,7 @@ MidiEventList<_MidiEvent> event_map_to_list(const MidiEventMap<_MidiEvent>& _map
     return ret;
 }
 template <typename _MidiEvent>
-MidiEventMap<_MidiEvent> event_list_to_map(const MidiEventList<_MidiEvent>& _list) {
+MidiEventMap<_MidiEvent> split_event(const MidiEventList<_MidiEvent>& _list) {
     size_t _size[128] = {0};
     uint8_t _max_track = 0;
     for (size_t i = 0; i < _list.size(); ++i) {
