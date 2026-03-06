@@ -47,7 +47,7 @@ namespace GoldType{
                 MidiErrorType _read_fin(FILE*fin);
             public:
                 MidiFile(void)=delete;
-                MidiFile(std::string _filename);
+                MidiFile(const std::string&_filename);
                 MidiFile(const MidiFile&_midiFile);
                 MidiFile(MidiFile&&_midiFile);
                 ~MidiFile(void)=default;

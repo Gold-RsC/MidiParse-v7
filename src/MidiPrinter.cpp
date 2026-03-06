@@ -5,7 +5,7 @@ namespace GoldType{
 
         MidiPrinter::MidiPrinter(void):m_file(stdout),m_format(MidiPrintFormat::table),m_jsonFormat(MidiPrintJsonFormat::jsonFormat_default),m_formatChar{FormatChar::tableChar_default,FormatChar::jsonChar_default}{
         }
-        MidiPrinter::MidiPrinter(std::string&&_filename):m_format(MidiPrintFormat::table),m_jsonFormat(MidiPrintJsonFormat::jsonFormat_default),m_formatChar{FormatChar::tableChar_default,FormatChar::jsonChar_default}{
+        MidiPrinter::MidiPrinter(const std::string&_filename):m_format(MidiPrintFormat::table),m_jsonFormat(MidiPrintJsonFormat::jsonFormat_default),m_formatChar{FormatChar::tableChar_default,FormatChar::jsonChar_default}{
             m_file=fopen(_filename.c_str(),"w");
         }
         MidiPrinter::~MidiPrinter(void){

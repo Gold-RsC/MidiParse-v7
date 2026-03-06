@@ -50,7 +50,7 @@ namespace GoldType{
                 FormatChar m_formatChar[2];
             public:
                 MidiPrinter(void);
-                MidiPrinter(std::string&&_filename);
+                MidiPrinter(const std::string&_filename);
                 MidiPrinter(const MidiPrinter&)=delete;
                 MidiPrinter(MidiPrinter&&_other)=delete;
                 ~MidiPrinter(void);

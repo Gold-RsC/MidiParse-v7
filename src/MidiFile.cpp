@@ -182,7 +182,7 @@ namespace GoldType{
             }
             return ret;
         }
-        MidiFile::MidiFile(std::string _filename):filename(_filename),head(),tracks(),m_state(MidiFileState::untouched) 
+        MidiFile::MidiFile(const std::string&_filename):filename(_filename),head(),tracks(),m_state(MidiFileState::untouched) 
         {}
         MidiFile::MidiFile(const MidiFile&_midiFile):filename(_midiFile.filename),head(_midiFile.head),m_state(_midiFile.m_state){
             if(_midiFile.tracks.size()){
