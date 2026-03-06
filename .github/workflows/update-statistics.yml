@@ -1,39 +1,39 @@
 name: Update Statistics
 
 on:
-    workflow_dispatch:
-    push:
-        branches: [main]
+  workflow_dispatch:
+  push:
+    branches: [main]
 
 jobs:
-    generate-statistics:
-        runs-on: ubuntu-latest
+  generate-statistics:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
-              with:
-                  fetch-depth: 0
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-            - name: Setup Python
-              uses: actions/setup-python@v4
-              with:
-                  python-version: "3.x"
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
 
-            - name: Generate statistics
-              run: |
-                  python .github/scripts/generate_statistics.py
+      - name: Generate statistics
+        run: |
+          python .github/scripts/generate_statistics.py
 
-            - name: Commit and push if changes
-              run: |
-                  git config --local user.email "action@github.com"
-                  git config --local user.name "GitHub Action"
+      - name: Commit and push if changes
+        run: |
+          git config --local user.email "${{github.event.pusher.email}}"
+          git config --local user.name "${{github.event.pusher.name}}"
 
-                  git add statistics.md
+          git add statistics.md
 
-                  if git diff --staged --quiet; then
-                    echo "No changes to commit"
-                  else
-                    git commit -m "docs: 自动更新项目统计信息 [skip ci]"
-                    git push origin main
-                  fi
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "docs: 鑷姩鏇存柊椤圭洰缁熻淇℃伅 [skip ci]"
+            git push origin main
+          fi
