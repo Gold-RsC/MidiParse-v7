@@ -1,9 +1,9 @@
 name: Update Statistics
 
 on:
-  workflow-dispatch:
+  workflow_dispatch:
   push:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   generate-statistics:
@@ -181,5 +181,5 @@ _统计信息最后更新于: {dev_time['current_date']}_
           echo "No changes to commit"
         else
           git commit -m "docs: 自动更新项目统计信息 [skip ci]"
-          git push
+          git push origin main
         fi
