@@ -20,7 +20,7 @@ def get_project_structure(root_dir):
             for item in os.listdir(path):
                 item_path = os.path.join(path, item)
                 if not item.startswith('.') and item not in ['.git', '__pycache__', '.github']:
-                return (0, len(priority_dirs) + ord(name[0]) if name else 0)
+                    return (0, len(priority_dirs) + ord(name[0]) if name else 0)
             
             items.sort(key=custom_sort)
             
