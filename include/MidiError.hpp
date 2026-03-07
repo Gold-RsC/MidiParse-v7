@@ -10,20 +10,37 @@
 #ifndef MIDIERROR_HPP
 #define MIDIERROR_HPP
 #include <exception>
+#include <iomanip>
+#include <sstream>
 #include <stdint.h>
 #include <stdio.h>
 #include <string>
 #define MIDI_DEBUG
 #ifdef MIDI_DEBUG
-#include <iomanip>
-#include <sstream>
+#define MIDI_CHECK_LEVEL 3
 #endif
-// #ifndef MIDI_DEBUG
-// #define MIDI_DEBUG
-// #endif
-// #ifndef MIDI_WARNING
-// #define MIDI_WARNING
-// #endif
+#ifndef MIDI_CHECK_LEVEL
+#define MIDI_CHECK_LEVEL 1
+#endif
+// no checking: FAST! FAST! FAST!!!
+#if MIDI_CHECK_LEVEL >= 0
+#endif
+// check but not throw exceptions: SAFE AND FAST!
+#if MIDI_CHECK_LEVEL >= 1
+#define MIDI_ERROR_LEVEL_1
+#endif
+
+// able to throw simple exceptions: SAFE AND CLEAR!
+#if MIDI_CHECK_LEVEL >= 2
+#define MIDI_ERROR_LEVEL_2
+#endif
+
+// able to throw all exceptions: SAFE BUT SLOW!
+#if MIDI_CHECK_LEVEL >= 3
+#define MIDI_ERROR_LEVEL_3
+#endif
+
+
 namespace GoldType::MidiParse {
 
 enum class MidiErrorCode : uint32_t {
@@ -194,22 +211,54 @@ public:
         return parse_errorCode(code).c_str();
     }
 };
-#ifdef MIDI_DEBUG
-#define throw_ignorably(_code) throw MidiException(_code)
-#define throw_ignorably_if(condition, _code)                                                                           \
-    if (condition)                                                                                                     \
-    throw_ignorably(_code)
-#define return_ignorably(_code) return _code
-#define return_ignorably_if(condition, _code)                                                                          \
-    if (condition)                                                                                                     \
-    return _code
-#define return_after_check(_class) return _class.get_errorCode()
+
+// return + ignorably          -> level 0 or 1
+// return or throw             -> level 1 or 2
+// return or throw ignorably   -> level 0 or 1 or 2
+// throw  + ignorably          -> level 2 or 3
+#if MIDI_CHECK_LEVEL >= 3
+#define select_based_on_level(_sts_0, _sts_1, _sts_2, _sts_3) _sts_3
+#elif MIDI_CHECK_LEVEL >= 2
+#define select_based_on_level(_sts_0, _sts_1, _sts_2, _sts_3) _sts_2
+#elif MIDI_CHECK_LEVEL >= 1
+#define select_based_on_level(_sts_0, _sts_1, _sts_2, _sts_3) _sts_1
 #else
-#define throw_ignorably(_code) ((void)0)
-#define throw_ignorably_if(condition, _code) ((void)0)
+#define select_based_on_level(_sts_0, _sts_1, _sts_2, _sts_3) _sts_0
+#endif
+#if MIDI_CHECK_LEVEL >= 1
+#define select_above_level_1(_sts_true, _sts_false) _sts_true
+#define return_ignorably(_content) return _content
+#define return_ignorably_if(condition, _content)                                                                       \
+    if (condition)                                                                                                     \
+    return _content
+#define return_or_throw_ignorably_if(condition, _ret, _thr)                                                            \
+    if (condition)                                                                                                     \
+    return_or_throw(_ret, _thr)
+#else
+#define select_above_level_1(_sts_true, _sts_false) _sts_false
 #define return_ignorably(_code) ((void)0)
 #define return_ignorably_if(condition, _code) ((void)0)
-#define return_after_check(_class) return MidiErrorCode::no_error
+#define return_or_throw_ignorably_if(condition, _ret, _thr) ((void)0)
+#endif
+
+#if MIDI_CHECK_LEVEL >= 2
+#define select_above_level_2(_sts_true, _sts_false) _sts_true
+#define return_or_throw(_ret, _thr) throw MidiException(_thr)
+#else
+#define select_above_level_2(_sts_true, _sts_false) _sts_false
+#define return_or_throw(_ret, _thr) return _ret
+#endif
+
+#if MIDI_CHECK_LEVEL >= 3
+#define select_above_level_3(_sts_true, _sts_false) _sts_true
+#define throw_ignorably(_thr) throw MidiException(_thr)
+#define throw_ignorably_if(condition, _thr)                                                                            \
+    if (condition)                                                                                                     \
+    throw_ignorably(_thr)
+#else
+#define select_above_level_3(_sts_true, _sts_false) _sts_false
+#define throw_ignorably(_thr) ((void)0)
+#define throw_ignorably_if(condition, _thr) ((void)0)
 #endif
 class MidiObject {
 public:

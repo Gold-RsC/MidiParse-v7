@@ -74,6 +74,7 @@ public:
         }
     }
     MidiChannelNum channel(void) const {
+        return_or_throw_ignorably_if(operator[](0) < 0xF0, 0xFF, MidiErrorCode::event_channel);
         return operator[](0) & 0x0F;
     }
     MidiErrorCode get_errorCode(void) const noexcept final {
@@ -145,8 +146,9 @@ public:
         : message() {
     }
     MidiEvent(const MidiEvent& another) = default;
-    MidiEvent(const MidiMessage& _message)
-        : message(_message) {
+    MidiEvent(MidiTime _time, MidiTimeMode _mode, MidiTrackNum _track, const MidiMessage& _message)
+        : BasicMidiEvent(_time, _mode, _track),
+          message(_message) {
     }
     ~MidiEvent(void) = default;
 

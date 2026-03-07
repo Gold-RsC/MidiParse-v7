@@ -73,7 +73,8 @@ protected:
         head.format = read_staticData(fin, 2);
         head.ntracks = read_staticData(fin, 2);
         head.division = read_staticData(fin, 2);
-        return_after_check(head);
+
+        return select_above_level_1(head.get_errorCode(), MidiErrorCode::no_error);
     }
     MidiErrorCode read_midiTrack(FILE* fin) {
         tracks.resize(head.ntracks);
@@ -105,7 +106,7 @@ protected:
             }
             return_ignorably_if(byte_num != byte_read, MidiErrorCode::track_length);
         }
-        return_after_check(tracks);
+        return select_above_level_1(tracks.get_errorCode(), MidiErrorCode::no_error);
     }
     MidiErrorCode read_midiMessage(FILE* fin, uint8_t& last_eventType, MidiEvent& event, uint32_t& byte_read) {
         uint8_t now_eventType = fgetc(fin);
@@ -248,6 +249,7 @@ public:
             if (tracks.size()) {
                 tracks.clear();
             }
+            throw_ignorably(ret);
         }
         else {
             m_state = MidiFileState::read_success;
