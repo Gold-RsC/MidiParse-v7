@@ -22,18 +22,18 @@ public:
 public:
     BarBeat(uint64_t _time = 0, MidiTimeMode _timeMode = MidiTimeMode::tick, uint8_t _track = 0, double _barNode = 0,
             double _beatNode = 0, uint8_t _numerator = 4, uint8_t _denominator = 4)
-            : BasicMidiEvent_Meta(_time, _timeMode, _track),
-              barNode(_barNode),
-              beatNode(_beatNode),
-              numerator(_numerator),
-              denominator(_denominator) {
+        : BasicMidiEvent_Meta(_time, _timeMode, _track),
+          barNode(_barNode),
+          beatNode(_beatNode),
+          numerator(_numerator),
+          denominator(_denominator) {
     }
     BarBeat(const BarBeat&) = default;
     ~BarBeat(void) = default;
 
 public:
-    MidiErrorType get_error(MidiError& _midiError) const final {
-        return MidiErrorType::no_error;
+    MidiErrorCode get_errorCode(void) const noexcept final {
+        return MidiErrorCode::no_error;
     }
 };
 bool operator==(const BarBeat& a, const BarBeat& b) {

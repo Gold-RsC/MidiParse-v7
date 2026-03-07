@@ -21,15 +21,15 @@ public:
 public:
     Program(MidiTime _time = 0, MidiTimeMode _timeMode = MidiTimeMode::tick, MidiTrackNum _track = 0,
             MidiChannelNum _channel = 0, uint8_t _instrument = 0)
-            : BasicMidiEvent_Non(_time, _timeMode, _track, _channel),
-              instrument(_instrument) {
+        : BasicMidiEvent_Non(_time, _timeMode, _track, _channel),
+          instrument(_instrument) {
     }
     Program(const Program&) = default;
     ~Program(void) = default;
 
 public:
-    MidiErrorType get_error(MidiError& _midiError) const final {
-        return MidiErrorType::no_error;
+    MidiErrorCode get_errorCode(void) const noexcept final {
+        return MidiErrorCode::no_error;
     }
 };
 bool operator==(const Program& a, const Program& b) {

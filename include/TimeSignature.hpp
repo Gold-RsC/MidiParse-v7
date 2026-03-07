@@ -29,18 +29,18 @@ public:
     TimeSignature(MidiTime _time = 0, MidiTimeMode _timeMode = MidiTimeMode::tick, MidiTrackNum _track = 0,
                   uint8_t _numerator = 4, uint8_t _denominator = 4, uint8_t _tickPerMidiclock = 24,
                   uint8_t _num32ndNotePer24Midiclock = 8)
-            : BasicMidiEvent_Meta(_time, _timeMode, _track),
-              numerator(_numerator),
-              denominator(_denominator),
-              tickPerMidiclock(_tickPerMidiclock),
-              num32ndNotePer24Midiclock(_num32ndNotePer24Midiclock) {
+        : BasicMidiEvent_Meta(_time, _timeMode, _track),
+          numerator(_numerator),
+          denominator(_denominator),
+          tickPerMidiclock(_tickPerMidiclock),
+          num32ndNotePer24Midiclock(_num32ndNotePer24Midiclock) {
     }
     TimeSignature(const TimeSignature&) = default;
     ~TimeSignature(void) = default;
 
 public:
-    MidiErrorType get_error(MidiError& _midiError) const final {
-        return MidiErrorType::no_error;
+    MidiErrorCode get_errorCode(void) const noexcept final {
+        return MidiErrorCode::no_error;
     }
 };
 bool operator==(const TimeSignature& a, const TimeSignature& b) {

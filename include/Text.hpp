@@ -22,16 +22,16 @@ public:
 public:
     Text(MidiTime _time = 0, MidiTimeMode _timeMode = MidiTimeMode::tick, MidiTrackNum _track = 0,
          MidiMetaType _type = MidiMetaType::track_text, const std::string& _text = "")
-            : BasicMidiEvent_Meta(_time, _timeMode, _track),
-              type(_type),
-              text(_text) {
+        : BasicMidiEvent_Meta(_time, _timeMode, _track),
+          type(_type),
+          text(_text) {
     }
     Text(const Text&) = default;
     ~Text(void) = default;
 
 public:
-    MidiErrorType get_error(MidiError& _midiError) const override {
-        return MidiErrorType::no_error;
+    MidiErrorCode get_errorCode(void) const noexcept override {
+        return MidiErrorCode::no_error;
     }
 };
 bool operator==(const Text& a, const Text& b) {

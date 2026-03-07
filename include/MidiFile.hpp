@@ -39,7 +39,7 @@ protected:
         return ret;
     }
     struct __ReadDynamicData_t {
-        MidiErrorType type;
+        MidiErrorCode type;
         uint32_t data;
         uint8_t length : 7;
         uint8_t is_error : 1;
@@ -47,7 +47,7 @@ protected:
     };
     __ReadDynamicData_t read_dynamicData(FILE* fin) {
         __ReadDynamicData_t ret;
-        ret.type = MidiErrorType::no_error;
+        ret.type = MidiErrorCode::no_error;
         ret.data = 0;
         ret.is_error = 0;
         for (ret.length = 0; ret.length < 4; ++ret.length) {
@@ -63,28 +63,24 @@ protected:
     }
 
 protected:
-    MidiErrorType read_midiHead(FILE* fin) {
+    MidiErrorCode read_midiHead(FILE* fin) {
         if (!(fgetc(fin) == 'M' && fgetc(fin) == 'T' && fgetc(fin) == 'h' && fgetc(fin) == 'd')) {
-            return MidiErrorType::head_identification;
+            return MidiErrorCode::head_identification;
         }
         if (read_staticData(fin, 4) != 6) {
-            return MidiErrorType::head_length;
+            return MidiErrorCode::head_length;
         }
         head.format = read_staticData(fin, 2);
         head.ntracks = read_staticData(fin, 2);
         head.division = read_staticData(fin, 2);
-#ifdef MIDI_DEBUG
-        return midiError(head);
-#else
-        return MidiErrorType::no_error;
-#endif
+        return_after_check(head);
     }
-    MidiErrorType read_midiTrack(FILE* fin) {
+    MidiErrorCode read_midiTrack(FILE* fin) {
         tracks.resize(head.ntracks);
         size_t event_count = 0;
         for (size_t trackIdx = 0; trackIdx < head.ntracks; ++trackIdx) {
             if (fgetc(fin) != 'M' || fgetc(fin) != 'T' || fgetc(fin) != 'r' || fgetc(fin) != 'k') {
-                return MidiErrorType::track_identification;
+                return MidiErrorCode::track_identification;
             }
             uint32_t byte_num = read_staticData(fin, 4);
             uint32_t byte_read = 0;
@@ -95,13 +91,10 @@ protected:
                 event.time = dynamicData.data;
                 event.timeMode = MidiTimeMode::tick;
                 byte_read += dynamicData.length;
-#ifdef MIDI_WARNING
-                if (dynamicData.is_error) {
-                    return midiError(MidiErrorType::event_deltaTime);
-                }
-#endif
-                MidiErrorType err = read_midiMessage(fin, last_eventType, event, byte_read);
-                if (err != MidiErrorType::no_error) {
+                return_ignorably_if(dynamicData.is_error, MidiErrorCode::event_deltaTime);
+
+                MidiErrorCode err = read_midiMessage(fin, last_eventType, event, byte_read);
+                if (err != MidiErrorCode::no_error) {
                     return err;
                 }
                 tracks[trackIdx].emplace_back(event);
@@ -110,24 +103,16 @@ protected:
                     break;
                 }
             }
-#ifdef MIDI_WARNING
-            if (byte_num != byte_read) {
-                return MidiErrorType::track_length;
-            }
-#endif
+            return_ignorably_if(byte_num != byte_read, MidiErrorCode::track_length);
         }
-#ifdef MIDI_DEBUG
-        return midiError(tracks);
-#else
-        return MidiErrorType::no_error;
-#endif
+        return_after_check(tracks);
     }
-    MidiErrorType read_midiMessage(FILE* fin, uint8_t& last_eventType, MidiEvent& event, uint32_t& byte_read) {
+    MidiErrorCode read_midiMessage(FILE* fin, uint8_t& last_eventType, MidiEvent& event, uint32_t& byte_read) {
         uint8_t now_eventType = fgetc(fin);
         ++byte_read;
         if (now_eventType < 0x80) {
             if (last_eventType == (uint8_t)MidiEventType::null || (last_eventType & 0xF0) == 0xF0) {
-                return MidiErrorType::event_unknown_type;
+                return MidiErrorCode::event_unknown_type;
             }
             now_eventType = last_eventType;
             fseek(fin, -1, SEEK_CUR);
@@ -164,7 +149,7 @@ protected:
 
                         byte_read += dynamicData.length + dynamicData.data;
                         if (dynamicData.is_error) {
-                            return MidiErrorType::meta_length;
+                            return MidiErrorCode::meta_length;
                         }
                         for (size_t i = 0; i < dynamicData.length; ++i) {
                             event.message.push_back(dynamicData.buffer[i]);
@@ -180,7 +165,7 @@ protected:
                         auto dynamicData = read_dynamicData(fin);
                         byte_read += dynamicData.length + dynamicData.data;
                         if (dynamicData.is_error) {
-                            return MidiErrorType::sysex_length;
+                            return MidiErrorCode::sysex_length;
                         }
                         for (size_t i = 0; i < dynamicData.length; ++i) {
                             event.message.push_back(dynamicData.buffer[i]);
@@ -191,32 +176,32 @@ protected:
                         break;
                     }
                     default: {
-                        return MidiErrorType::event_unknown_type;
+                        return MidiErrorCode::event_unknown_type;
                     }
                 }
                 break;
             }
             default: {
-                return MidiErrorType::event_unknown_type;
+                return MidiErrorCode::event_unknown_type;
             }
         }
         last_eventType = now_eventType;
-        return MidiErrorType::no_error;
+        return MidiErrorCode::no_error;
     }
-    MidiErrorType _read_fin(FILE* fin) {
+    MidiErrorCode _read_fin(FILE* fin) {
         if (!fin) {
-            return midiError(MidiErrorType::filename);
+            return MidiErrorCode::filename;
         }
-        MidiErrorType ret = MidiErrorType::no_error;
+        MidiErrorCode ret = MidiErrorCode::no_error;
         // head
         ret = read_midiHead(fin);
-        if (ret != MidiErrorType::no_error) {
-            return midiError(ret);
+        if (ret != MidiErrorCode::no_error) {
+            return ret;
         }
         // track
         ret = read_midiTrack(fin);
-        if (ret != MidiErrorType::no_error) {
-            return midiError(ret);
+        if (ret != MidiErrorCode::no_error) {
+            return ret;
         }
         return ret;
     }
@@ -224,15 +209,15 @@ protected:
 public:
     MidiFile(void) = delete;
     MidiFile(const std::string& _filename)
-            : filename(_filename),
-              head(),
-              tracks(),
-              m_state(MidiFileState::untouched) {
+        : filename(_filename),
+          head(),
+          tracks(),
+          m_state(MidiFileState::untouched) {
     }
     MidiFile(const MidiFile& _midiFile)
-            : filename(_midiFile.filename),
-              head(_midiFile.head),
-              m_state(_midiFile.m_state) {
+        : filename(_midiFile.filename),
+          head(_midiFile.head),
+          m_state(_midiFile.m_state) {
         if (_midiFile.tracks.size()) {
             tracks.resize(_midiFile.head.ntracks);
             for (size_t i = 0; i < _midiFile.head.ntracks; ++i) {
@@ -242,20 +227,20 @@ public:
         else {
         }
     }
-    MidiFile(MidiFile&& _midiFile)
-            : filename(std::move(_midiFile.filename)),
-              head(std::move(_midiFile.head)),
-              tracks(std::move(_midiFile.tracks)),
-              m_state(_midiFile.m_state) {
+    MidiFile(MidiFile&& _midiFile) noexcept
+        : filename(std::move(_midiFile.filename)),
+          head(std::move(_midiFile.head)),
+          tracks(std::move(_midiFile.tracks)),
+          m_state(_midiFile.m_state) {
     }
     ~MidiFile(void) = default;
 
 public:
-    MidiErrorType read(void) {
+    MidiErrorCode read(void) {
         FILE* fin = fopen(filename.c_str(), "rb");
-        MidiErrorType ret = _read_fin(fin);
+        MidiErrorCode ret = _read_fin(fin);
         fclose(fin);
-        if (ret != MidiErrorType::no_error) {
+        if (ret != MidiErrorCode::no_error) {
             m_state = MidiFileState::read_error;
             head.format = 0;
             head.ntracks = 0;
@@ -280,17 +265,17 @@ public:
         }
         return *this;
     }
-    MidiFile& operator=(MidiFile&& _midi) {
+    MidiFile& operator=(MidiFile&& _midi) noexcept {
         this->~MidiFile();
         filename = std::move(_midi.filename);
         head = _midi.head;
         tracks = _midi.tracks;
         return *this;
     }
-    MidiTrack& operator[](size_t idx) {
+    MidiTrack& operator[](size_t idx) noexcept {
         return tracks[idx];
     }
-    const MidiTrack& operator[](size_t idx) const {
+    const MidiTrack& operator[](size_t idx) const noexcept {
         return tracks[idx];
     }
 
@@ -311,13 +296,13 @@ public:
         return m_state == MidiFileState::write_error;
     }
 
-    MidiErrorType get_error(MidiError& _midiError = midiError) const override final {
-        MidiErrorType type = MidiErrorType::no_error;
-        type = head.get_error(_midiError);
-        if (type != MidiErrorType::no_error) {
+    MidiErrorCode get_errorCode() const noexcept final {
+        MidiErrorCode type = MidiErrorCode::no_error;
+        type = head.get_errorCode();
+        if (type != MidiErrorCode::no_error) {
             return type;
         }
-        type = tracks.get_error(_midiError);
+        type = tracks.get_errorCode();
         return type;
     }
 };

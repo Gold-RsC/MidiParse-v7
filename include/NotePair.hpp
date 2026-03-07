@@ -29,10 +29,10 @@ public:
     NotePair(MidiTime _time = 0, MidiTime _duration = 0, MidiTimeMode _timeMode = MidiTimeMode::tick,
              MidiTrackNum _track = 0, MidiChannelNum _channel = 0, uint8_t _pitch = 0, uint8_t _velocity = 0,
              uint8_t _instrument = 0, double _bar = 0, double _bar_diff = 0, double _beat = 0, double _beat_diff = 0)
-            : Note(_time, _timeMode, _track, _channel, _pitch, _velocity, _instrument, _bar, _beat),
-              duration(_duration),
-              bar_diff(_bar_diff),
-              beat_diff(_beat_diff) {
+        : Note(_time, _timeMode, _track, _channel, _pitch, _velocity, _instrument, _bar, _beat),
+          duration(_duration),
+          bar_diff(_bar_diff),
+          beat_diff(_beat_diff) {
     }
     NotePair(const Note& _begin, const Note& _end) {
         if (is_notePair(_begin, _end)) {
@@ -49,14 +49,14 @@ public:
 
 public:
     std::pair<Note, Note> devide(void) const {
-        return std::pair<Note, Note>(Note(time, timeMode, track, channel, pitch, velocity, instrument, bar, beat),
-                                     Note(time + duration, timeMode, track, channel, pitch, 0, instrument,
-                                          bar + bar_diff, beat + beat_diff));
+        return std::pair<Note, Note>(
+            Note(time, timeMode, track, channel, pitch, velocity, instrument, bar, beat),
+            Note(time + duration, timeMode, track, channel, pitch, 0, instrument, bar + bar_diff, beat + beat_diff));
     }
 
 public:
-    MidiErrorType get_error(MidiError& _midiError) const final {
-        return MidiErrorType::no_error;
+    MidiErrorCode get_errorCode(void) const noexcept final {
+        return MidiErrorCode::no_error;
     }
 };
 bool operator==(const NotePair& a, const NotePair& b) {
@@ -107,7 +107,7 @@ NotePairList link_notePair(const NoteList& _noteList) {
     std::map<uint32_t, std::queue<Note>> _map;
     for (NoteList::const_iterator it = _noteList.cbegin(); it != _noteList.cend(); ++it) {
         uint32_t _key =
-                bool(it->timeMode) << 25 | it->track << 18 | it->channel << 14 | it->pitch << 7 | it->instrument;
+            bool(it->timeMode) << 25 | it->track << 18 | it->channel << 14 | it->pitch << 7 | it->instrument;
         auto _map_it = _map.find(_key);
         if (_map_it == _map.end()) {
             if (it->velocity) {

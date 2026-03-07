@@ -74,16 +74,9 @@ public:
         }
     }
     MidiChannelNum channel(void) const {
-#ifdef MIDI_DEBUG
-        if (operator[](0) < 0xF0 && operator[](0) > 0x7F) {
-#endif
-            return operator[](0) & 0x0F;
-#ifdef MIDI_DEBUG
-        }
-        return 0xFF;
-#endif
+        return operator[](0) & 0x0F;
     }
-    MidiErrorType get_error(MidiError& _midiError = midiError) const override final {
+    MidiErrorCode get_errorCode(void) const noexcept final {
         MidiEventType _type = type();
         switch (_type) {
             case MidiEventType::note_off:
@@ -92,17 +85,17 @@ public:
             case MidiEventType::controller:
             case MidiEventType::pitchWheel: {
                 if (operator[](1) & 0x80) {
-                    return _midiError(MidiErrorType((uint8_t)_type | 0x01));
+                    return gennerate_errorCode_from_eventInfo((uint8_t)_type, 0x01);
                 }
                 if (operator[](2) & 0x80) {
-                    return _midiError(MidiErrorType((uint8_t)_type | 0x02));
+                    return gennerate_errorCode_from_eventInfo((uint8_t)_type, 0x02);
                 }
                 break;
             }
             case MidiEventType::program:
             case MidiEventType::channel_afterTouch: {
                 if (operator[](1) & 0x80) {
-                    return _midiError(MidiErrorType((uint8_t)_type | 0x01));
+                    return gennerate_errorCode_from_eventInfo((uint8_t)_type, 0x01);
                 }
                 break;
             }
@@ -117,7 +110,7 @@ public:
                     }
                 }
                 if (i + length + 1 != size()) {
-                    return _midiError(MidiErrorType::sysex_length);
+                    return MidiErrorCode::sysex_length;
                 }
                 break;
             }
@@ -131,15 +124,15 @@ public:
                     }
                 }
                 if (i + length + 1 != size()) {
-                    return _midiError(MidiErrorType::meta_length);
+                    return MidiErrorCode::meta_length;
                 }
                 break;
             }
             default: {
-                return _midiError(MidiErrorType::event_unknown_type);
+                return MidiErrorCode::event_unknown_type;
             }
         }
-        return _midiError(MidiErrorType::no_error);
+        return MidiErrorCode::no_error;
     }
 };
 
@@ -149,11 +142,11 @@ public:
 
 public:
     MidiEvent(void)
-            : message() {
+        : message() {
     }
     MidiEvent(const MidiEvent& another) = default;
     MidiEvent(const MidiMessage& _message)
-            : message(_message) {
+        : message(_message) {
     }
     ~MidiEvent(void) = default;
 
@@ -175,15 +168,22 @@ public:
     bool is_sysex(void) const {
         return type() == MidiEventType::sysex_begin || type() == MidiEventType::sysex_end;
     }
-    MidiErrorType get_error(MidiError& _midiError = midiError) const override final {
-        return message.get_error(_midiError);
+    MidiErrorCode get_errorCode(void) const noexcept final {
+        return message.get_errorCode();
     }
 
 public:
-    MidiByte& operator[](size_t idx) {
+    MidiByte& at(size_t idx) {
+        return message.at(idx);
+    }
+    const MidiByte& at(size_t idx) const {
+        return message.at(idx);
+    }
+
+    MidiByte& operator[](size_t idx) noexcept {
         return message[idx];
     }
-    const MidiByte& operator[](size_t idx) const {
+    const MidiByte& operator[](size_t idx) const noexcept {
         return message[idx];
     }
     MidiEvent& operator=(const MidiEvent& another) = default;

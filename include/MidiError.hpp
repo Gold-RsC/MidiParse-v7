@@ -9,10 +9,15 @@
  ********************************************************************************************************/
 #ifndef MIDIERROR_HPP
 #define MIDIERROR_HPP
+#include <exception>
 #include <stdint.h>
 #include <stdio.h>
 #include <string>
-
+#define MIDI_DEBUG
+#ifdef MIDI_DEBUG
+#include <iomanip>
+#include <sstream>
+#endif
 // #ifndef MIDI_DEBUG
 // #define MIDI_DEBUG
 // #endif
@@ -20,236 +25,195 @@
 // #define MIDI_WARNING
 // #endif
 namespace GoldType::MidiParse {
-enum class MidiErrorType : uint8_t {
-    no_error = 0x00,
-    filename = 0x01,
-    head_identification = 0x02,
-    head_length = 0x03,
-    head_format = 0x04,
-    head_ntracks = 0x05,
-    head_division = 0x06,
-    track_identification = 0x07,
-    track_length = 0x08,
-    event_deltaTime = 0x09,
-    event_unknown_type = 0x0A,
 
-    noteOff_pitch = 0x81,
-    noteOff_velocity = 0x82,
-    noteOn_pitch = 0x91,
-    noteOn_velocity = 0x92,
-    keyAfterTouch_pitch = 0xA1,
-    keyAfterTouch_velocity = 0xA2,
-    controller_number = 0xB1,
-    controller_value = 0xB2,
-    program_number = 0xC1,
-    channelAfterTouch_velocity = 0xD1,
-    pitchWheel_mod = 0xE1,
-    pitchWheel_div = 0xE2,
-    sysex_length = 0xF0,
-    sysex_data = 0xF1,
-    meta_length = 0xF8,
-    meta_data = 0xF9,
-    parse_error = 0x10,
-    change_timeMode = 0x11,
+enum class MidiErrorCode : uint32_t {
+    no_error = 0x00000000,
+    filename = 0x00000001,
 
-    unknown_error = 0x12,
+    head_identification = 0x00000100,
+    head_length = 0x00000101,
+    head_format = 0x00000102,
+    head_ntracks = 0x00000103,
+    head_division = 0x00000104,
+
+    track_identification = 0x00000200,
+    track_length = 0x00000201,
+
+    event_deltaTime = 0x00000300,
+    event_channel = 0x00000301,
+    event_unknown_type = 0x00000302,
+
+    noteOff_pitch = 0x00008001,
+    noteOff_velocity = 0x00008002,
+    noteOn_pitch = 0x00009001,
+    noteOn_velocity = 0x00009002,
+    keyAfterTouch_pitch = 0x0000A001,
+    keyAfterTouch_velocity = 0x0000A002,
+    controller_number = 0x0000B001,
+    controller_value = 0x0000B002,
+    program_number = 0x0000C001,
+    channelAfterTouch_velocity = 0x0000D001,
+    pitchWheel_mod = 0x0000E001,
+    pitchWheel_div = 0x0000E002,
+    sysex_length = 0x0000F001,
+    sysex_data = 0x0000F002,
+    meta_length = 0x0000FF80,
+    meta_data = 0x0000FF81,
+
+    parse_error = 0x00000010,
+    change_timeMode = 0x00000011,
+
+    unknown_error = 0xFFFFFFFF,
 };
+MidiErrorCode gennerate_errorCode_from_eventInfo(uint8_t type, uint8_t idx) {
+    return (MidiErrorCode)(uint32_t(type) << 8 | idx);
+}
 
-class MidiError {
-protected:
-    FILE* m_file;
+#ifdef MIDI_DEBUG
+std::string parse_errorCode(MidiErrorCode code) {
 
-private:
-    void write_type(MidiErrorType _mErrType) {
-        if (_mErrType == MidiErrorType::no_error) {
-            return;
-        }
-        fprintf(m_file, "MidiError:\n\t");
-        switch (_mErrType) {
-            case MidiErrorType::filename: {
-                fprintf(m_file, "There is no file named this!\n");
-                break;
+    auto errorSentence = [](MidiErrorCode code) -> std::string {
+        switch (code) {
+            case MidiErrorCode::no_error: {
+                return "There is no error.";
             }
-            case MidiErrorType::head_identification: {
-                fprintf(m_file, "An error occurred in the head trunk!\n\t");
-                fprintf(m_file, "Head trunk identification error!\n");
-                break;
+            case MidiErrorCode::filename: {
+                return "Please make sure the file name is correct.";
             }
-            case MidiErrorType::head_length: {
-                fprintf(m_file, "An error occurred in the head trunk!\n\t");
-                fprintf(m_file, "Head trunk length error!\n");
-                break;
+            case MidiErrorCode::head_identification: {
+                return "Head identification is incorrect.";
             }
-            case MidiErrorType::head_format: {
-                fprintf(m_file, "An error occurred in the head trunk!\n\t");
-                fprintf(m_file, "Head trunk format error!\n");
-                break;
+            case MidiErrorCode::head_length: {
+                return "Head length is not 6.";
             }
-            case MidiErrorType::head_ntracks: {
-                fprintf(m_file, "An error occurred in the head trunk!\n\t");
-                fprintf(m_file, "Head trunk track count error!\n");
-                break;
+            case MidiErrorCode::head_format: {
+                return "Head format is not 0, 1 or 2.";
             }
-            case MidiErrorType::head_division: {
-                fprintf(m_file, "An error occurred in the head trunk!\n\t");
-                fprintf(m_file, "Head trunk division error!\n");
-                break;
+            case MidiErrorCode::head_ntracks: {
+                return "Head ntracks is not 0.";
             }
-            case MidiErrorType::track_identification: {
-                fprintf(m_file, "An error occurred in a track trunk!\n\t");
-                fprintf(m_file, "Track trunk identification error!\n");
-                break;
+            case MidiErrorCode::head_division: {
+                return "Head division is not 0.";
             }
-            case MidiErrorType::track_length: {
-                fprintf(m_file, "An error occurred in a track trunk!\n\t");
-                fprintf(m_file, "Track trunk length error!\n");
-                break;
+            case MidiErrorCode::track_identification: {
+                return "Track identification is incorrect.";
             }
-            case MidiErrorType::event_deltaTime: {
-                fprintf(m_file, "An error occurred in an event!\n\t");
-                fprintf(m_file, "Event delta time error!\n");
-                break;
+            case MidiErrorCode::track_length: {
+                return "Track length is incorrect.";
             }
-            case MidiErrorType::event_unknown_type: {
-                fprintf(m_file, "An error occurred in an event!\n\t");
-                fprintf(m_file, "Event type error!\n");
-                break;
+            case MidiErrorCode::event_deltaTime: {
+                return "Event deltaTime is incorrect.";
             }
-            case MidiErrorType::noteOff_pitch: {
-                fprintf(m_file, "An error occurred in a note_off event!\n\t");
-                fprintf(m_file, "Pitch error!\n");
-                break;
+            case MidiErrorCode::event_channel: {
+                return "Event channel is incorrect.";
             }
-            case MidiErrorType::noteOff_velocity: {
-                fprintf(m_file, "An error occurred in a note_off event!\n\t");
-                fprintf(m_file, "Velocity error!\n");
-                break;
+            case MidiErrorCode::event_unknown_type: {
+                return "Event type is unknown.";
             }
-            case MidiErrorType::noteOn_pitch: {
-                fprintf(m_file, "An error occurred in a note_on event!\n\t");
-                fprintf(m_file, "Pitch error!\n");
-                break;
+            case MidiErrorCode::noteOff_pitch: {
+                return "NoteOff pitch is incorrect.";
             }
-            case MidiErrorType::noteOn_velocity: {
-                fprintf(m_file, "An error occurred in a note_on event!\n\t");
-                fprintf(m_file, "Velocity error!\n");
-                break;
+            case MidiErrorCode::noteOff_velocity: {
+                return "NoteOff velocity is incorrect.";
             }
-            case MidiErrorType::keyAfterTouch_pitch: {
-                fprintf(m_file, "An error occurred in a key_after_touch event!\n\t");
-                fprintf(m_file, "Pitch error!\n");
-                break;
+            case MidiErrorCode::noteOn_pitch: {
+                return "NoteOn pitch is incorrect.";
             }
-            case MidiErrorType::keyAfterTouch_velocity: {
-                fprintf(m_file, "An error occurred in a key_after_touch event!\n\t");
-                fprintf(m_file, "Velocity error!\n");
-                break;
+            case MidiErrorCode::noteOn_velocity: {
+                return "NoteOn velocity is incorrect.";
             }
-            case MidiErrorType::controller_number: {
-                fprintf(m_file, "An error occurred in a controller event!\n\t");
-                fprintf(m_file, "Number error!\n");
-                break;
+            case MidiErrorCode::keyAfterTouch_pitch: {
+                return "KeyAfterTouch pitch is incorrect.";
             }
-            case MidiErrorType::controller_value: {
-                fprintf(m_file, "An error occurred in a controller event!\n\t");
-                fprintf(m_file, "Value error!\n");
-                break;
+            case MidiErrorCode::keyAfterTouch_velocity: {
+                return "KeyAfterTouch velocity is incorrect.";
             }
-            case MidiErrorType::program_number: {
-                fprintf(m_file, "An error occurred in a program event!\n\t");
-                fprintf(m_file, "Number error!\n");
-                break;
+            case MidiErrorCode::controller_number: {
+                return "Controller number is incorrect.";
             }
-            case MidiErrorType::channelAfterTouch_velocity: {
-                fprintf(m_file, "An error occurred in a channel_after_touch event!\n\t");
-                fprintf(m_file, "Velocity error!\n");
-                break;
+            case MidiErrorCode::controller_value: {
+                return "Controller value is incorrect.";
             }
-            case MidiErrorType::pitchWheel_mod: {
-                fprintf(m_file, "An error occurred in a pitchWheel event!\n\t");
-                fprintf(m_file, "Mod number error!\n");
-                break;
+            case MidiErrorCode::program_number: {
+                return "Program number is incorrect.";
             }
-            case MidiErrorType::pitchWheel_div: {
-                fprintf(m_file, "An error occurred in a pitchWheel event!\n\t");
-                fprintf(m_file, "Div number error!\n");
-                break;
+            case MidiErrorCode::channelAfterTouch_velocity: {
+                return "ChannelAfterTouch velocity is incorrect.";
             }
-            case MidiErrorType::sysex_length: {
-                fprintf(m_file, "An error occurred in a sysex event!\n\t");
-                fprintf(m_file, "Length error!\n");
-                break;
+            case MidiErrorCode::pitchWheel_mod: {
+                return "PitchWheel mod is incorrect.";
             }
-            case MidiErrorType::sysex_data: {
-                fprintf(m_file, "An error occurred in a sysex event!\n\t");
-                fprintf(m_file, "Data error!\n");
-                break;
+            case MidiErrorCode::pitchWheel_div: {
+                return "PitchWheel div is incorrect.";
             }
-            case MidiErrorType::meta_length: {
-                fprintf(m_file, "An error occurred in a meta event!\n\t");
-                fprintf(m_file, "Length error!\n");
-                break;
+            case MidiErrorCode::sysex_length: {
+                return "Sysex length is incorrect.";
             }
-            case MidiErrorType::meta_data: {
-                fprintf(m_file, "An error occurred in a meta event!\n\t");
-                fprintf(m_file, "Data error!\n");
-                break;
+            case MidiErrorCode::sysex_data: {
+                return "Sysex data is incorrect.";
             }
-            default: {
-                fprintf(m_file, "Unknown error!\n");
-                break;
+            case MidiErrorCode::meta_length: {
+                return "Meta length is incorrect.";
+            }
+            case MidiErrorCode::meta_data: {
+                return "Meta data is incorrect.";
+            }
+            case MidiErrorCode::parse_error: {
+                return "Parse error.";
+            }
+            case MidiErrorCode::change_timeMode: {
+                return "An error occurred when changing timeMode.";
+            }
+            case MidiErrorCode::unknown_error: {
+                return "Unknown error.";
             }
         }
-    }
-    void write_text(const std::string& _text) {
-        fprintf(m_file, "MidiError:\n\t");
-        fprintf(m_file, _text.c_str());
-    }
+    };
+    return (std::stringstream() << "Midi Error:\n\t" << errorSentence(code) << "\n\tMidiErrorCode:0x"
+                                << std::setw(sizeof(MidiErrorCode) << 1) << std::setfill('0') << std::showbase
+                                << std::hex << (uint32_t)code)
+        .str();
+}
+#else
+std::string parse_errorCode(MidiErrorCode code) {
+    return (std::stringstream() << std::setw(sizeof(MidiErrorCode) << 1) << std::setfill('0') << std::showbase
+                                << std::hex << (uint32_t)code)
+        .str();
+}
+#endif
+
+class MidiException : public std::exception {
+public:
+    MidiErrorCode code;
 
 public:
-    MidiError(void)
-            : m_file(stderr) {
+    MidiException(MidiErrorCode _code)
+        : code(_code) {
     }
-    MidiError(const std::string& _name)
-            : m_file(fopen(_name.c_str(), "w")) {
-    }
-    ~MidiError(void) {
-        if (m_file != stderr) {
-            fclose(m_file);
-        }
-        m_file = nullptr;
-    }
-
-    void replace(const std::string& _name) {
-        this->~MidiError();
-        m_file = fopen(_name.c_str(), "w");
-    }
-
-    MidiError& operator<<(MidiErrorType _mErrType) {
-        write_type(_mErrType);
-        return *this;
-    }
-    MidiError& operator<<(const std::string& _text) {
-        write_text(_text);
-        return *this;
-    }
-
-    MidiErrorType operator()(MidiErrorType _mErrType) {
-#ifdef MIDI_DEBUG
-        write_type(_mErrType);
-#endif
-        return _mErrType;
-    }
-    template <typename T>
-    MidiErrorType operator()(const T& _t) {
-        return _t.get_error(*this);
+    const char* what() const noexcept override {
+        return parse_errorCode(code).c_str();
     }
 };
-MidiError midiError;
-
+#ifdef MIDI_DEBUG
+#define throw_ignorably(_code) throw MidiException(_code)
+#define throw_ignorably_if(condition, _code)                                                                           \
+    if (condition)                                                                                                     \
+    throw_ignorably(_code)
+#define return_ignorably(_code) return _code
+#define return_ignorably_if(condition, _code)                                                                          \
+    if (condition)                                                                                                     \
+    return _code
+#define return_after_check(_class) return _class.get_errorCode()
+#else
+#define throw_ignorably(_code) ((void)0)
+#define throw_ignorably_if(condition, _code) ((void)0)
+#define return_ignorably(_code) ((void)0)
+#define return_ignorably_if(condition, _code) ((void)0)
+#define return_after_check(_class) return MidiErrorCode::no_error
+#endif
 class MidiObject {
 public:
-    virtual MidiErrorType get_error(MidiError& _midiError) const = 0;
+    virtual MidiErrorCode get_errorCode(void) const noexcept = 0;
 };
 
 }  // namespace GoldType::MidiParse

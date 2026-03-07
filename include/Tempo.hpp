@@ -23,9 +23,9 @@ public:
 public:
     Tempo(MidiTime _time = 0, MidiTimeMode _timeMode = MidiTimeMode::tick, MidiTrackNum _track = 0,
           uint32_t _mispqn = 0x07A120, uint64_t _timeNode = 0)
-            : BasicMidiEvent_Meta(_time, _timeMode, _track),
-              mispqn(_mispqn),
-              timeNode(_timeNode) {
+        : BasicMidiEvent_Meta(_time, _timeMode, _track),
+          mispqn(_mispqn),
+          timeNode(_timeNode) {
     }
     Tempo(const Tempo&) = default;
     ~Tempo(void) = default;
@@ -60,8 +60,8 @@ public:
     }
 
 public:
-    MidiErrorType get_error(MidiError& _midiError) const final {
-        return MidiErrorType::no_error;
+    MidiErrorCode get_errorCode(void) const noexcept final {
+        return MidiErrorCode::no_error;
     }
 };
 bool operator==(const Tempo& a, const Tempo& b) {

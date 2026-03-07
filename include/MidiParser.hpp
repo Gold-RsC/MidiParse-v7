@@ -33,7 +33,7 @@ template <typename _MidiEvent>
 struct __tick2micro_fun {
     uint16_t _tpqn;
     __tick2micro_fun(uint16_t _tpqn)
-            : _tpqn(_tpqn) {
+        : _tpqn(_tpqn) {
     }
     template <typename _GetTime>
     void operator()(_MidiEvent& _event, const Tempo& _tempo, _GetTime&& _getTime) const {
@@ -45,7 +45,7 @@ template <typename _MidiEvent>
 struct __micro2tick_fun {
     uint16_t _tpqn;
     __micro2tick_fun(uint16_t _tpqn)
-            : _tpqn(_tpqn) {
+        : _tpqn(_tpqn) {
     }
     template <typename _GetTime>
     void operator()(_MidiEvent& _event, const Tempo& _tempo, _GetTime&& _getTime) const {
@@ -73,13 +73,13 @@ protected:
         return 0xFF;
     }
 
-    MidiErrorType parse_tick(const MidiFile& m_midi) {
+    MidiErrorCode parse_tick(const MidiFile& m_midi) {
         uint8_t instruments[16] = {0};
         for (size_t trackIdx = 0; trackIdx < m_head.ntracks; ++trackIdx) {
             uint64_t time = 0;
             uint8_t metaTrack = get_metaTrack(trackIdx);
             if (metaTrack == 0xFF) {
-                return MidiErrorType::parse_error;
+                return MidiErrorCode::parse_error;
             }
 
             for (size_t eventIdx = 0; eventIdx < m_midi[trackIdx].size(); ++eventIdx) {
@@ -148,11 +148,11 @@ protected:
                             case MidiMetaType::tempo: {
                                 uint32_t mispqn = (event[3] << 16) | (event[4] << 8) | (event[5]);
                                 if (m_tempoMap[metaTrack].size()) {
-                                    m_tempoMap[metaTrack].emplace_back(
-                                            time, MidiTimeMode::tick, trackIdx, mispqn,
-                                            m_tempoMap[metaTrack].back().timeNode +
-                                                    (time - m_tempoMap[metaTrack].back().time) *
-                                                            m_tempoMap[metaTrack].back().mispqn / m_head.tpqn());
+                                    m_tempoMap[metaTrack].emplace_back(time, MidiTimeMode::tick, trackIdx, mispqn,
+                                                                       m_tempoMap[metaTrack].back().timeNode +
+                                                                           (time - m_tempoMap[metaTrack].back().time) *
+                                                                               m_tempoMap[metaTrack].back().mispqn /
+                                                                               m_head.tpqn());
                                 }
                                 else {
                                     m_tempoMap[metaTrack].emplace_back(time, MidiTimeMode::tick, trackIdx, mispqn,
@@ -191,11 +191,11 @@ protected:
             }
         }
         set_bb_sorted(m_noteMap);
-        return MidiErrorType::no_error;
+        return MidiErrorCode::no_error;
     }
-    MidiErrorType parse_micro(const MidiFile& m_midi) {
-        MidiErrorType err = parse_tick(m_midi);
-        if (err != MidiErrorType::no_error) {
+    MidiErrorCode parse_micro(const MidiFile& m_midi) {
+        MidiErrorCode err = parse_tick(m_midi);
+        if (err != MidiErrorCode::no_error) {
             return err;
         }
         err = change_timeMode(MidiTimeMode::microsecond);
@@ -236,7 +236,7 @@ protected:
         return _find_bbIdx_between(_time, _bbList, _left, mid);
     }
     template <typename _MidiEvent>
-    MidiErrorType set_bb_sorted(MidiEventMap<_MidiEvent>& _map) {
+    MidiErrorCode set_bb_sorted(MidiEventMap<_MidiEvent>& _map) {
         for (size_t trackIdx = 0; trackIdx < _map.size(); ++trackIdx) {
             size_t bbIdx = 0;
             uint8_t metaTrack = get_metaTrack(trackIdx);
@@ -265,7 +265,7 @@ protected:
     }
 
     template <typename _MidiEvent, typename _Fun>
-    MidiErrorType set_bb_unsorted(MidiEventMap<_MidiEvent>& _map) {
+    MidiErrorCode set_bb_unsorted(MidiEventMap<_MidiEvent>& _map) {
         for (size_t trackIdx = 0; trackIdx < _map.size(); ++trackIdx) {
             uint8_t metaTrack = get_metaTrack(trackIdx);
             for (size_t eventIdx = 0; eventIdx < _map[trackIdx].size(); ++eventIdx) {
@@ -311,7 +311,7 @@ protected:
     }
 
     template <typename _MidiEvent, typename _Fun, typename _GetTime>
-    MidiErrorType change_timeMode_sorted(MidiEventMap<_MidiEvent>& _map, _Fun&& _fun, _GetTime&& _getTime) const {
+    MidiErrorCode change_timeMode_sorted(MidiEventMap<_MidiEvent>& _map, _Fun&& _fun, _GetTime&& _getTime) const {
         for (size_t trackIdx = 0; trackIdx < _map.size(); ++trackIdx) {
             size_t tempoIdx = 0;
             uint8_t metaTrack = get_metaTrack(trackIdx);
@@ -336,7 +336,7 @@ protected:
     }
 
     template <typename _MidiEvent, typename _Fun, typename _GetTime>
-    MidiErrorType change_timeMode_unsorted(MidiEventMap<_MidiEvent>& _map, _Fun&& _fun, _GetTime&& _getTime) const {
+    MidiErrorCode change_timeMode_unsorted(MidiEventMap<_MidiEvent>& _map, _Fun&& _fun, _GetTime&& _getTime) const {
         for (size_t trackIdx = 0; trackIdx < _map.size(); ++trackIdx) {
             uint8_t metaTrack = get_metaTrack(trackIdx);
             for (size_t eventIdx = 0; eventIdx < _map[trackIdx].size(); ++eventIdx) {
@@ -355,7 +355,7 @@ protected:
     }
 
     template <typename _MidiEvent>
-    MidiErrorType change_timeMode_tick2micro_sorted(MidiEventMap<_MidiEvent>& _map) const {
+    MidiErrorCode change_timeMode_tick2micro_sorted(MidiEventMap<_MidiEvent>& _map) const {
         if (m_timeMode == MidiTimeMode::tick) {
             return change_timeMode_sorted(_map, __tick2micro_fun<_MidiEvent>(m_head.tpqn()), __get_tempo_time_fun());
         }
@@ -363,7 +363,7 @@ protected:
     }
 
     template <typename _MidiEvent>
-    MidiErrorType change_timeMode_micro2tick_sorted(MidiEventMap<_MidiEvent>& _map) const {
+    MidiErrorCode change_timeMode_micro2tick_sorted(MidiEventMap<_MidiEvent>& _map) const {
         if (m_timeMode == MidiTimeMode::microsecond) {
             return change_timeMode_sorted(_map, __micro2tick_fun<_MidiEvent>(m_head.tpqn()), __get_tempo_time_fun());
         }
@@ -371,7 +371,7 @@ protected:
     }
 
     template <typename _MidiEvent>
-    MidiErrorType change_timeMode_tick2micro_unsorted(MidiEventMap<_MidiEvent>& _map) const {
+    MidiErrorCode change_timeMode_tick2micro_unsorted(MidiEventMap<_MidiEvent>& _map) const {
         if (m_timeMode == MidiTimeMode::tick) {
             return change_timeMode_unsorted(_map, __tick2micro_fun<_MidiEvent>(m_head.tpqn()), __get_tempo_time_fun());
         }
@@ -379,7 +379,7 @@ protected:
     }
 
     template <typename _MidiEvent>
-    MidiErrorType change_timeMode_micro2tick_unsorted(MidiEventMap<_MidiEvent>& _map) const {
+    MidiErrorCode change_timeMode_micro2tick_unsorted(MidiEventMap<_MidiEvent>& _map) const {
         if (m_timeMode == MidiTimeMode::microsecond) {
             return change_timeMode_unsorted(_map, __micro2tick_fun<_MidiEvent>(m_head.tpqn()), __get_tempo_time_fun());
         }
@@ -389,8 +389,8 @@ protected:
 public:
     MidiParser(void) = delete;
     MidiParser(const MidiParser& _midiParser)
-            : m_head(_midiParser.m_head),
-              m_timeMode(_midiParser.m_timeMode) {
+        : m_head(_midiParser.m_head),
+          m_timeMode(_midiParser.m_timeMode) {
         if (m_head.format == 0x00 || m_head.format == 0x01) {
             m_tempoMap.resize(1);
             m_tempoMap[0] = _midiParser.m_tempoMap[0];
@@ -421,15 +421,15 @@ public:
         }
     }
     MidiParser(MidiParser&& _midiParser)
-            : m_head(std::move(_midiParser.m_head)),
-              m_timeMode(_midiParser.m_timeMode),
-              m_tempoMap(std::move(_midiParser.m_tempoMap)),
-              m_bbMap(std::move(_midiParser.m_bbMap)),
-              m_noteMap(std::move(_midiParser.m_noteMap)),
-              m_textMap(std::move(_midiParser.m_textMap)) {
+        : m_head(std::move(_midiParser.m_head)),
+          m_timeMode(_midiParser.m_timeMode),
+          m_tempoMap(std::move(_midiParser.m_tempoMap)),
+          m_bbMap(std::move(_midiParser.m_bbMap)),
+          m_noteMap(std::move(_midiParser.m_noteMap)),
+          m_textMap(std::move(_midiParser.m_textMap)) {
     }
     MidiParser(const MidiFile& _midi, MidiTimeMode _timeMode = MidiTimeMode::tick)
-            : m_timeMode(MidiTimeMode::tick) {
+        : m_timeMode(MidiTimeMode::tick) {
         if (_midi.is_read_success()) {
             m_head = _midi.head;
             if (m_head.format == 0x00 || m_head.format == 0x01) {
@@ -454,7 +454,7 @@ public:
         }
     }
     MidiParser(MidiFile&& _midi, MidiTimeMode _timeMode = MidiTimeMode::tick)
-            : m_timeMode(MidiTimeMode::tick) {
+        : m_timeMode(MidiTimeMode::tick) {
         if (_midi.is_untouched()) {
             _midi.read();
         }
@@ -482,7 +482,7 @@ public:
         }
     }
     MidiParser(std::string _filename, MidiTimeMode _timeMode = MidiTimeMode::tick)
-            : m_timeMode(MidiTimeMode::tick) {
+        : m_timeMode(MidiTimeMode::tick) {
         MidiFile _midi(_filename);
         _midi.read();
         *this = MidiParser(_midi, _timeMode);
@@ -491,7 +491,7 @@ public:
 
 public:
     template <typename _MidiEvent>
-    MidiErrorType change_timeMode(MidiEventMap<_MidiEvent>& _map,
+    MidiErrorCode change_timeMode(MidiEventMap<_MidiEvent>& _map,
                                   MidiTimeMode _mode = MidiTimeMode::microsecond) const {
         MidiTimeMode _oldTimeMode = _map.get_timeMode();
         MidiErrorType err = MidiErrorType::no_error;
@@ -516,38 +516,38 @@ public:
         }
         return err;
     }
-    MidiErrorType change_timeMode(MidiTimeMode _mode = MidiTimeMode::microsecond) {
+    MidiErrorCode change_timeMode(MidiTimeMode _mode = MidiTimeMode::microsecond) {
         if (m_timeMode == _mode) {
-            return MidiErrorType::no_error;
+            return MidiErrorCode::no_error;
         }
-        MidiErrorType err = MidiErrorType::no_error;
+        MidiErrorCode err = MidiErrorCode::no_error;
         bool flag = false;
         if (m_timeMode == MidiTimeMode::tick && _mode == MidiTimeMode::microsecond) {
             err = change_timeMode_tick2micro_sorted(m_noteMap);
-            if (err != MidiErrorType::no_error) {
+            if (err != MidiErrorCode::no_error) {
                 return err;
             }
             err = change_timeMode_tick2micro_sorted(m_bbMap);
-            if (err != MidiErrorType::no_error) {
+            if (err != MidiErrorCode::no_error) {
                 return err;
             }
             err = change_timeMode_tick2micro_sorted(m_textMap);
-            if (err != MidiErrorType::no_error) {
+            if (err != MidiErrorCode::no_error) {
                 return err;
             }
             flag = true;
         }
         else if (m_timeMode == MidiTimeMode::microsecond && _mode == MidiTimeMode::tick) {
             err = change_timeMode_micro2tick_sorted(m_noteMap);
-            if (err != MidiErrorType::no_error) {
+            if (err != MidiErrorCode::no_error) {
                 return err;
             }
             err = change_timeMode_micro2tick_sorted(m_bbMap);
-            if (err != MidiErrorType::no_error) {
+            if (err != MidiErrorCode::no_error) {
                 return err;
             }
             err = change_timeMode_micro2tick_sorted(m_textMap);
-            if (err != MidiErrorType::no_error) {
+            if (err != MidiErrorCode::no_error) {
                 return err;
             }
             flag = true;

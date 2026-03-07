@@ -272,8 +272,8 @@ public:
     bool is_empty(void) const {
         return !(time) && !(channel) && !(track) && !(pitch) && !(velocity) && (!instrument);
     }
-    MidiErrorType get_error(MidiError& _midiError) const override {
-        return MidiErrorType::no_error;
+    MidiErrorCode get_errorCode(void) const noexcept override {
+        return MidiErrorCode::no_error;
     }
 };
 bool operator==(const Note& a, const Note& b) {

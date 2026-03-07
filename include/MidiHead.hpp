@@ -19,9 +19,9 @@ public:
 
 public:
     MidiHead(uint16_t _format = 0, uint16_t _ntracks = 1, uint16_t _division = 120)
-            : format(_format),
-              ntracks(_ntracks),
-              division(_division) {
+        : format(_format),
+          ntracks(_ntracks),
+          division(_division) {
     }
     uint16_t tpqn(void) const {
         // 15th
@@ -43,7 +43,7 @@ public:
                 case 30:
                     break;
                 default: {
-                    midiError(MidiErrorType::head_division);
+                    throw_ignorably(MidiErrorCode::head_division);
                     return 120;
                 }
             }
@@ -55,12 +55,12 @@ public:
         }
     }
 
-    MidiErrorType get_error(MidiError& _midiError = midiError) const override final {
+    MidiErrorCode get_errorCode(void) const noexcept final {
         if (!(format == 0 || format == 1 || format == 2)) {
-            return _midiError(MidiErrorType::head_format);
+            return MidiErrorCode::head_format;
         }
         if (format == 0 && ntracks != 1) {
-            return _midiError(MidiErrorType::head_ntracks);
+            return MidiErrorCode::head_ntracks;
         }
         if (division & 0x8000) {
             uint16_t fps = 0x0100 - (division >> 8) & 0xFF;
@@ -75,11 +75,11 @@ public:
                 case 30:
                     break;
                 default: {
-                    return _midiError(MidiErrorType::head_division);
+                    return MidiErrorCode::head_division;
                 }
             }
         }
-        return _midiError(MidiErrorType::no_error);
+        return MidiErrorCode::no_error;
     }
 };
 
