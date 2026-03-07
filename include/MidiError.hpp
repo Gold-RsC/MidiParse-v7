@@ -264,7 +264,6 @@ public:
 #endif
 
 
-// TODO: Add Traits
 class MidiObject {
 public:
     virtual MidiErrorCode get_errorCode(void) const noexcept = 0;
