@@ -40,7 +40,13 @@ public:
 
 public:
     MidiErrorCode get_errorCode(void) const noexcept final {
-        return MidiErrorCode::no_error;
+        if (track & 0xF0) {
+            return MidiErrorCode::event_track;
+        }
+        if ((denominator & (denominator - 1)) == 0 && tickPerMidiclock == 24 && num32ndNotePer24Midiclock == 8) {
+            return MidiErrorCode::no_error;
+        }
+        return MidiErrorCode::meta_data;
     }
 };
 bool operator==(const TimeSignature& a, const TimeSignature& b) {

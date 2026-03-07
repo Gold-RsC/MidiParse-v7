@@ -31,11 +31,18 @@ public:
 
 public:
     MidiErrorCode get_errorCode(void) const noexcept override {
+        if (track & 0xF0) {
+            return MidiErrorCode::event_track;
+        }
+        if ((uint8_t)type < 0x10 && (uint8_t)type > 0x00) {
+            return MidiErrorCode::meta_type;
+        }
         return MidiErrorCode::no_error;
     }
 };
 bool operator==(const Text& a, const Text& b) {
-    return a.time == b.time && a.timeMode == b.timeMode && a.track == b.track && a.type == b.type && a.text == b.text;
+    return a.time == b.time && a.timeMode == b.timeMode && a.track == b.track && (uint8_t)a.type == (uint8_t)b.type &&
+           a.text == b.text;
 }
 bool operator!=(const Text& a, const Text& b) {
     return !(a == b);
@@ -51,7 +58,7 @@ bool operator<(const Text& a, const Text& b) {
         return a.track < b.track;
     }
     if (a.type != b.type) {
-        return a.type < b.type;
+        return (uint8_t)a.type < (uint8_t)b.type;
     }
     return a.text < b.text;
 }

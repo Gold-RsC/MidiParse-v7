@@ -273,6 +273,18 @@ public:
         return !(time) && !(channel) && !(track) && !(pitch) && !(velocity) && (!instrument);
     }
     MidiErrorCode get_errorCode(void) const noexcept override {
+        if (track & 0xF0) {
+            return MidiErrorCode::event_track;
+        }
+        if (channel > 0x0F) {
+            return MidiErrorCode::event_channel;
+        }
+        if (pitch & 0xF0) {
+            return MidiErrorCode::noteOn_pitch;
+        }
+        if (velocity & 0xF0) {
+            return MidiErrorCode::noteOn_velocity;
+        }
         return MidiErrorCode::no_error;
     }
 };

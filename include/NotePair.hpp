@@ -56,7 +56,7 @@ public:
 
 public:
     MidiErrorCode get_errorCode(void) const noexcept final {
-        return MidiErrorCode::no_error;
+        return Note::get_errorCode();
     }
 };
 bool operator==(const NotePair& a, const NotePair& b) {

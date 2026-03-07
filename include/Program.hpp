@@ -29,6 +29,15 @@ public:
 
 public:
     MidiErrorCode get_errorCode(void) const noexcept final {
+        if (track & 0xF0) {
+            return MidiErrorCode::event_track;
+        }
+        if (channel > 0x0F) {
+            return MidiErrorCode::event_channel;
+        }
+        if (instrument & 0xF0) {
+            return MidiErrorCode::program_number;
+        }
         return MidiErrorCode::no_error;
     }
 };

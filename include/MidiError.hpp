@@ -59,6 +59,7 @@ enum class MidiErrorCode : uint32_t {
     event_deltaTime = 0x00000300,
     event_channel = 0x00000301,
     event_unknown_type = 0x00000302,
+    event_track = 0x00000303,
 
     noteOff_pitch = 0x00008001,
     noteOff_velocity = 0x00008002,
@@ -74,8 +75,9 @@ enum class MidiErrorCode : uint32_t {
     pitchWheel_div = 0x0000E002,
     sysex_length = 0x0000F001,
     sysex_data = 0x0000F002,
-    meta_length = 0x0000FF80,
-    meta_data = 0x0000FF81,
+    meta_type = 0x0000FF81,
+    meta_length = 0x0000FF82,
+    meta_data = 0x0000FF83,
 
     parse_error = 0x00000010,
     change_timeMode = 0x00000011,
@@ -260,6 +262,9 @@ public:
 #define throw_ignorably(_thr) ((void)0)
 #define throw_ignorably_if(condition, _thr) ((void)0)
 #endif
+
+
+// TODO: Add Traits
 class MidiObject {
 public:
     virtual MidiErrorCode get_errorCode(void) const noexcept = 0;

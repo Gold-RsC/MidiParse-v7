@@ -61,6 +61,9 @@ public:
 
 public:
     MidiErrorCode get_errorCode(void) const noexcept final {
+        if (track & 0xF0) {
+            return MidiErrorCode::event_track;
+        }
         return MidiErrorCode::no_error;
     }
 };

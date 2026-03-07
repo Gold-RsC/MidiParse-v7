@@ -33,7 +33,13 @@ public:
 
 public:
     MidiErrorCode get_errorCode(void) const noexcept final {
-        return MidiErrorCode::no_error;
+        if (track & 0xF0) {
+            return MidiErrorCode::event_track;
+        }
+        if ((denominator & (denominator - 1)) == 0) {
+            return MidiErrorCode::no_error;
+        }
+        return MidiErrorCode::meta_data;
     }
 };
 bool operator==(const BarBeat& a, const BarBeat& b) {
