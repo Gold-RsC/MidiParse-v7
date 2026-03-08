@@ -10,6 +10,7 @@
 #ifndef NOTE_HPP
 #define NOTE_HPP
 #include "BasicMidiEvent.hpp"
+#include <cmath>
 #include <unordered_map>
 namespace GoldType::MidiParse {
 namespace Pitch {

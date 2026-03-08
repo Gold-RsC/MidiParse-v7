@@ -183,21 +183,19 @@ std::string parse_errorCode(MidiErrorCode code) {
             case MidiErrorCode::change_timeMode: {
                 return "An error occurred when changing timeMode.";
             }
-            case MidiErrorCode::unknown_error: {
-                return "Unknown error.";
-            }
         }
+        return "Unknown error.";
     };
-    return (std::stringstream() << "Midi Error:\n\t" << errorSentence(code) << "\n\tMidiErrorCode:0x"
-                                << std::setw(sizeof(MidiErrorCode) << 1) << std::setfill('0') << std::showbase
-                                << std::hex << (uint32_t)code)
-        .str();
+    std::stringstream ss;
+    ss << "Midi Error:\n\t" << errorSentence(code) << "\n\tMidiErrorCode:0x" << std::setw(sizeof(MidiErrorCode) * 2)
+       << std::setfill('0') << std::showbase << std::hex << (uint32_t)code;
+    return ss.str();
 }
 #else
 std::string parse_errorCode(MidiErrorCode code) {
-    return (std::stringstream() << std::setw(sizeof(MidiErrorCode) << 1) << std::setfill('0') << std::showbase
-                                << std::hex << (uint32_t)code)
-        .str();
+    std::stringstream ss;
+    ss << std::setw(sizeof(MidiErrorCode) * 2) << std::setfill('0') << std::showbase << std::hex << (uint32_t)code;
+    return ss.str();
 }
 #endif
 

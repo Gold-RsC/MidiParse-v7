@@ -41,7 +41,7 @@ def get_project_structure(root_dir):
             
             items.sort(key=custom_sort)
             
-            new_prefix = prefix + ("" if is_last else "│   ")
+            new_prefix = prefix + ("    " if is_last else "│   ")
             for i, (item_name, item_path, is_dir) in enumerate(items):
                 build_tree(item_path, new_prefix, i == len(items) - 1, False)
         else:
@@ -110,6 +110,8 @@ def main():
     
     # 生成markdown内容
     md_content = f"""# 项目统计信息
+
+*本文件由GitHub Actions自动生成*
 
 ## 项目基本信息
 - **项目名称**: MidiParse

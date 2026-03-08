@@ -146,7 +146,7 @@ public:
                 return ret;
             }
         }
-        return _midiError(ret);
+        return ret;
     }
 };
 template <typename _MidiEvent>

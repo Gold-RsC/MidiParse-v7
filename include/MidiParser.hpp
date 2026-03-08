@@ -252,7 +252,7 @@ protected:
                     break;
                 }
                 if (m_bbMap[metaTrack][bbIdx].time > event.time) {
-                    return MidiErrorType::change_timeMode;
+                    return MidiErrorCode::change_timeMode;
                 }
                 double deltaBeat = (event.time - m_bbMap[metaTrack][bbIdx].time) *
                                    m_bbMap[metaTrack][bbIdx].denominator / 4.0 / m_head.tpqn();
@@ -261,7 +261,7 @@ protected:
                 event.beat = m_bbMap[metaTrack][bbIdx].beatNode + deltaBeat;
             }
         }
-        return MidiErrorType::no_error;
+        return MidiErrorCode::no_error;
     }
 
     template <typename _MidiEvent, typename _Fun>
@@ -279,11 +279,11 @@ protected:
                     event.beat = m_bbMap[metaTrack][bbIdx].beatNode + deltaBeat;
                 }
                 else {
-                    return MidiErrorType::change_timeMode;
+                    return MidiErrorCode::change_timeMode;
                 }
             }
         }
-        return MidiErrorType::no_error;
+        return MidiErrorCode::no_error;
     }
 
     template <typename _GetTime>
@@ -327,12 +327,12 @@ protected:
                     break;
                 }
                 if (_getTime(m_tempoMap[metaTrack][tempoIdx]) > event.time) {
-                    return MidiErrorType::change_timeMode;
+                    return MidiErrorCode::change_timeMode;
                 }
                 _fun(event, m_tempoMap[metaTrack][tempoIdx], _getTime);
             }
         }
-        return MidiErrorType::no_error;
+        return MidiErrorCode::no_error;
     }
 
     template <typename _MidiEvent, typename _Fun, typename _GetTime>
@@ -347,11 +347,11 @@ protected:
                     _fun(event, m_tempoMap[metaTrack][tempoIdx], _getTime);
                 }
                 else {
-                    return MidiErrorType::change_timeMode;
+                    return MidiErrorCode::change_timeMode;
                 }
             }
         }
-        return MidiErrorType::no_error;
+        return MidiErrorCode::no_error;
     }
 
     template <typename _MidiEvent>
@@ -494,9 +494,9 @@ public:
     MidiErrorCode change_timeMode(MidiEventMap<_MidiEvent>& _map,
                                   MidiTimeMode _mode = MidiTimeMode::microsecond) const {
         MidiTimeMode _oldTimeMode = _map.get_timeMode();
-        MidiErrorType err = MidiErrorType::no_error;
+        MidiErrorCode err = MidiErrorCode::no_error;
         if (_oldTimeMode == _mode) {
-            return MidiErrorType::no_error;
+            return MidiErrorCode::no_error;
         }
         if (_oldTimeMode == MidiTimeMode::tick && _mode == MidiTimeMode::microsecond) {
             if (is_time_sorted(_map)) {
