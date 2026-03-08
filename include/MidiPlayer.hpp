@@ -94,7 +94,7 @@ public:
             MidiTrackList tracks = _file.tracks;
             tracks.to_abs();
             _parser.change_timeMode(tracks, MidiTimeMode::microsecond);
-            for_event(tracks, [this](const MidiEvent& event) {
+            tracks.for_event([this](const MidiEvent& event) {
                 if (event.is_normal()) {
                     emplace_back(event);
                 }
@@ -139,7 +139,7 @@ public:
         std::sort(this->begin(), this->end());
     }
     MidiShortMessageList(const NoteMap& _map)
-        : MidiShortMessageList(merge_event(_map)) {
+        : MidiShortMessageList(_map.merge_event()) {
     }
     MidiShortMessageList(const NotePairList& _notePairList)
         : MidiShortMessageList(devide_notePair(_notePairList)) {

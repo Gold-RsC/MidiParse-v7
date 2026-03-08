@@ -15,7 +15,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string>
-#define MIDI_DEBUG
+
 #ifdef MIDI_DEBUG
 #define MIDI_CHECK_LEVEL 3
 #endif

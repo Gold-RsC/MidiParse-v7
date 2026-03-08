@@ -85,7 +85,10 @@ protected:
             for (size_t eventIdx = 0; eventIdx < m_midi[trackIdx].size(); ++eventIdx) {
                 const MidiEvent& event = m_midi[trackIdx][eventIdx];
                 time += event.time;
-                uint8_t channel = event.channel();
+                uint8_t channel = 0xFF;
+                if (event.is_normal()) {
+                    channel = event.channel();
+                }
                 switch (event.type()) {
                     case MidiEventType::note_off:
                     case MidiEventType::note_on: {

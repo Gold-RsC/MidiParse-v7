@@ -20,6 +20,44 @@ public:
     std::string text;
 
 public:
+    static std::string get_typeName(MidiMetaType type) {
+        std::string ret;
+        switch (type) {
+            case MidiMetaType::track_text:
+                ret = "track_text";
+                break;
+            case MidiMetaType::song_copyright:
+                ret = "song_copyright";
+                break;
+            case MidiMetaType::track_name:
+                ret = "track_name";
+                break;
+            case MidiMetaType::instrument_name:
+                ret = "instrument_name";
+                break;
+            case MidiMetaType::lyric:
+                ret = "lyric";
+                break;
+            case MidiMetaType::marker:
+                ret = "marker";
+                break;
+            case MidiMetaType::start_point:
+                ret = "start_point";
+                break;
+            case MidiMetaType::program_name:
+                ret = "program_name";
+                break;
+            case MidiMetaType::device_name:
+                ret = "device_name";
+                break;
+            default:
+                ret = "unknown";
+                break;
+        }
+        return ret;
+    }
+
+public:
     Text(MidiTime _time = 0, MidiTimeMode _timeMode = MidiTimeMode::tick, MidiTrackNum _track = 0,
          MidiMetaType _type = MidiMetaType::track_text, const std::string& _text = "")
         : BasicMidiEvent_Meta(_time, _timeMode, _track),

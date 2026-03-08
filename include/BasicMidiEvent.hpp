@@ -102,9 +102,9 @@ class BasicMidiEventContainer : public MidiObject {
 public:
     virtual MidiErrorCode get_errorCode(void) const noexcept = 0;
 };
+
 template <typename _MidiEvent>
 class MidiEventMap;
-
 template <typename _MidiEvent>
 class MidiEventList : public std::vector<_MidiEvent>, public BasicMidiEventContainer<_MidiEvent> {
 public:
@@ -275,7 +275,6 @@ public:
         return ret;
     }
 };
-
 
 template <typename _MidiEvent>
 MidiEventMap<_MidiEvent> MidiEventList<_MidiEvent>::split_event(void) const {

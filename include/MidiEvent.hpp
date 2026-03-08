@@ -74,7 +74,7 @@ public:
         }
     }
     MidiChannelNum channel(void) const {
-        return_or_throw_ignorably_if(operator[](0) < 0xF0, 0xFF, MidiErrorCode::event_channel);
+        return_or_throw_ignorably_if(operator[](0) >= 0xF0 || operator[](0) < 0x80, 0xFF, MidiErrorCode::event_channel);
         return operator[](0) & 0x0F;
     }
     MidiErrorCode get_errorCode(void) const noexcept final {
