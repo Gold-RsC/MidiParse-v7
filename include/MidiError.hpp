@@ -187,14 +187,15 @@ std::string parse_errorCode(MidiErrorCode code) {
         return "Unknown error.";
     };
     std::stringstream ss;
-    ss << "Midi Error:\n\t" << errorSentence(code) << "\n\tMidiErrorCode:0x" << std::setw(sizeof(MidiErrorCode) * 2)
-       << std::setfill('0') << std::showbase << std::hex << (uint32_t)code;
+    ss << "Midi Error:\n\t" << errorSentence(code) << "\n\tMidiErrorCode:" << std::setw(sizeof(MidiErrorCode) * 2 + 2)
+       << std::setfill('0') << std::internal << std::showbase << std::hex << std::uppercase << (uint32_t)code;
     return ss.str();
 }
 #else
 std::string parse_errorCode(MidiErrorCode code) {
     std::stringstream ss;
-    ss << std::setw(sizeof(MidiErrorCode) * 2) << std::setfill('0') << std::showbase << std::hex << (uint32_t)code;
+    ss << std::setw(sizeof(MidiErrorCode) * 2 + 2) << std::setfill('0') << std::internal << std::showbase << std::hex
+       << std::uppercase << (uint32_t)code;
     return ss.str();
 }
 #endif
