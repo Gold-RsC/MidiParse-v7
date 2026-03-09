@@ -418,19 +418,19 @@ private:
         else {
             fprintf(m_file, "\"Parser%zu\":{", index);
         }
-        print_json_minimal(_parser.noteMap(), 0,
+        print_json_minimal(_parser.noteMap, 0,
                            MidiPrintJsonFormat(jsonFormat & (~MidiPrintJsonFormat::jsonFormat_file) |
                                                MidiPrintJsonFormat::jsonFormat_object));
         fprintf(m_file, ",");
-        print_json_minimal(_parser.tempoMap(), 1,
+        print_json_minimal(_parser.tempoMap, 1,
                            MidiPrintJsonFormat(jsonFormat & (~MidiPrintJsonFormat::jsonFormat_file) |
                                                MidiPrintJsonFormat::jsonFormat_object));
         fprintf(m_file, ",");
-        print_json_minimal(_parser.bbMap(), 2,
+        print_json_minimal(_parser.bbMap, 2,
                            MidiPrintJsonFormat(jsonFormat & (~MidiPrintJsonFormat::jsonFormat_file) |
                                                MidiPrintJsonFormat::jsonFormat_object));
         fprintf(m_file, ",");
-        print_json_minimal(_parser.textMap(), 3,
+        print_json_minimal(_parser.textMap, 3,
                            MidiPrintJsonFormat(jsonFormat & (~MidiPrintJsonFormat::jsonFormat_file) |
                                                MidiPrintJsonFormat::jsonFormat_object));
         if (jsonFormat & MidiPrintJsonFormat::jsonFormat_file) {
@@ -785,16 +785,16 @@ private:
             print_json_pretty_newline(indentStr, indent, "\"MidiParser\": {");
         }
         ++indent;
-        print_json_pretty(_parser.noteMap(), 0, indent, FormatChar((formatChar & 0x03) | FormatChar::endChar_comma),
+        print_json_pretty(_parser.noteMap, 0, indent, FormatChar((formatChar & 0x03) | FormatChar::endChar_comma),
                           MidiPrintJsonFormat(jsonFormat & (~MidiPrintJsonFormat::jsonFormat_file) |
                                               MidiPrintJsonFormat::jsonFormat_object));
-        print_json_pretty(_parser.tempoMap(), 1, indent, FormatChar((formatChar & 0x03) | FormatChar::endChar_comma),
+        print_json_pretty(_parser.tempoMap, 1, indent, FormatChar((formatChar & 0x03) | FormatChar::endChar_comma),
                           MidiPrintJsonFormat(jsonFormat & (~MidiPrintJsonFormat::jsonFormat_file) |
                                               MidiPrintJsonFormat::jsonFormat_object));
-        print_json_pretty(_parser.bbMap(), 2, indent, FormatChar((formatChar & 0x03) | FormatChar::endChar_comma),
+        print_json_pretty(_parser.bbMap, 2, indent, FormatChar((formatChar & 0x03) | FormatChar::endChar_comma),
                           MidiPrintJsonFormat(jsonFormat & (~MidiPrintJsonFormat::jsonFormat_file) |
                                               MidiPrintJsonFormat::jsonFormat_object));
-        print_json_pretty(_parser.textMap(), 3, indent, FormatChar((formatChar & 0x03) | FormatChar::endChar_newline),
+        print_json_pretty(_parser.textMap, 3, indent, FormatChar((formatChar & 0x03) | FormatChar::endChar_newline),
                           MidiPrintJsonFormat(jsonFormat & (~MidiPrintJsonFormat::jsonFormat_file) |
                                               MidiPrintJsonFormat::jsonFormat_object));
         --indent;

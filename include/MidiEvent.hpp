@@ -14,6 +14,7 @@
 namespace GoldType::MidiParse {
 enum class MidiEventType : uint8_t {
     null = 0x00,
+    unknown = 0x7F,
     /******************
     Part1:type = 0xNx (N = 8~E ,x = 0~F)
     type & 0xF0 = 0xN0
@@ -59,7 +60,9 @@ enum class MidiMetaType : uint8_t {
     time_signature = 0x58,
     key_signature = 0x59,
     // 7F
-    specific_info = 0x7F
+    specific_info = 0x7F,
+    // FF
+    unknown = 0xFF,
 };
 using MidiByte = uint8_t;
 class MidiMessage : public std::vector<MidiByte>, public MidiObject {
@@ -69,14 +72,32 @@ public:
         if (operator[](0) == 0xFF || operator[](0) == 0xF0 || operator[](0) == 0xF7) {
             return MidiEventType(operator[](0));
         }
-        else {
+        else if (operator[](0) >= 0x80 && operator[](0) < 0xF0) {
             return MidiEventType(operator[](0) & 0xF0);
         }
+        return_or_throw(MidiEventType::unknown, MidiErrorCode::meta_type);
+    }
+    MidiMetaType meta_type(void) const {
+        return_or_throw_ignorably_if(!is_meta(), MidiMetaType::unknown, MidiErrorCode::meta_type);
+        return MidiMetaType(operator[](1));
     }
     MidiChannelNum channel(void) const {
         return_or_throw_ignorably_if(operator[](0) >= 0xF0 || operator[](0) < 0x80, 0xFF, MidiErrorCode::event_channel);
         return operator[](0) & 0x0F;
     }
+
+public:
+    bool is_normal(void) const {
+        return !(is_meta() || is_sysex());
+    }
+    bool is_meta(void) const {
+        return type() == MidiEventType::meta;
+    }
+    bool is_sysex(void) const {
+        return type() == MidiEventType::sysex_begin || type() == MidiEventType::sysex_end;
+    }
+
+public:
     MidiErrorCode get_errorCode(void) const noexcept final {
         MidiEventType _type = type();
         switch (_type) {
@@ -155,6 +176,9 @@ public:
 public:
     MidiEventType type(void) const {
         return message.type();
+    }
+    MidiMetaType meta_type(void) const {
+        return message.meta_type();
     }
     MidiChannelNum channel(void) const {
         return message.channel();

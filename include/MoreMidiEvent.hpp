@@ -11,6 +11,7 @@
 #define MOREMIDIEVENT_HPP
 
 #include "BarBeat.hpp"
+#include "Bpm.hpp"
 #include "Note.hpp"
 #include "NotePair.hpp"
 #include "Program.hpp"

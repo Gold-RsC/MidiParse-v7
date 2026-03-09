@@ -42,9 +42,9 @@ void print_json_pretty(const TextMap& textMap) {
 }
 int main() {
     MidiParser parser("../../../midi/see_you_again.mid", MidiTimeMode::microsecond);
-    NoteMap noteMap = parser.noteMap();
-    BarBeatMap bbMap = parser.bbMap();
-    TextMap textMap = parser.textMap();
+    NoteMap noteMap = parser.noteMap;
+    BarBeatMap bbMap = parser.bbMap;
+    TextMap textMap = parser.textMap;
     print_table(link_notePair(noteMap));
     print_json_minimal(bbMap);
     print_json_pretty(textMap);

@@ -20,7 +20,9 @@ namespace GoldType::MidiParse {
 
 class TimeSignature : public BasicMidiEvent_Meta {
 public:
+    // beat / bar
     uint8_t numerator;
+    // beat / qn
     uint8_t denominator;
     uint8_t tickPerMidiclock;
     uint8_t num32ndNotePer24Midiclock;
@@ -39,7 +41,7 @@ public:
     ~TimeSignature(void) = default;
 
 public:
-    MidiErrorCode get_errorCode(void) const noexcept final {
+    MidiErrorCode get_errorCode(void) const noexcept override {
         if (track & 0xF0) {
             return MidiErrorCode::event_track;
         }

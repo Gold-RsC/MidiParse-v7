@@ -201,15 +201,19 @@ std::string parse_errorCode(MidiErrorCode code) {
 #endif
 
 class MidiException : public std::exception {
+private:
+    std::string m_msg;
+
 public:
     MidiErrorCode code;
 
 public:
     MidiException(MidiErrorCode _code)
-        : code(_code) {
+        : code(_code),
+          m_msg(parse_errorCode(_code)) {
     }
     const char* what() const noexcept override {
-        return parse_errorCode(code).c_str();
+        return m_msg.c_str();
     }
 };
 

@@ -103,8 +103,8 @@ public:
         }
     }
     MidiShortMessageList(const MidiParser& _parser) {
-        NoteMap noteMap = _parser.noteMap();
-        if (_parser.timeMode() == MidiTimeMode::microsecond) {
+        NoteMap noteMap = _parser.noteMap;
+        if (_parser.timeMode == MidiTimeMode::microsecond) {
             *this = MidiShortMessageList(noteMap);
         }
         else {

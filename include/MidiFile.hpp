@@ -91,6 +91,7 @@ protected:
                 auto dynamicData = read_dynamicData(fin);
                 event.time = dynamicData.data;
                 event.timeMode = MidiTimeMode::tick;
+                event.track = trackIdx;
                 byte_read += dynamicData.length;
                 return_ignorably_if(dynamicData.is_error, MidiErrorCode::event_deltaTime);
 

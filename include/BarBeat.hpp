@@ -9,37 +9,29 @@
  ********************************************************************************************************/
 #ifndef BARBEAT_HPP
 #define BARBEAT_HPP
-#include "BasicMidiEvent.hpp"
+#include "TimeSignature.hpp"
 
 namespace GoldType::MidiParse {
-class BarBeat : public BasicMidiEvent_Meta {
+class BarBeat : public TimeSignature {
 public:
     double barNode;
     double beatNode;
-    uint8_t numerator;
-    uint8_t denominator;
 
 public:
     BarBeat(uint64_t _time = 0, MidiTimeMode _timeMode = MidiTimeMode::tick, uint8_t _track = 0, double _barNode = 0,
-            double _beatNode = 0, uint8_t _numerator = 4, uint8_t _denominator = 4)
-        : BasicMidiEvent_Meta(_time, _timeMode, _track),
+            double _beatNode = 0, uint8_t _numerator = 4, uint8_t _denominator = 4, uint8_t _tickPerMidiclock = 24,
+            uint8_t _num32ndNotePer24Midiclock = 8)
+        : TimeSignature(_time, _timeMode, _track, _numerator, _denominator, _tickPerMidiclock,
+                        _num32ndNotePer24Midiclock),
           barNode(_barNode),
-          beatNode(_beatNode),
-          numerator(_numerator),
-          denominator(_denominator) {
+          beatNode(_beatNode) {
     }
     BarBeat(const BarBeat&) = default;
     ~BarBeat(void) = default;
 
 public:
     MidiErrorCode get_errorCode(void) const noexcept final {
-        if (track & 0xF0) {
-            return MidiErrorCode::event_track;
-        }
-        if ((denominator & (denominator - 1)) == 0) {
-            return MidiErrorCode::no_error;
-        }
-        return MidiErrorCode::meta_data;
+        return TimeSignature::get_errorCode();
     }
 };
 bool operator==(const BarBeat& a, const BarBeat& b) {
@@ -83,5 +75,21 @@ bool operator>=(const BarBeat& a, const BarBeat& b) {
 using BarBeatList = MidiEventList<BarBeat>;
 
 using BarBeatMap = MidiEventMap<BarBeat>;
+
+TsList bbList_to_tsList(const BarBeatList& bbList) {
+    TsList tsList;
+    for (const auto& barBeat : bbList) {
+        tsList.emplace_back((TimeSignature)barBeat);
+    }
+    return tsList;
+}
+TsMap bbMap_to_tsMap(const BarBeatMap& bbMap) {
+    TsMap tsMap;
+    for (const auto& bbList : bbMap) {
+        tsMap.emplace_back(bbList_to_tsList(bbList));
+    }
+    return tsMap;
+}
+
 }  // namespace GoldType::MidiParse
 #endif

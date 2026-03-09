@@ -150,7 +150,7 @@ public:
     template <typename _Fun, typename... _Args>
     void for_event(_Fun&& _fun, _Args&&... _args) const {
         for (typename std::vector<_MidiEvent>::const_iterator it = this->begin(); it != this->end(); ++it) {
-            _fun(*it, _args...);
+            _fun(*it, std::forward(_args)...);
         }
     }
     template <typename _Fun, typename... _Args>
@@ -229,7 +229,20 @@ public:
     void for_event(_Fun&& _fun, _Args&&... _args) const {
         for (typename std::vector<MidiEventList<_MidiEvent>>::const_iterator it = this->begin(); it != this->end();
              ++it) {
-            it->for_event(_fun, _args...);
+            it->for_event(_fun, std::forward(_args)...);
+        }
+    }
+    template <typename _Fun, typename... _Args>
+    void for_list(_Fun&& _fun, _Args&&... _args) {
+        for (typename std::vector<MidiEventList<_MidiEvent>>::iterator it = this->begin(); it != this->end(); ++it) {
+            _fun(*it, std::forward(_args)...);
+        }
+    }
+    template <typename _Fun, typename... _Args>
+    void for_list(_Fun&& _fun, _Args&&... _args) const {
+        for (typename std::vector<MidiEventList<_MidiEvent>>::const_iterator it = this->begin(); it != this->end();
+             ++it) {
+            _fun(*it, std::forward(_args)...);
         }
     }
     template <typename _Fun, typename... _Args>
@@ -246,7 +259,7 @@ public:
         size_t ret = 0;
         for (typename std::vector<MidiEventList<_MidiEvent>>::const_iterator it = this->begin(); it != this->end();
              ++it) {
-            ret += it->count_event_if(std::forward(_fun), std::forward(_args)...);
+            ret += it->count_event_if(_fun, std::forward(_args)...);
         }
         return ret;
     }
