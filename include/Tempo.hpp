@@ -31,8 +31,8 @@ public:
     ~Tempo(void) = default;
 
 public:
-    double bpm(void) const {
-        return 6e7 / mispqn;
+    double bpm(uint8_t denominator) const {
+        return 1.5e7 * denominator / mispqn;
     }
     MidiTime& tick(void) {
         if (timeMode == MidiTimeMode::tick) {

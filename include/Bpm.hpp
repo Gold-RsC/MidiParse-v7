@@ -26,9 +26,11 @@ public:
     Bpm(const Tempo& _tempo, const TimeSignature& _timeSignature) {
         if (_tempo.timeMode == _timeSignature.timeMode && _tempo.track == _timeSignature.track) {
             *this = Bpm(std::max<MidiTime>(_tempo.time, _timeSignature.time), _timeSignature.timeMode,
-                        _timeSignature.track, 6e7 * _timeSignature.denominator / _tempo.mispqn);
+                        _timeSignature.track, _tempo.bpm(_timeSignature.denominator));
         }
-        *this = Bpm();
+        else {
+            *this = Bpm();
+        }
     }
     Bpm(const Bpm&) = default;
     ~Bpm(void) = default;
@@ -76,7 +78,8 @@ bool operator>=(const Bpm& a, const Bpm& b) {
 
 using BpmList = MidiEventList<Bpm>;
 
-BpmList generate_bpmList(const TempoList& _tempoList, const TsList& _timeSignatureList) {
+template <typename TS_OR_BB_LIST>
+BpmList generate_bpmList(const TempoList& _tempoList, const TS_OR_BB_LIST& _timeSignatureList) {
     BpmList bpmList;
     if (_tempoList.empty() || _timeSignatureList.empty()) {
         bpmList = BpmList();
@@ -123,7 +126,9 @@ BpmList generate_bpmList(const TempoList& _tempoList, const TsList& _timeSignatu
  ***********************/
 
 using BpmMap = MidiEventMap<Bpm>;
-BpmMap generate_bpmMap(const TempoMap& _tempoMap, const TsMap& _timeSignatureMap) {
+
+template <typename TS_OR_BB_MAP>
+BpmMap generate_bpmMap(const TempoMap& _tempoMap, const TS_OR_BB_MAP& _timeSignatureMap) {
     BpmMap bpmMap;
     MidiTrackNum _track = std::min<size_t>(_tempoMap.size(), _timeSignatureMap.size());
     for (MidiTrackNum i = 0; i < _track; ++i) {
