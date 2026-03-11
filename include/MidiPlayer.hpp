@@ -211,6 +211,14 @@ private:
                 throw std::runtime_error("midiOutOpen failed");
             }
             midiOutReset(m_handle);
+            if (m_current_iterator != messageList.begin()) {
+                for (auto it = messageList.begin(); it != m_current_iterator; it++) {
+                    if ((it->message & 0xF0) == 0xA0 || (it->message & 0xF0) == 0xC0 || (it->message & 0xF0) == 0xD0 ||
+                        (it->message & 0xF0) == 0xE0) {
+                        midiOutShortMsg(m_handle, it->message);
+                    }
+                }
+            }
             QueryPerformanceFrequency(&m_freq);
             QueryPerformanceCounter(&m_current_node);
             freq = m_freq;
@@ -310,6 +318,14 @@ private:
                 throw std::runtime_error("midiOutOpen failed");
             }
             midiOutReset(m_handle);
+            if (m_current_iterator != messageList.begin()) {
+                for (auto it = messageList.begin(); it != m_current_iterator; it++) {
+                    if ((it->message & 0xF0) == 0xA0 || (it->message & 0xF0) == 0xC0 || (it->message & 0xF0) == 0xD0 ||
+                        (it->message & 0xF0) == 0xE0) {
+                        midiOutShortMsg(m_handle, it->message);
+                    }
+                }
+            }
             QueryPerformanceFrequency(&m_freq);
             QueryPerformanceCounter(&m_current_node);
             freq = m_freq;
@@ -537,7 +553,23 @@ public:
         }
         m_current_time = m_current_iterator->time;
         if (m_state == State::playing) {
+            if (m_handle) {
+                for (auto it = messageList.begin(); it != m_current_iterator; it++) {
+                    if ((it->message & 0xF0) == 0xA0 || (it->message & 0xF0) == 0xC0 || (it->message & 0xF0) == 0xD0 ||
+                        (it->message & 0xF0) == 0xE0) {
+                        midiOutShortMsg(m_handle, it->message);
+                    }
+                }
+            }
             QueryPerformanceCounter(&m_current_node);
+        }
+        else if (m_state == State::paused) {
+            for (auto it = messageList.begin(); it != m_current_iterator; it++) {
+                if ((it->message & 0xF0) == 0xA0 || (it->message & 0xF0) == 0xC0 || (it->message & 0xF0) == 0xD0 ||
+                    (it->message & 0xF0) == 0xE0) {
+                    midiOutShortMsg(m_handle, it->message);
+                }
+            }
         }
     }
     uint64_t get_time(void) {
