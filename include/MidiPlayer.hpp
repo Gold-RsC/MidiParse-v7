@@ -162,8 +162,11 @@ private:
         paused = 3
     };
     HMIDIOUT m_handle;
-    MidiShortMessageList m_messages;
 
+public:
+    MidiShortMessageList messageList;
+
+private:
     std::thread m_thread;
 
     State m_state;
@@ -229,7 +232,7 @@ private:
                         QueryPerformanceCounter(&pause_begin);
                         m_condition.wait(lock, [this] { return m_state != State::paused; });
                         if (m_state == State::stopped) {
-                            m_current_iterator = m_messages.end();
+                            m_current_iterator = messageList.end();
                             return;
                         }
                         LARGE_INTEGER pause_end;
@@ -250,7 +253,7 @@ private:
                         QueryPerformanceCounter(&pause_begin);
                         m_condition.wait(lock, [this] { return m_state != State::paused; });
                         if (m_state == State::stopped) {
-                            m_current_iterator = m_messages.end();
+                            m_current_iterator = messageList.end();
                             return;
                         }
                         LARGE_INTEGER pause_end;
@@ -259,10 +262,10 @@ private:
                     } while (abs(m_speed) < 0.01);
                 }
                 else if (m_state == State::stopped) {
-                    m_current_iterator = m_messages.end();
+                    m_current_iterator = messageList.end();
                     return;
                 }
-                if (m_current_iterator == m_messages.end()) {
+                if (m_current_iterator == messageList.end()) {
                     break;
                 }
                 speed = m_speed;
@@ -330,7 +333,7 @@ private:
                         QueryPerformanceCounter(&pause_begin);
                         m_condition.wait(lock, [this] { return m_state != State::paused; });
                         if (m_state == State::stopped) {
-                            m_current_iterator = m_messages.end();
+                            m_current_iterator = messageList.end();
                             return;
                         }
                         LARGE_INTEGER pause_end;
@@ -351,7 +354,7 @@ private:
                         QueryPerformanceCounter(&pause_begin);
                         m_condition.wait(lock, [this] { return m_state != State::paused; });
                         if (m_state == State::stopped) {
-                            m_current_iterator = m_messages.end();
+                            m_current_iterator = messageList.end();
                             return;
                         }
                         LARGE_INTEGER pause_end;
@@ -360,11 +363,11 @@ private:
                     } while (abs(m_speed) < 0.01);
                 }
                 else if (m_state == State::stopped) {
-                    m_current_iterator = m_messages.end();
+                    m_current_iterator = messageList.end();
                     return;
                 }
-                if (m_current_iterator == m_messages.end()) {
-                    m_current_iterator = m_messages.begin();
+                if (m_current_iterator == messageList.end()) {
+                    m_current_iterator = messageList.begin();
                     m_current_time = m_current_iterator->time;
                 }
                 speed = m_speed;
@@ -406,38 +409,38 @@ public:
           m_speed(1.0),
           m_handle(nullptr),
           m_current_time(0),
-          m_current_iterator(m_messages.begin()) {
+          m_current_iterator(messageList.begin()) {
     }
     template <typename _Object>
     MidiPlayer(_Object&& _object)
-        : m_messages(std::forward<_Object>(_object)),
+        : messageList(std::forward<_Object>(_object)),
           m_state(State::beingstarting),
           m_is_jump(false),
           m_speed(1.0),
           m_handle(nullptr),
           m_current_time(0),
-          m_current_iterator(m_messages.begin()) {
-        if (m_current_iterator != m_messages.end()) {
+          m_current_iterator(messageList.begin()) {
+        if (m_current_iterator != messageList.end()) {
             m_current_time = m_current_iterator->time;
         }
     }
     MidiPlayer(const MidiPlayer& other)
-        : m_messages(other.m_messages),
+        : messageList(other.messageList),
           m_state(other.m_state),
           m_is_jump(false),
           m_speed(other.m_speed),
           m_handle(nullptr),
           m_current_time(other.m_current_time),
-          m_current_iterator((other.m_current_iterator - other.m_messages.begin()) + m_messages.begin()) {
+          m_current_iterator((other.m_current_iterator - other.messageList.begin()) + messageList.begin()) {
     }
     MidiPlayer(MidiPlayer&& other)
-        : m_messages(std::move(other.m_messages)),
+        : messageList(std::move(other.messageList)),
           m_state(State::beingstarting),
           m_is_jump(false),
           m_speed(other.m_speed),
           m_handle(nullptr),
           m_current_time(other.m_current_time),
-          m_current_iterator((other.m_current_iterator - other.m_messages.begin()) + m_messages.begin()) {
+          m_current_iterator((other.m_current_iterator - other.messageList.begin()) + messageList.begin()) {
     }
     ~MidiPlayer(void) {
         join();
@@ -450,7 +453,7 @@ public:
 
 public:
     bool is_empty(void) {
-        return m_messages.empty();
+        return messageList.empty();
     }
 
     void start_normal(void) {
@@ -527,10 +530,10 @@ public:
         if (is_empty()) {
             return;
         }
-        m_current_iterator = std::lower_bound(m_messages.begin(), m_messages.end(), time,
+        m_current_iterator = std::lower_bound(messageList.begin(), messageList.end(), time,
                                               [](const MidiShortMessage& _m, uint64_t _t) { return _m.time < _t; });
-        if (m_current_iterator == m_messages.end()) {
-            m_current_iterator = m_messages.end() - 1;
+        if (m_current_iterator == messageList.end()) {
+            m_current_iterator = messageList.end() - 1;
         }
         m_current_time = m_current_iterator->time;
         if (m_state == State::playing) {
@@ -562,10 +565,10 @@ public:
 public:
     MidiPlayer& operator=(const MidiPlayer& other) {
         if (m_state == State::beingstarting) {
-            size_t idx = other.m_current_iterator - other.m_messages.begin();
-            m_messages = other.m_messages;
-            m_current_iterator = idx + m_messages.begin();
-            if (m_current_iterator != m_messages.end()) {
+            size_t idx = other.m_current_iterator - other.messageList.begin();
+            messageList = other.messageList;
+            m_current_iterator = idx + messageList.begin();
+            if (m_current_iterator != messageList.end()) {
                 m_current_time = m_current_iterator->time;
             }
             m_handle = nullptr;
@@ -576,10 +579,10 @@ public:
     }
     MidiPlayer& operator=(MidiPlayer&& other) {
         if (m_state == State::beingstarting) {
-            size_t idx = other.m_current_iterator - other.m_messages.begin();
-            m_messages = std::move(other.m_messages);
-            m_current_iterator = idx + m_messages.begin();
-            if (m_current_iterator != m_messages.end()) {
+            size_t idx = other.m_current_iterator - other.messageList.begin();
+            messageList = std::move(other.messageList);
+            m_current_iterator = idx + messageList.begin();
+            if (m_current_iterator != messageList.end()) {
                 m_current_time = m_current_iterator->time;
             }
             m_handle = nullptr;
