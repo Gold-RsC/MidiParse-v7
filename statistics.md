@@ -5,7 +5,7 @@
 ## 项目基本信息
 - **项目名称**: MidiParse
 - **版本**: v7
-- **开发时间**: 2020/04/26 - 2026/03/13
+- **开发时间**: 2020/04/26 - 2026/03/14
 
 ## 项目结构
 ```
@@ -62,6 +62,7 @@ MidiParse-v7-repository
     │   │   └── print/
     │   │       └── print.exe
     │   └── test/
+    │       ├── find_bug.exe
     │       ├── midi_event.exe
     │       └── play_music_list.exe
     ├── output/
@@ -77,6 +78,7 @@ MidiParse-v7-repository
     │   ├── see_you_again.mid
     │   └── spring_festival_overture.mid
     ├── test/
+    │   ├── find_bug.cpp
     │   ├── midi_event.cpp
     │   └── play_music_list.cpp
     ├── LICENSE
@@ -85,14 +87,14 @@ MidiParse-v7-repository
 ```
 
 ## 文件统计
-- **总文件数**: 55 个
+- **总文件数**: 57 个
 - **总目录数**: 17 个
-- **总大小**: 22.98 MB
+- **总大小**: 22.48 MB
 
 ### 文件类型分布
 - **.hpp文件**: 18 个
-- **.cpp文件**: 9 个
-- **.exe文件**: 9 个
+- **.cpp文件**: 10 个
+- **.exe文件**: 10 个
 - **.md文件**: 8 个
 - **.mid文件**: 6 个
 - **.txt文件**: 2 个
@@ -100,7 +102,7 @@ MidiParse-v7-repository
 - **无扩展名文件**: 1 个
 
 ## 最近更新
-_统计信息最后更新于: 2026/03/13_
+_统计信息最后更新于: 2026/03/14_
 
 ---
 *本文件由GitHub Actions自动生成*
