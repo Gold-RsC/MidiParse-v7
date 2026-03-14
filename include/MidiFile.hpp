@@ -63,25 +63,37 @@ protected:
     }
 
 protected:
-    MidiErrorCode read_midiHead(FILE* fin) {
+    MidiError read_midiHead(FILE* fin) {
+        MidiError err;
+        err.code = MidiErrorCode::no_error;
+        err.track_idx = -1;
+        err.event_idx = -1;
         if (!(fgetc(fin) == 'M' && fgetc(fin) == 'T' && fgetc(fin) == 'h' && fgetc(fin) == 'd')) {
-            return MidiErrorCode::head_identification;
+            err.code = MidiErrorCode::head_identification;
+            return err;
         }
         if (read_staticData(fin, 4) != 6) {
-            return MidiErrorCode::head_length;
+            err.code = MidiErrorCode::head_length;
+            return err;
         }
         head.format = read_staticData(fin, 2);
         head.ntracks = read_staticData(fin, 2);
         head.division = read_staticData(fin, 2);
 
-        return select_above_level_1(head.get_errorCode(), MidiErrorCode::no_error);
+        return err;
     }
-    MidiErrorCode read_midiTrack(FILE* fin) {
+    MidiError read_midiTrack(FILE* fin) {
+        MidiError err;
+        err.code = MidiErrorCode::no_error;
+        err.track_idx = -1;
+        err.event_idx = -1;
         tracks.resize(head.ntracks);
         size_t event_count = 0;
         for (size_t trackIdx = 0; trackIdx < head.ntracks; ++trackIdx) {
             if (fgetc(fin) != 'M' || fgetc(fin) != 'T' || fgetc(fin) != 'r' || fgetc(fin) != 'k') {
-                return MidiErrorCode::track_identification;
+                err.code = MidiErrorCode::track_identification;
+                err.track_idx = trackIdx;
+                return err;
             }
             uint32_t byte_num = read_staticData(fin, 4);
             uint32_t byte_read = 0;
@@ -93,10 +105,12 @@ protected:
                 event.timeMode = MidiTimeMode::tick;
                 event.track = trackIdx;
                 byte_read += dynamicData.length;
-                return_ignorably_if(dynamicData.is_error, MidiErrorCode::event_deltaTime);
+                return_ignorably_if(dynamicData.is_error, (err.code = MidiErrorCode::event_deltaTime, err));
 
-                MidiErrorCode err = read_midiMessage(fin, last_eventType, event, byte_read);
-                if (err != MidiErrorCode::no_error) {
+                err = read_midiMessage(fin, last_eventType, event, byte_read);
+                if (err.code != MidiErrorCode::no_error) {
+                    err.track_idx = trackIdx;
+                    err.event_idx = event_count;
                     return err;
                 }
                 tracks[trackIdx].emplace_back(event);
@@ -105,16 +119,21 @@ protected:
                     break;
                 }
             }
-            return_ignorably_if(byte_num != byte_read, MidiErrorCode::track_length);
+            return_ignorably_if(byte_num != byte_read, (err.code = MidiErrorCode::track_length, err));
         }
-        return select_above_level_1(tracks.get_errorCode(), MidiErrorCode::no_error);
+        return err;
     }
-    MidiErrorCode read_midiMessage(FILE* fin, uint8_t& last_eventType, MidiEvent& event, uint32_t& byte_read) {
+    MidiError read_midiMessage(FILE* fin, uint8_t& last_eventType, MidiEvent& event, uint32_t& byte_read) {
+        MidiError err;
+        err.code = MidiErrorCode::no_error;
+        err.track_idx = -1;
+        err.event_idx = -1;
         uint8_t now_eventType = fgetc(fin);
         ++byte_read;
         if (now_eventType < 0x80) {
             if (last_eventType == (uint8_t)MidiEventType::null || (last_eventType & 0xF0) == 0xF0) {
-                return MidiErrorCode::event_unknown_type;
+                err.code = MidiErrorCode::event_unknown_type;
+                return err;
             }
             now_eventType = last_eventType;
             fseek(fin, -1, SEEK_CUR);
@@ -150,9 +169,9 @@ protected:
                         auto dynamicData = read_dynamicData(fin);
 
                         byte_read += dynamicData.length + dynamicData.data;
-                        if (dynamicData.is_error) {
-                            return MidiErrorCode::meta_length;
-                        }
+
+                        return_ignorably_if(dynamicData.is_error, (err.code = MidiErrorCode::meta_length, err));
+
                         for (size_t i = 0; i < dynamicData.length; ++i) {
                             event.message.push_back(dynamicData.buffer[i]);
                         }
@@ -166,9 +185,8 @@ protected:
                         event.message.push_back(now_eventType);
                         auto dynamicData = read_dynamicData(fin);
                         byte_read += dynamicData.length + dynamicData.data;
-                        if (dynamicData.is_error) {
-                            return MidiErrorCode::sysex_length;
-                        }
+                        return_ignorably_if(dynamicData.is_error, (err.code = MidiErrorCode::sysex_length, err));
+
                         for (size_t i = 0; i < dynamicData.length; ++i) {
                             event.message.push_back(dynamicData.buffer[i]);
                         }
@@ -178,34 +196,40 @@ protected:
                         break;
                     }
                     default: {
-                        return MidiErrorCode::event_unknown_type;
+                        err.code = MidiErrorCode::event_unknown_type;
+                        return err;
                     }
                 }
                 break;
             }
             default: {
-                return MidiErrorCode::event_unknown_type;
+                err.code = MidiErrorCode::event_unknown_type;
+                return err;
             }
         }
         last_eventType = now_eventType;
-        return MidiErrorCode::no_error;
+        return err;
     }
-    MidiErrorCode _read_fin(FILE* fin) {
+    MidiError _read_fin(FILE* fin) {
+        MidiError ret;
+        ret.code = MidiErrorCode::no_error;
+        ret.track_idx = -1;
+        ret.event_idx = -1;
         if (!fin) {
-            return MidiErrorCode::filename;
+            ret.code = MidiErrorCode::filename;
+            return ret;
         }
-        MidiErrorCode ret = MidiErrorCode::no_error;
         // head
         ret = read_midiHead(fin);
-        if (ret != MidiErrorCode::no_error) {
+        if (ret.code != MidiErrorCode::no_error) {
             return ret;
         }
         // track
         ret = read_midiTrack(fin);
-        if (ret != MidiErrorCode::no_error) {
+        if (ret.code != MidiErrorCode::no_error) {
             return ret;
         }
-        return ret;
+        return select_above_level_2(get_error(), ret);
     }
 
 public:
@@ -238,11 +262,11 @@ public:
     ~MidiFile(void) = default;
 
 public:
-    MidiErrorCode read(void) {
+    MidiError read(void) {
         FILE* fin = fopen(filename.c_str(), "rb");
-        MidiErrorCode ret = _read_fin(fin);
+        MidiError ret = _read_fin(fin);
         fclose(fin);
-        if (ret != MidiErrorCode::no_error) {
+        if (ret.code != MidiErrorCode::no_error) {
             m_state = MidiFileState::read_error;
             head.format = 0;
             head.ntracks = 0;
@@ -307,6 +331,21 @@ public:
         }
         type = tracks.get_errorCode();
         return type;
+    }
+    MidiError get_error(void) const noexcept final {
+        MidiError err;
+        err.code = MidiErrorCode::no_error;
+        err.track_idx = -1;
+        err.event_idx = -1;
+        err = head.get_error();
+        if (err.code != MidiErrorCode::no_error) {
+            return err;
+        }
+        err = tracks.get_error();
+        if (err.code != MidiErrorCode::no_error) {
+            return err;
+        }
+        return err;
     }
 };
 }  // namespace GoldType::MidiParse

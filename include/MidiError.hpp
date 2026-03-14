@@ -84,14 +84,29 @@ enum class MidiErrorCode : uint32_t {
 
     unknown_error = 0xFFFFFFFF,
 };
+struct MidiError {
+    MidiErrorCode code;
+    uint8_t track_idx;
+    uint64_t event_idx;
+    MidiError(void)
+        : code(MidiErrorCode::no_error),
+          track_idx(0xFF),
+          event_idx(0xFFFFFFFF) {
+    }
+    MidiError(MidiErrorCode _code, uint8_t _track_idx, uint64_t _event_idx)
+        : code(_code),
+          track_idx(_track_idx),
+          event_idx(_event_idx) {
+    }
+};
 MidiErrorCode gennerate_errorCode_from_eventInfo(uint8_t type, uint8_t idx) {
     return (MidiErrorCode)(uint32_t(type) << 8 | idx);
 }
 
 #ifdef MIDI_DEBUG
-std::string parse_errorCode(MidiErrorCode code) {
-
+std::string parse_error(MidiError error) {
     auto errorSentence = [](MidiErrorCode code) -> std::string {
+        code = (MidiErrorCode)(uint32_t(code) & 0x0000FFFF);
         switch (code) {
             case MidiErrorCode::no_error: {
                 return "There is no error.";
@@ -125,6 +140,9 @@ std::string parse_errorCode(MidiErrorCode code) {
             }
             case MidiErrorCode::event_channel: {
                 return "Event channel is incorrect.";
+            }
+            case MidiErrorCode::event_track: {
+                return "Event track is incorrect.";
             }
             case MidiErrorCode::event_unknown_type: {
                 return "Event type is unknown.";
@@ -174,6 +192,9 @@ std::string parse_errorCode(MidiErrorCode code) {
             case MidiErrorCode::meta_length: {
                 return "Meta length is incorrect.";
             }
+            case MidiErrorCode::meta_type: {
+                return "Meta type is incorrect.";
+            }
             case MidiErrorCode::meta_data: {
                 return "Meta data is incorrect.";
             }
@@ -187,15 +208,23 @@ std::string parse_errorCode(MidiErrorCode code) {
         return "Unknown error.";
     };
     std::stringstream ss;
-    ss << "Midi Error:\n\t" << errorSentence(code) << "\n\tMidiErrorCode:" << std::setw(sizeof(MidiErrorCode) * 2 + 2)
-       << std::setfill('0') << std::internal << std::showbase << std::hex << std::uppercase << (uint32_t)code;
+    ss << "Midi Error:\n\t" << errorSentence(error.code);
+    if (error.track_idx != 0xFF) {
+        ss << "\n\tTrack Idx: " << (uint32_t)error.track_idx;
+    }
+    if (error.event_idx != 0xFFFFFFFF) {
+        ss << "\n\tEvent Idx: " << error.event_idx;
+    }
+    ss << "\n\tMidiErrorCode:" << std::setw(sizeof(MidiErrorCode) * 2 + 2) << std::setfill('0') << std::internal
+       << std::showbase << std::hex << std::uppercase << (uint32_t)error.code;
     return ss.str();
 }
 #else
-std::string parse_errorCode(MidiErrorCode code) {
+std::string parse_error(MidiError error) {
     std::stringstream ss;
-    ss << std::setw(sizeof(MidiErrorCode) * 2 + 2) << std::setfill('0') << std::internal << std::showbase << std::hex
-       << std::uppercase << (uint32_t)code;
+    ss << "[" << (uint32_t)error.track_idx << "," << (uint32_t)error.event_idx << "]"
+       << std::setw(sizeof(MidiErrorCode) * 2 + 2) << std::setfill('0') << std::internal << std::showbase << std::hex
+       << std::uppercase << (uint32_t)error.code;
     return ss.str();
 }
 #endif
@@ -205,12 +234,12 @@ private:
     std::string m_msg;
 
 public:
-    MidiErrorCode code;
+    MidiError error;
 
 public:
-    MidiException(MidiErrorCode _code)
-        : code(_code),
-          m_msg(parse_errorCode(_code)) {
+    MidiException(MidiError _error)
+        : error(_error),
+          m_msg(parse_error(_error)) {
     }
     const char* what() const noexcept override {
         return m_msg.c_str();
@@ -270,6 +299,7 @@ public:
 class MidiObject {
 public:
     virtual MidiErrorCode get_errorCode(void) const noexcept = 0;
+    virtual MidiError get_error(void) const noexcept = 0;
 };
 
 }  // namespace GoldType::MidiParse

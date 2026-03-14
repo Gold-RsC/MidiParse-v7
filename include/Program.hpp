@@ -40,6 +40,13 @@ public:
         }
         return MidiErrorCode::no_error;
     }
+    MidiError get_error(void) const noexcept final {
+        MidiError err;
+        err.code = get_errorCode();
+        err.track_idx = track;
+        err.event_idx = -1;
+        return err;
+    }
 };
 bool operator==(const Program& a, const Program& b) {
     return a.time == b.time && a.timeMode == b.timeMode && a.channel == b.channel && a.track == b.track &&

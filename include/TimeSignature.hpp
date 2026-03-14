@@ -50,6 +50,13 @@ public:
         }
         return MidiErrorCode::meta_data;
     }
+    MidiError get_error(void) const noexcept override {
+        MidiError err;
+        err.code = get_errorCode();
+        err.track_idx = track;
+        err.event_idx = -1;
+        return err;
+    }
 };
 bool operator==(const TimeSignature& a, const TimeSignature& b) {
     return a.time == b.time && a.timeMode == b.timeMode && a.track == b.track && a.numerator == b.numerator &&

@@ -43,7 +43,7 @@ public:
                 case 30:
                     break;
                 default: {
-                    throw_ignorably(MidiErrorCode::head_division);
+                    throw_ignorably(MidiError(MidiErrorCode::head_division, 0xFF, 0xFFFFFFFF));
                     return 120;
                 }
             }
@@ -80,6 +80,15 @@ public:
             }
         }
         return MidiErrorCode::no_error;
+    }
+    MidiError get_error(void) const noexcept final {
+        MidiError err;
+        err.code = this->get_errorCode();
+        if (err.code != MidiErrorCode::no_error) {
+            err.track_idx = -1;
+            err.event_idx = -1;
+        }
+        return err;
     }
 };
 

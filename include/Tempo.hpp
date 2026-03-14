@@ -66,6 +66,13 @@ public:
         }
         return MidiErrorCode::no_error;
     }
+    MidiError get_error(void) const noexcept final {
+        MidiError err;
+        err.code = get_errorCode();
+        err.track_idx = track;
+        err.event_idx = -1;
+        return err;
+    }
 };
 bool operator==(const Tempo& a, const Tempo& b) {
     return a.timeMode == b.timeMode && a.time == b.time && a.track == b.track && a.mispqn == b.mispqn;

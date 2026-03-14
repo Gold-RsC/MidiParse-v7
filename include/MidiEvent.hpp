@@ -75,14 +75,16 @@ public:
         else if (operator[](0) >= 0x80 && operator[](0) < 0xF0) {
             return MidiEventType(operator[](0) & 0xF0);
         }
-        return_or_throw(MidiEventType::unknown, MidiErrorCode::meta_type);
+        return_or_throw(MidiEventType::unknown, MidiError(MidiErrorCode::event_unknown_type, 0xFF, 0xFFFFFFFF));
     }
     MidiMetaType meta_type(void) const {
-        return_or_throw_ignorably_if(!is_meta(), MidiMetaType::unknown, MidiErrorCode::meta_type);
+        return_or_throw_ignorably_if(!is_meta(), MidiMetaType::unknown,
+                                     MidiError(MidiErrorCode::meta_type, 0xFF, 0xFFFFFFFF));
         return MidiMetaType(operator[](1));
     }
     MidiChannelNum channel(void) const {
-        return_or_throw_ignorably_if(operator[](0) >= 0xF0 || operator[](0) < 0x80, 0xFF, MidiErrorCode::event_channel);
+        return_or_throw_ignorably_if(operator[](0) >= 0xF0 || operator[](0) < 0x80, 0xFF,
+                                     MidiError(MidiErrorCode::event_channel, 0xFF, 0xFFFFFFFF));
         return operator[](0) & 0x0F;
     }
 
@@ -156,6 +158,9 @@ public:
         }
         return MidiErrorCode::no_error;
     }
+    MidiError get_error(void) const noexcept final {
+        return MidiError(get_errorCode(), 0xFF, 0xFFFFFFFF);
+    }
 };
 
 class MidiEvent : public BasicMidiEvent {
@@ -196,6 +201,9 @@ public:
     }
     MidiErrorCode get_errorCode(void) const noexcept final {
         return message.get_errorCode();
+    }
+    MidiError get_error(void) const noexcept final {
+        return MidiError(message.get_errorCode(), track, 0xFFFFFFFF);
     }
 
 public:

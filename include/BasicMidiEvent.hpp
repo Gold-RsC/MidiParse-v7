@@ -67,6 +67,7 @@ public:
     }
 
     virtual MidiErrorCode get_errorCode(void) const noexcept = 0;
+    virtual MidiError get_error(void) const noexcept = 0;
 };
 MidiTime BasicMidiEvent::__time_error_v = MidiTime(-1);
 class BasicMidiEvent_Non : public BasicMidiEvent {
@@ -84,6 +85,7 @@ public:
 
 public:
     virtual MidiErrorCode get_errorCode(void) const noexcept = 0;
+    virtual MidiError get_error(void) const noexcept = 0;
 };
 class BasicMidiEvent_Meta : public BasicMidiEvent {
 public:
@@ -95,12 +97,14 @@ public:
 
 public:
     virtual MidiErrorCode get_errorCode(void) const noexcept = 0;
+    virtual MidiError get_error(void) const noexcept = 0;
 };
 
 template <typename _MidiEvent>
 class BasicMidiEventContainer : public MidiObject {
 public:
     virtual MidiErrorCode get_errorCode(void) const noexcept = 0;
+    virtual MidiError get_error(void) const noexcept = 0;
 };
 
 template <typename _MidiEvent>
@@ -183,6 +187,19 @@ public:
             }
         }
         return ret;
+    }
+    MidiError get_error(void) const noexcept {
+        MidiError err;
+        err.code = MidiErrorCode::no_error;
+        for (size_t i = 0; i < this->size(); ++i) {
+            err.code = this->operator[](i).get_errorCode();
+            if (err.code != MidiErrorCode::no_error) {
+                err.track_idx = (uint8_t)this->operator[](i).track;
+                err.event_idx = i;
+                return err;
+            }
+        }
+        return err;
     }
 };
 template <typename _MidiEvent>
@@ -286,6 +303,17 @@ public:
             }
         }
         return ret;
+    }
+    MidiError get_error(void) const noexcept final {
+        MidiError err;
+        err.code = MidiErrorCode::no_error;
+        for (size_t i = 0; i < this->size(); ++i) {
+            err = this->operator[](i).get_error();
+            if (err.code != MidiErrorCode::no_error) {
+                return err;
+            }
+        }
+        return err;
     }
 };
 

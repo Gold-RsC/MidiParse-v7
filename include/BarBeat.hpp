@@ -33,6 +33,13 @@ public:
     MidiErrorCode get_errorCode(void) const noexcept final {
         return TimeSignature::get_errorCode();
     }
+    MidiError get_error(void) const noexcept final {
+        MidiError err;
+        err.code = get_errorCode();
+        err.track_idx = track;
+        err.event_idx = -1;
+        return err;
+    }
 };
 bool operator==(const BarBeat& a, const BarBeat& b) {
     return a.time == b.time && a.timeMode == b.timeMode && a.track == b.track && a.barNode == b.barNode &&
